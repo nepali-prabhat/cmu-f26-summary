@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Fall 2026 Timeline</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#eef0e8;
+    --surface:#ffffff;
+    --surface-2:#e2e6d8;
+    --surface-3:#d5dac7;
+    --ink:#1e2319;
+    --ink-soft:#575f4f;
+    --ink-faint:#696e5f;
+    --line:#d3d8c5;
+    --line-strong:#8c956f;
+    --break-fill: rgba(87,95,79,0.14);
+    --weekend-fill: rgba(87,95,79,0.05);
+    --this-week: rgba(30,35,25,0.07);
+
+    --c-ds:#2876d2;
+    --c-es:#ae3e11;
+    --c-pa:#15865e;
+    --c-ml:#9e6c00;
+
+    --status-due:#cd4a18;
+    --status-exam:#d03b3b;
+    --pair-line:#1e2319;
+
+    --shadow: 0 1px 2px rgba(30,35,25,0.06), 0 8px 24px -10px rgba(30,35,25,0.18);
+    --shadow-lg: 0 12px 40px -12px rgba(20,25,15,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181a15; --surface:#212319; --surface-2:#2a2d20; --surface-3:#343827;
+      --ink:#ecefe2; --ink-soft:#b6bca6; --ink-faint:#848c78;
+      --line:#383c2c; --line-strong:#6b7253;
+      --break-fill: rgba(182,188,166,0.10);
+      --weekend-fill: rgba(182,188,166,0.045);
+      --this-week: rgba(236,239,226,0.06);
+      --c-ds:#3987e5;
+      --c-es:#d95926;
+      --c-pa:#199e70;
+      --c-ml:#c98500;
+      --status-due:#ec835a; --status-exam:#e2554f;
+      --pair-line:#ecefe2;
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 8px 28px -10px rgba(0,0,0,0.5);
+      --shadow-lg: 0 16px 48px -12px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181a15; --surface:#212319; --surface-2:#2a2d20; --surface-3:#343827;
+    --ink:#ecefe2; --ink-soft:#b6bca6; --ink-faint:#848c78;
+    --line:#383c2c; --line-strong:#6b7253;
+    --break-fill: rgba(182,188,166,0.10);
+    --weekend-fill: rgba(182,188,166,0.045);
+    --this-week: rgba(236,239,226,0.06);
+    --c-ds:#3987e5;
+    --c-es:#d95926;
+    --c-pa:#199e70;
+    --c-ml:#c98500;
+    --status-due:#ec835a; --status-exam:#e2554f;
+    --pair-line:#ecefe2;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 8px 28px -10px rgba(0,0,0,0.5);
+    --shadow-lg: 0 16px 48px -12px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; scrollbar-color:var(--line-strong) transparent; scrollbar-width:thin; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
+  a{color:var(--c-ds); text-underline-offset:0.15em;}
+  button{ font-family:inherit; }
+  button:focus-visible, [tabindex]:focus-visible, input:focus-visible, textarea:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
+  ::selection{ background:var(--ink); color:var(--bg); }
+
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:6px; border:2px solid var(--surface); background-clip:padding-box; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--ink-faint); background-clip:padding-box; }
+
+  .wrap{ max-width:1280px; margin:0 auto; padding:2.5rem 1.5rem 4rem; }
+
+  header.page{ display:flex; flex-direction:column; gap:0.3rem; padding-bottom:0.9rem; margin-bottom:1.1rem; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:0.78rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft); }
+  h1{ font-family:"IBM Plex Serif", Georgia, serif; font-weight:600; font-size:clamp(1.5rem, 2.6vw, 1.9rem); margin:0; text-wrap:balance; letter-spacing:-0.01em; }
+  code.inline{ font-family:"IBM Plex Mono",monospace; background:var(--surface-2); padding:0.1rem 0.35rem; border-radius:4px; font-size:0.85em; }
+
+  .controls{ display:flex; flex-wrap:wrap; align-items:center; gap:1.5rem; margin-bottom:1.1rem; padding:0.9rem 1.1rem; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); max-width:100%; }
+  .control-group{ display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; min-width:0; }
+  .control-label{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); margin-right:0.15rem; }
+
+  .chip{ display:inline-flex; align-items:center; gap:0.4rem; font-family:"IBM Plex Mono",monospace; font-size:0.76rem; font-weight:500; padding:0.32rem 0.65rem; border-radius:999px; border:1.5px solid var(--course, var(--line-strong)); background:var(--surface); color:var(--ink); cursor:pointer; user-select:none; transition:opacity .15s ease, background .15s ease; }
+  .chip .dot{ width:9px; height:9px; border-radius:50%; background:var(--course, var(--ink-faint)); flex:none; }
+  .chip.is-off{ opacity:0.35; }
+  .chip:hover{ background:var(--surface-2); }
+  .type-chip{ display:inline-flex; align-items:center; gap:0.35rem; font-family:"IBM Plex Mono",monospace; font-size:0.72rem; color:var(--ink-soft); padding:0.3rem 0.55rem; border-radius:999px; border:1px solid var(--line); cursor:pointer; background:var(--surface); user-select:none; }
+  .type-chip.is-off{ opacity:0.35; }
+  .type-chip svg{ display:block; flex:none; }
+  .hint-chip{ margin-left:auto; font-size:0.76rem; color:var(--ink-faint); display:flex; align-items:center; gap:0.4rem; }
+  .key{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:4px; padding:0 0.3rem; }
+
+  .chart-shell{ display:flex; align-items:stretch; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:1rem; overflow:hidden; }
+  .lane-labels{ flex:none; width:150px; background:var(--surface); border-right:1px solid var(--line-strong); position:relative; z-index:2; }
+  .lane-row{ position:relative; }
+  .lane-row .lr-code{ position:absolute; left:14px; font-family:"IBM Plex Mono",monospace; font-size:12.5px; font-weight:600; }
+  .lane-row .lr-name{ position:absolute; left:14px; font-family:"IBM Plex Sans",sans-serif; font-size:10.5px; color:var(--ink-faint); width:112px; line-height:1.25; }
+  .lane-row .lr-swatch{ position:absolute; left:14px; width:20px; height:4px; border-radius:2px; }
+  .folder-btn{ position:absolute; left:106px; width:24px; height:22px; display:flex; align-items:center; justify-content:center; background:transparent; border:none; border-radius:6px; cursor:pointer; color:var(--ink-faint); padding:0; }
+  .folder-btn:hover, .folder-btn:focus-visible{ background:var(--surface-2); color:var(--ink); }
+  .folder-btn svg{ display:block; }
+  .chart-scroll{ flex:1; min-width:0; overflow-x:auto; overflow-y:hidden; }
+  .chart-scroll svg{ display:block; height:auto; }
+
+  .week-band{ cursor:pointer; }
+  .week-band rect{ transition:fill .12s ease; }
+  .week-band:hover rect.wk-hit, .week-band:focus rect.wk-hit{ fill:var(--surface-3); }
+  .week-band.is-selected rect.wk-hit{ stroke:var(--ink); stroke-width:1.5px; }
+  .week-label{ font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500; fill:var(--ink); pointer-events:none; }
+  .week-range{ font-family:"IBM Plex Sans",sans-serif; font-size:9.5px; fill:var(--ink-faint); pointer-events:none; }
+  .week-count{ font-family:"IBM Plex Mono",monospace; font-size:9px; fill:var(--ink-soft); pointer-events:none; }
+  .dow-label{ font-family:"IBM Plex Mono",monospace; font-size:9px; fill:var(--ink-faint); text-anchor:middle; }
+  .day-num{ font-family:"IBM Plex Mono",monospace; font-size:10px; fill:var(--ink-soft); text-anchor:middle; }
+  .day-num.is-today{ fill:var(--ink); font-weight:600; }
+  .break-label{ font-family:"IBM Plex Mono",monospace; font-size:10px; fill:var(--ink-faint); letter-spacing:0.02em; }
+  .today-label{ font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:500; fill:var(--surface); }
+  .lane-code{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; font-weight:600; }
+  .lane-name{ font-family:"IBM Plex Sans",sans-serif; font-size:10.5px; fill:var(--ink-faint); }
+
+  .mark{ cursor:pointer; }
+  .mark:focus{ outline:none; }
+  .mk-shape{ transform-origin:center; transform-box:fill-box; transition:transform .1s ease, opacity .12s ease; }
+  .mark:hover .mk-shape, .mark:focus .mk-shape, .mark.is-paired .mk-shape{ transform:scale(1.3); }
+  .mark.is-dimmed .mk-shape{ opacity:0.28; }
+  .mark.is-dimmed line{ opacity:0.28; }
+  .mk-check{ display:none; pointer-events:none; }
+  .mark.is-complete .mk-check{ display:block; }
+  .mark.mk-no-start .mk-shape{ transform:scale(1.12); }
+  .mark.mk-no-start:hover .mk-shape, .mark.mk-no-start:focus .mk-shape, .mark.mk-no-start.is-paired .mk-shape{ transform:scale(1.4); }
+
+  /* type filter hide rules */
+  .viz.hide-class .mk-class{ display:none; }
+  .viz.hide-start .mk-start{ display:none; }
+  .viz.hide-out .mk-out{ display:none; }
+  .viz.hide-due .mk-due{ display:none; }
+  .viz.hide-exam .mk-exam{ display:none; }
+  .viz.hide-event .mk-event{ display:none; }
+
+  .tooltip{ position:fixed; z-index:80; pointer-events:none; max-width:300px; background:var(--ink); color:var(--bg); font-size:0.8rem; line-height:1.4; padding:0.6rem 0.75rem; border-radius:8px; box-shadow:0 10px 30px -8px rgba(0,0,0,0.4); opacity:0; transform:translateY(4px); transition:opacity .12s ease, transform .12s ease; }
+  .tooltip.is-visible{ opacity:1; transform:translateY(0); }
+  .tooltip .tt-date{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; letter-spacing:0.04em; text-transform:uppercase; opacity:0.7; margin-bottom:0.15rem; }
+  .tooltip .tt-text{ font-weight:500; }
+  .tooltip .tt-course{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; opacity:0.65; margin-top:0.25rem; }
+  .tooltip .tt-nostart{ font-size:0.72rem; opacity:0.8; margin-top:0.3rem; }
+  .tooltip .tt-chain{ margin-top:0.4rem; padding-top:0.4rem; border-top:1px solid rgba(255,255,255,0.18); }
+  .tooltip .tt-chain-row{ display:flex; justify-content:space-between; gap:0.6rem; font-size:0.74rem; opacity:0.9; padding:0.06rem 0; }
+  .tooltip .tt-chain-row.is-self{ font-weight:600; opacity:1; }
+  .tooltip .tt-span{ margin-top:0.3rem; font-size:0.74rem; font-weight:600; }
+
+  .toast{ position:fixed; z-index:90; left:50%; bottom:28px; transform:translate(-50%,12px); background:var(--ink); color:var(--bg); font-size:0.82rem; padding:0.55rem 0.9rem; border-radius:8px; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; }
+  .toast.is-visible{ opacity:1; transform:translate(-50%,0); }
+
+  /* ---------- weekly workload chart ---------- */
+  .workload-panel{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:1.5rem; padding:0.9rem 1.1rem 0.7rem; }
+  .workload-head{ display:flex; align-items:baseline; justify-content:space-between; gap:0.8rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+  .workload-head h2{ font-family:"IBM Plex Serif",Georgia,serif; font-size:1.02rem; margin:0; }
+  .workload-legend{ display:flex; flex-wrap:wrap; gap:0.15rem 0.8rem; }
+  .workload-legend .wl-item{ display:inline-flex; align-items:center; gap:0.32rem; font-family:"IBM Plex Mono",monospace; font-size:0.7rem; color:var(--ink-soft); }
+  .workload-legend .wl-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .workload-body{ width:100%; }
+  .workload-body svg{ display:block; width:100%; height:auto; }
+  .wl-axis{ font-family:"IBM Plex Mono",monospace; font-size:8.5px; fill:var(--ink-faint); }
+  .wl-wknum{ font-family:"IBM Plex Mono",monospace; font-size:8.5px; fill:var(--ink-faint); }
+  .wl-wknum.is-current{ fill:var(--ink); font-weight:600; }
+  .wl-hit{ cursor:pointer; }
+  .wl-hit:hover ~ .wl-hover-bg, .wl-col.is-selected .wl-hover-bg{ opacity:1; }
+  .wl-col .wl-hover-bg{ opacity:0; transition:opacity .12s ease; fill:var(--surface-2); }
+  .wl-col:hover .wl-hover-bg{ opacity:1; }
+  .wl-col.is-selected .wl-hover-bg{ opacity:1; fill:var(--this-week); }
+  .workload-foot{ margin-top:0.5rem; font-size:0.68rem; color:var(--ink-faint); }
+  .wl-exam-key{ color:var(--ink-soft); }
+
+  /* ---------- week panel (inline, always visible, compact) ---------- */
+  .week-panel{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:1.5rem; }
+  .week-panel-head{ padding:0.7rem 1.1rem; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:0.8rem; flex-wrap:wrap; }
+  .week-panel-head h2{ font-family:"IBM Plex Serif",Georgia,serif; font-size:1.02rem; margin:0; display:inline; }
+  .week-panel-sub{ font-size:0.76rem; color:var(--ink-soft); font-family:"IBM Plex Mono",monospace; display:inline; margin-left:0.55rem; }
+  .week-nav{ display:flex; gap:0.35rem; flex:none; }
+  .week-nav button{ background:var(--surface-2); border:1px solid var(--line); border-radius:7px; width:25px; height:25px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-soft); font-size:0.9rem; }
+  .week-nav button:hover:not(:disabled){ background:var(--surface-3); color:var(--ink); }
+  .week-nav button:disabled{ opacity:0.3; cursor:default; }
+  .week-panel-body{ padding:0.5rem 1.1rem 0.2rem; }
+  .drawer-empty{ color:var(--ink-faint); font-size:0.84rem; padding:0.9rem 0; text-align:center; }
+  .drawer-course{ margin-bottom:0.6rem; }
+  .drawer-course-head{ display:flex; align-items:center; gap:0.4rem; font-family:"IBM Plex Mono",monospace; font-size:0.68rem; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--course); margin-bottom:0.15rem; }
+  .drawer-course-head .dot{ width:6px; height:6px; border-radius:50%; background:var(--course); flex:none; }
+  .drawer-tasks{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:0 1.25rem; }
+  .task{ border-bottom:1px solid var(--line); padding:0.32rem 0; }
+  .task:last-child{ border-bottom:none; }
+  .no-start-badge{ font-family:"IBM Plex Mono",monospace; font-size:0.62rem; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); background:var(--surface-2); border:1px solid var(--line-strong); border-radius:4px; padding:0.05rem 0.35rem; white-space:nowrap; }
+  .task-row{ display:flex; align-items:center; gap:0.45rem; }
+  .task-row input[type=checkbox]{ width:14px; height:14px; accent-color:var(--ink); flex:none; cursor:pointer; }
+  .task-main{ flex:1; min-width:0; display:flex; align-items:baseline; gap:0.4rem; flex-wrap:wrap; }
+  .task-label{ font-size:0.82rem; font-weight:500; line-height:1.3; }
+  .task.is-done .task-label{ text-decoration:line-through; color:var(--ink-faint); }
+  .task.is-done .task-meta{ color:var(--ink-faint); opacity:0.7; }
+  .task-meta{ font-family:"IBM Plex Mono",monospace; font-size:0.64rem; color:var(--ink-faint); }
+  .note-toggle{ flex:none; width:20px; height:20px; border-radius:5px; border:none; background:transparent; color:var(--ink-faint); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.72rem; line-height:1; }
+  .note-toggle:hover{ background:var(--surface-2); color:var(--ink); }
+  .note-toggle.has-note{ color:var(--status-due); }
+  .task-note{ width:100%; margin:0.25rem 0 0.35rem; resize:vertical; min-height:28px; font:inherit; font-size:0.76rem; padding:0.32rem 0.42rem; border-radius:6px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+  .task-note[hidden]{ display:none; }
+  .task-note:focus{ border-color:var(--line-strong); background:var(--surface); }
+  .save-flag{ font-family:"IBM Plex Mono",monospace; font-size:0.6rem; color:var(--ink-faint); opacity:0; transition:opacity .3s ease; }
+  .save-flag.is-visible{ opacity:1; }
+  .week-panel-foot{ padding:0.5rem 1.1rem; border-top:1px solid var(--line); font-size:0.68rem; color:var(--ink-faint); }
+
+  details.list-view{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:2rem; }
+  details.list-view summary{ cursor:pointer; padding:0.9rem 1.1rem; font-weight:600; font-size:0.92rem; list-style:none; display:flex; align-items:center; gap:0.5rem; }
+  details.list-view summary::-webkit-details-marker{ display:none; }
+  .list-scroll{ max-height:360px; overflow-y:auto; border-top:1px solid var(--line); }
+  table.kd{ width:100%; border-collapse:collapse; }
+  table.kd th{ position:sticky; top:0; background:var(--surface-2); text-align:left; font-family:"IBM Plex Mono",monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); padding:0.5rem 0.9rem; }
+  table.kd td{ padding:0.5rem 0.9rem; font-size:0.84rem; border-top:1px solid var(--line); vertical-align:top; }
+  table.kd .kd-date{ font-family:"IBM Plex Mono",monospace; font-size:0.78rem; color:var(--ink-soft); white-space:nowrap; }
+
+  details.policies{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:2rem; }
+  details.policies summary{ cursor:pointer; padding:0.9rem 1.1rem; font-weight:600; font-size:0.92rem; list-style:none; display:flex; align-items:center; gap:0.5rem; }
+  details.policies summary::-webkit-details-marker{ display:none; }
+  .disclosure-chevron{ color:var(--ink-faint); flex:none; transition:transform .15s ease; }
+  details[open] .disclosure-chevron{ transform:rotate(90deg); }
+  .policies-note{ margin:0 1.1rem 1rem; font-size:0.78rem; color:var(--ink-faint); }
+  .policy-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-top:1px solid var(--line); }
+  @media (max-width:760px){ .policy-grid{ grid-template-columns:1fr; } }
+  .policy-card{ background:var(--surface); padding:1.1rem 1.3rem 1.3rem; }
+  .policy-head{ display:flex; align-items:baseline; gap:0.55rem; margin-bottom:0.9rem; }
+  .policy-head .dot{ width:10px; height:10px; border-radius:50%; background:var(--course); flex:none; align-self:center; }
+  .policy-head .code{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:0.86rem; color:var(--course); }
+  .policy-head .name{ font-size:0.8rem; color:var(--ink-soft); }
+  .policy-row{ margin-bottom:0.9rem; }
+  .policy-row:last-child{ margin-bottom:0; }
+  .policy-row .label{ font-family:"IBM Plex Mono",monospace; font-size:0.65rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:0.32rem; display:block; }
+  .policy-row p{ margin:0 0 0.4rem; font-size:0.82rem; color:var(--ink); line-height:1.55; }
+  .policy-row p:last-child{ margin-bottom:0; }
+  .policy-row .src{ font-size:0.72rem; color:var(--ink-faint); }
+
+  footer{ border-top:1px solid var(--line); padding-top:1.4rem; color:var(--ink-faint); font-size:0.82rem; max-width:70ch; }
+  footer p{ margin:0 0 0.55rem; }
+  footer p:last-child{ margin-bottom:0; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page">
+    <span class="eyebrow">Carnegie Mellon · Fall 2026 · Aug 24 – Dec 11</span>
+    <h1>Timeline visualizer</h1>
+  </header>
+
+  <div class="controls">
+    <div class="control-group" id="course-toggles"><span class="control-label">Courses</span></div>
+    <div class="control-group" id="type-toggles"><span class="control-label">Show</span></div>
+    <div class="hint-chip"><span class="key">click</span> a week to see its tasks</div>
+  </div>
+
+  <div class="chart-shell">
+    <div class="lane-labels" id="lane-labels"></div>
+    <div class="chart-scroll" id="chart-scroll">
+      <svg id="chart" role="img" aria-label="Day-by-day timeline of four Fall 2026 courses"></svg>
+    </div>
+  </div>
+
+  <section class="workload-panel" id="workload-panel">
+    <div class="workload-head">
+      <h2>Weekly workload</h2>
+      <div class="workload-legend" id="workload-legend"></div>
+    </div>
+    <div class="workload-body">
+      <svg id="workload-chart" role="img" aria-label="Number of due dates and exams landing in each week, stacked by course"></svg>
+    </div>
+    <div class="workload-foot">Counts each week's due dates and exams (release dates and class sessions aren't counted as workload). A <span class="wl-exam-key">◆</span> above a bar is an exam or quiz, colored by its course — more than one appears when courses overlap. Click a bar to jump to that week below.</div>
+  </section>
+
+  <section class="week-panel" id="week-panel">
+    <div class="week-panel-head">
+      <div>
+        <h2 id="week-panel-title">Week</h2>
+        <div class="week-panel-sub" id="week-panel-sub"></div>
+      </div>
+      <div class="week-nav">
+        <button type="button" id="week-prev" aria-label="Previous week">‹</button>
+        <button type="button" id="week-next" aria-label="Next week">›</button>
+      </div>
+    </div>
+    <div class="week-panel-body" id="week-panel-body"></div>
+    <div class="week-panel-foot">Checkboxes and notes save automatically as you go.</div>
+  </section>
+
+  <details class="policies" id="policies-view">
+    <summary><svg class="disclosure-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Course policies — late days, grading, AI use</summary>
+    <p class="policies-note">As written in each course's syllabus, read on Aug 25, 2026. Syllabi get amended — check Canvas or ask the instructor before relying on any of this for a real deadline.</p>
+    <div class="policy-grid">
+
+      <div class="policy-card" data-course="15-440">
+        <div class="policy-head" style="--course:var(--c-ds)"><span class="dot"></span><span class="code">15-440</span><span class="name">Distributed Systems</span></div>
+        <div class="policy-row">
+          <span class="label">Late days</span>
+          <p>10 late days total for the semester, shared across all projects and homework. Up to 3 per single deadline with no grade penalty. Nothing is accepted more than 72 hours (3 days) after a due date, and TA help stops at the official deadline. On partnered projects, late days are drawn from both partners' balances. The one exception is a serious, advisor-verified medical emergency — contact the instructors directly.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">Grading</span>
+          <p>Projects 36% (P0 5, P1 8, P2 5, P3 18) · Written HW 5% · Quizzes 15% · Midterm 20% · Final 20% · Participation 4%. You must independently pass all three components — homework, quizzes/exams, and projects — to pass the course.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">AI policy</span>
+          <p>Projects: AI tools (including agents) are allowed, but you must understand every line and be able to produce a similar solution on paper without AI. Homework: strongly recommended by hand, AI only as a high-level resource. Quizzes, exams, and presentations: no AI or outside resources at all. Any AI use on a project or homework must be disclosed — the tool/model, how it was used, and what for — and course material can't be fed into a platform whose retention or training policy could leak it.</p>
+          <p class="src">Source: course website syllabus</p>
+        </div>
+      </div>
+
+      <div class="policy-card" data-course="14-642">
+        <div class="policy-head" style="--course:var(--c-es)"><span class="dot"></span><span class="code">14-642</span><span class="name">Embedded Systems</span></div>
+        <div class="policy-row">
+          <span class="label">Late days</span>
+          <p>No fixed late-day bank — it's negotiable. Contact Patrick Tague as soon as you know you'll be late, ideally before the deadline. The syllabus itself says late submissions are still accepted through the last day of class, with any grade penalty left to the instructor's discretion, and that TA help isn't guaranteed once a deadline has passed.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">Grading</span>
+          <p>Lab exercises 75% · Quizzes 25%. Labs may be done with a partner over a private GitHub repo in the cmu14642 org; quizzes are online/asynchronous and must be completed entirely solo.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">AI policy</span>
+          <p>Generative AI is allowed only for basic supporting tasks on labs (e.g. syntax lookups), and every use must be cited — the tool, your exact prompt, and the response you got. AI is prohibited on quizzes outright, and any other use counts as cheating. Course materials (slides, assignments, quiz questions) may not be shared with AI tools at all — that's a copyright violation on top of an integrity one.</p>
+          <p class="src">Source: PDF syllabus, uploaded Aug 25, 2026</p>
+        </div>
+      </div>
+
+      <div class="policy-card" data-course="15-618">
+        <div class="policy-head" style="--course:var(--c-pa)"><span class="dot"></span><span class="code">15-618</span><span class="name">Parallel Computer Architecture</span></div>
+        <div class="policy-row">
+          <span class="label">Late days</span>
+          <p>5 late-day points for the semester, usable on programming assignments only (not quizzes or the final project). A solo assignment costs 1 point/day late; a 2-person team costs 2 points/day (1 from each partner). Once points are gone, late hand-ins lose 10%/day, capped at 3 days late — nothing is accepted after that.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">Grading</span>
+          <p>Programming assignments 25% · two exams 40% (20% each, no final exam) · written assignments + quizzes 10% · final project 25%. Cutoffs: 90 A · 80 B · 70 C · 60 D, with room for borderline bumps based on attendance, participation, and improvement.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">AI policy</span>
+          <p>Varies by assignment, but document all AI use regardless. Conceptual questions: fine for linking topics together. Written assignments: minimize use, no copy/paste in or out, and AI is banned outright during peer grading. Programming assignment 1: no AI tools at all. Assignments 2–4: AI is OK only for small-scale code generation (e.g. a linked list) and framework/API lookups — not for designing the actual parallel algorithm. Reports: AI can help with LaTeX, formatting, and grammar, not rewriting whole paragraphs. Never use it to analyze results or draw conclusions.</p>
+          <p class="src">Source: PDF syllabus, uploaded Aug 25, 2026</p>
+        </div>
+      </div>
+
+      <div class="policy-card" data-course="14-757">
+        <div class="policy-head" style="--course:var(--c-ml)"><span class="dot"></span><span class="code">14-757</span><span class="name">ML with Adversaries in Mind</span></div>
+        <div class="policy-row">
+          <span class="label">Late days</span>
+          <p>Each assignment can go up to 2 days (48 hours) late, drawn from a 7-late-day pool for the whole semester that's applied automatically. Once the pool is used up, late submissions lose 20 points/day. A genuine life-changing event is grounds for extra consideration — talk to Prof. Varodayan ahead of time if you can.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">Grading</span>
+          <p>1050 points total: HW0 = 100, HW1–HW6 = 150 each, code discussions = 50 combined. Letter cutoffs: A 980 · A- 945 · B+ 910 · B 875 · B- 840 · C+ 805 · C 770 · C- 735 · D+ 700 · D 630. Regrade requests are due on Gradescope within 1 week of grades being returned.</p>
+        </div>
+        <div class="policy-row">
+          <span class="label">AI policy</span>
+          <p>Generative AI is welcome, but every contribution needs a citation — quote AI text verbatim with a citation, cite paraphrased AI content, and cite non-text AI output (images, code, etc.) only where the assignment prompt expressly allows it. You still do your own research and build your own bibliographies, and passing off AI content as your own work is treated as plagiarism. You're responsible for anything inaccurate or biased that makes it into your submission.</p>
+          <p class="src">Source: PDF syllabus, uploaded Aug 25, 2026</p>
+        </div>
+      </div>
+
+    </div>
+  </details>
+
+  <footer>
+    <p>Lecture topics come from the four schedule/syllabus PDFs embedded in your <code class="inline">dn 2026-08-25.md</code> note. 14-642 meets Monday and Wednesday, 12:30–1:50pm — both days of a given week show the same published weekly topic, since Canvas doesn't publish a separate one per day. 15-440's three in-recitation quizzes are marked with the same exam diamond as its midterm and final, since they're graded the same as any other exam and count toward the same 15% of the grade.</p>
+    <p>14-642's release and due markers come from its Canvas assignments page. Quizzes list an explicit release date (solid hollow circle); labs and the project only ever publish a due date. Exercises only publish a due date too — their dashed "window opens" marker is inferred as the previous exercise's due date, not an official Canvas release, so it's shown with a dashed outline and labeled "inferred" in its tooltip. Exercise 0 has no predecessor, so its inferred window opens on the semester start date.</p>
+    <p>Checkbox and note state saves automatically. The folder icon next to each course code copies that course's local folder path to your clipboard — a browser page can't open Finder directly, so paste it into Finder's Go to Folder (⌘⇧G).</p>
+  </footer>
+
+  <details class="list-view" id="list-view">
+    <summary><svg class="disclosure-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Open as a plain list (all dates, sortable by eye, screen-reader friendly)</summary>
+    <div class="list-scroll">
+      <table class="kd">
+        <thead><tr><th>Date</th><th>Course</th><th>What</th></tr></thead>
+        <tbody id="kd-body"></tbody>
+      </table>
+    </div>
+  </details>
+
+</div>
+
+<div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+<div class="toast" id="toast"></div>
+
+<script type="application/json" id="viz-data">
+{"start":"2026-08-24","end":"2026-12-13","breaks":[{"s":"2026-09-07","e":"2026-09-07","x":"Labor Day"},{"s":"2026-10-12","e":"2026-10-16","x":"Fall Break"},{"s":"2026-11-03","e":"2026-11-03","x":"Democracy Day"},{"s":"2026-11-25","e":"2026-11-27","x":"Thanksgiving"}],"weeks":[{"n":1,"s":"2026-08-24","e":"2026-08-30"},{"n":2,"s":"2026-08-31","e":"2026-09-06"},{"n":3,"s":"2026-09-07","e":"2026-09-13"},{"n":4,"s":"2026-09-14","e":"2026-09-20"},{"n":5,"s":"2026-09-21","e":"2026-09-27"},{"n":6,"s":"2026-09-28","e":"2026-10-04"},{"n":7,"s":"2026-10-05","e":"2026-10-11"},{"n":8,"s":"2026-10-12","e":"2026-10-18"},{"n":9,"s":"2026-10-19","e":"2026-10-25"},{"n":10,"s":"2026-10-26","e":"2026-11-01"},{"n":11,"s":"2026-11-02","e":"2026-11-08"},{"n":12,"s":"2026-11-09","e":"2026-11-15"},{"n":13,"s":"2026-11-16","e":"2026-11-22"},{"n":14,"s":"2026-11-23","e":"2026-11-29"},{"n":15,"s":"2026-11-30","e":"2026-12-06"},{"n":16,"s":"2026-12-07","e":"2026-12-13"}],"courses":[{"code":"15-440","name":"Distributed Systems","items":[{"d":"2026-08-25","t":"class","x":"Introduction","id":"15-440-0"},{"d":"2026-08-27","t":"class","x":"Communication 1 — Internet in a Day, day 1","id":"15-440-1"},{"d":"2026-08-28","t":"class","x":"Recitation: P0","id":"15-440-2"},{"d":"2026-08-28","t":"out","x":"P0 released","g":"P0","id":"15-440-3"},{"d":"2026-09-01","t":"class","x":"Communication 2 — Internet in a Day, day 2","id":"15-440-4"},{"d":"2026-09-03","t":"class","x":"Consistency — classical sync + Go-style concurrency","id":"15-440-5"},{"d":"2026-09-04","t":"class","x":"Recitation: Go debugging","id":"15-440-6"},{"d":"2026-09-07","t":"out","x":"HW1 released","g":"HW1","id":"15-440-7"},{"d":"2026-09-08","t":"class","x":"Time and Synchronization","id":"15-440-8"},{"d":"2026-09-08","t":"out","x":"P1 released (Parts A & B)","g":"P1","id":"15-440-9"},{"d":"2026-09-08","t":"due","x":"P0 due","g":"P0","id":"15-440-10"},{"d":"2026-09-10","t":"class","x":"Distributed Mutual Exclusion","id":"15-440-11"},{"d":"2026-09-11","t":"class","x":"Recitation: P1 Part A","id":"15-440-12"},{"d":"2026-09-15","t":"class","x":"Remote Procedure Calls","id":"15-440-13"},{"d":"2026-09-17","t":"class","x":"Distributed Filesystems","id":"15-440-14"},{"d":"2026-09-17","t":"due","x":"P1 Part A checkpoint due","g":"P1","id":"15-440-15"},{"d":"2026-09-18","t":"exam","x":"Quiz 1 (in recitation)","id":"15-440-16"},{"d":"2026-09-21","t":"out","x":"HW2 released","g":"HW2","id":"15-440-17"},{"d":"2026-09-21","t":"due","x":"HW1 due","g":"HW1","id":"15-440-18"},{"d":"2026-09-22","t":"class","x":"Distributed Filesystems 2 — AFS, Coda, LBFS","id":"15-440-19"},{"d":"2026-09-24","t":"class","x":"Distributed Transactions / Concurrency Control","id":"15-440-20"},{"d":"2026-09-24","t":"due","x":"P1 Part A final due","g":"P1","id":"15-440-21"},{"d":"2026-09-24","t":"event","x":"P1 Part B released (already unlocked with P1)","g":"P1","id":"15-440-22"},{"d":"2026-09-25","t":"class","x":"Recitation: P1 Part B","id":"15-440-23"},{"d":"2026-09-29","t":"class","x":"Midterm review","id":"15-440-24"},{"d":"2026-10-01","t":"exam","x":"First Midterm Exam","id":"15-440-25"},{"d":"2026-10-05","t":"out","x":"P3 proposal released","g":"P3","id":"15-440-26"},{"d":"2026-10-05","t":"due","x":"HW2 due","g":"HW2","id":"15-440-27"},{"d":"2026-10-06","t":"class","x":"Logging, Checkpointing and Crash Recovery","id":"15-440-28"},{"d":"2026-10-08","t":"class","x":"Distributed Replication","id":"15-440-29"},{"d":"2026-10-08","t":"out","x":"P2 released","g":"P2","id":"15-440-30"},{"d":"2026-10-08","t":"due","x":"P1 Part B due","g":"P1","id":"15-440-31"},{"d":"2026-10-20","t":"class","x":"Fault Tolerance & RAID","id":"15-440-32"},{"d":"2026-10-22","t":"class","x":"Introduction to Crypto (Security 1 & 2)","id":"15-440-33"},{"d":"2026-10-22","t":"out","x":"HW3 released","g":"HW3","id":"15-440-34"},{"d":"2026-10-22","t":"due","x":"P3 proposal due","g":"P3","id":"15-440-35"},{"d":"2026-10-23","t":"class","x":"Recitation: P2","id":"15-440-36"},{"d":"2026-10-27","t":"class","x":"Classical BFT","id":"15-440-37"},{"d":"2026-10-27","t":"due","x":"P2 checkpoint due","g":"P2","id":"15-440-38"},{"d":"2026-10-29","t":"class","x":"Longest Chain Consensus + Blockchains","id":"15-440-39"},{"d":"2026-10-30","t":"exam","x":"Quiz 2 (in recitation)","id":"15-440-40"},{"d":"2026-11-05","t":"class","x":"Internet Content Delivery","id":"15-440-41"},{"d":"2026-11-05","t":"out","x":"P3 main assignment released","g":"P3","id":"15-440-42"},{"d":"2026-11-05","t":"due","x":"P2 final due","g":"P2","id":"15-440-43"},{"d":"2026-11-10","t":"class","x":"Distributed Computing / MPI / MapReduce / Hadoop","id":"15-440-44"},{"d":"2026-11-12","t":"class","x":"In-memory cluster compute, Spark, Distributed ML","id":"15-440-45"},{"d":"2026-11-13","t":"exam","x":"Quiz 3 (in recitation)","id":"15-440-46"},{"d":"2026-11-13","t":"out","x":"HW4 released","g":"HW4","id":"15-440-47"},{"d":"2026-11-13","t":"due","x":"HW3 due","g":"HW3","id":"15-440-48"},{"d":"2026-11-17","t":"class","x":"Virtualization","id":"15-440-49"},{"d":"2026-11-19","t":"class","x":"Scaling — 3-tier web service architecture","id":"15-440-50"},{"d":"2026-11-24","t":"class","x":"TBD","id":"15-440-51"},{"d":"2026-11-24","t":"due","x":"P3 checkpoint due","g":"P3","id":"15-440-52"},{"d":"2026-12-01","t":"class","x":"Debugging Large-Scale Distributed Systems (guest)","id":"15-440-53"},{"d":"2026-12-01","t":"due","x":"HW4 due","g":"HW4","id":"15-440-54"},{"d":"2026-12-03","t":"class","x":"Final Exam Review","id":"15-440-55"},{"d":"2026-12-03","t":"due","x":"P3 final due","g":"P3","id":"15-440-56"},{"d":"2026-12-11","t":"exam","x":"Final Exam — date TBD","id":"15-440-57"}],"folder":"~/Documents/CMU/15-440"},{"code":"14-642","name":"Embedded Systems","items":[{"d":"2026-08-24","t":"class","x":"Course Overview; Exploring Electronics — Syllabus, OH info","id":"14-642-0"},{"d":"2026-08-26","t":"class","x":"Course Overview; Exploring Electronics — Syllabus, OH info","id":"14-642-1"},{"d":"2026-08-31","t":"class","x":"Arm, Cortex-M4, Build Process, Bootloader; Arm Assembly — EFS Ch. 0–2","id":"14-642-2"},{"d":"2026-09-02","t":"class","x":"Arm, Cortex-M4, Build Process, Bootloader; Arm Assembly — EFS Ch. 0–2","id":"14-642-3"},{"d":"2026-09-09","t":"class","x":"Optimization — EFS Ch. 2","id":"14-642-4"},{"d":"2026-09-14","t":"class","x":"Peripherals; Counting — EFS Ch. 3–5","id":"14-642-5"},{"d":"2026-09-16","t":"class","x":"Peripherals; Counting — EFS Ch. 3–5","id":"14-642-6"},{"d":"2026-09-21","t":"class","x":"Sensing; Serial Communication — EFS Ch. 6–7","id":"14-642-7"},{"d":"2026-09-23","t":"class","x":"Sensing; Serial Communication — EFS Ch. 6–7","id":"14-642-8"},{"d":"2026-09-28","t":"class","x":"Actuation & Control — EFS Ch. 8–9","id":"14-642-9"},{"d":"2026-09-30","t":"class","x":"Actuation & Control — EFS Ch. 8–9","id":"14-642-10"},{"d":"2026-10-05","t":"class","x":"Faults, Exceptions, & Interrupts — EFS Ch. 10","id":"14-642-11"},{"d":"2026-10-07","t":"class","x":"Faults, Exceptions, & Interrupts — EFS Ch. 10","id":"14-642-12"},{"d":"2026-10-19","t":"class","x":"Resource Sharing, DMA, Files & Concurrency Controls; System Calls — EFS Ch. 11–13","id":"14-642-13"},{"d":"2026-10-21","t":"class","x":"Resource Sharing, DMA, Files & Concurrency Controls; System Calls — EFS Ch. 11–13","id":"14-642-14"},{"d":"2026-10-26","t":"class","x":"Multitasking — EFS Ch. 14","id":"14-642-15"},{"d":"2026-10-28","t":"class","x":"Multitasking — EFS Ch. 14","id":"14-642-16"},{"d":"2026-11-02","t":"class","x":"Real-Time Systems & Scheduling; Multitasking labs and project — EFS Ch. 15","id":"14-642-17"},{"d":"2026-11-04","t":"class","x":"Real-Time Systems & Scheduling; Multitasking labs and project — EFS Ch. 15","id":"14-642-18"},{"d":"2026-11-09","t":"class","x":"Schedulability; Thread Protection — EFS Ch. 15–16","id":"14-642-19"},{"d":"2026-11-11","t":"class","x":"Schedulability; Thread Protection — EFS Ch. 15–16","id":"14-642-20"},{"d":"2026-11-16","t":"class","x":"Thread Synchronization — EFS Ch. 17","id":"14-642-21"},{"d":"2026-11-18","t":"class","x":"Thread Synchronization — EFS Ch. 17","id":"14-642-22"},{"d":"2026-11-23","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-23"},{"d":"2026-11-30","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-24"},{"d":"2026-12-02","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-25"},{"d":"2026-08-28","t":"due","x":"Quiz 0 due — 10 pts","id":"14-642-26"},{"d":"2026-09-04","t":"due","x":"Lab Setup Tests due","id":"14-642-27"},{"d":"2026-09-14","t":"out","x":"Quiz 1 released — 20 pts","g":"Quiz 1","id":"14-642-28"},{"d":"2026-09-18","t":"due","x":"Quiz 1 due","g":"Quiz 1","id":"14-642-29"},{"d":"2026-09-21","t":"out","x":"Quiz 2 released — 20 pts","g":"Quiz 2","id":"14-642-30"},{"d":"2026-09-25","t":"due","x":"Quiz 2 due","g":"Quiz 2","id":"14-642-31"},{"d":"2026-09-28","t":"out","x":"Quiz 3 released — 20 pts","g":"Quiz 3","id":"14-642-32"},{"d":"2026-10-02","t":"due","x":"Quiz 3 due","g":"Quiz 3","id":"14-642-33"},{"d":"2026-10-05","t":"out","x":"Quiz 4 released — 20 pts","g":"Quiz 4","id":"14-642-34"},{"d":"2026-10-09","t":"due","x":"Quiz 4 due","g":"Quiz 4","id":"14-642-35"},{"d":"2026-10-26","t":"out","x":"Quiz 5 released — 20 pts","g":"Quiz 5","id":"14-642-36"},{"d":"2026-10-30","t":"due","x":"Quiz 5 due","g":"Quiz 5","id":"14-642-37"},{"d":"2026-11-02","t":"out","x":"Quiz 6 released — 20 pts","g":"Quiz 6","id":"14-642-38"},{"d":"2026-11-06","t":"due","x":"Quiz 6 due","g":"Quiz 6","id":"14-642-39"},{"d":"2026-11-09","t":"out","x":"Quiz 7 released — 20 pts","g":"Quiz 7","id":"14-642-40"},{"d":"2026-11-13","t":"due","x":"Quiz 7 due","g":"Quiz 7","id":"14-642-41"},{"d":"2026-11-24","t":"due","x":"Project Proposal due — 40 pts","id":"14-642-42"},{"d":"2026-11-30","t":"out","x":"Quiz 8 released — 30 pts","g":"Quiz 8","id":"14-642-43"},{"d":"2026-12-04","t":"due","x":"Quiz 8 due","g":"Quiz 8","id":"14-642-44"},{"d":"2026-12-10","t":"due","x":"Project due — 160 pts","id":"14-642-45"},{"d":"2026-08-24","t":"start","x":"Exercise 0 window opens","g":"Ex0","id":"14-642-46"},{"d":"2026-09-11","t":"due","x":"Exercise 0: Complete the Bootloader due — 25 pts","g":"Ex0","id":"14-642-47"},{"d":"2026-08-24","t":"start","x":"Exercise 1 window opens","g":"Ex1","id":"14-642-48"},{"d":"2026-09-11","t":"due","x":"Exercise 1: Arm Assembly Optimization due — 75 pts","g":"Ex1","id":"14-642-49"},{"d":"2026-09-11","t":"start","x":"Exercise 2 window opens","g":"Ex2","id":"14-642-50"},{"d":"2026-09-18","t":"due","x":"Exercise 2: Create GPIO Wrapper Functions due — 10 pts","g":"Ex2","id":"14-642-51"},{"d":"2026-09-18","t":"start","x":"Exercise 3 window opens","g":"Ex3","id":"14-642-52"},{"d":"2026-09-25","t":"due","x":"Exercise 3: Implement RTT due — 25 pts","g":"Ex3","id":"14-642-53"},{"d":"2026-09-18","t":"start","x":"Exercise 4 window opens","g":"Ex4","id":"14-642-54"},{"d":"2026-09-25","t":"due","x":"Exercise 4: Audio Sensing due — 40 pts","g":"Ex4","id":"14-642-55"},{"d":"2026-09-25","t":"start","x":"Exercise 5 window opens","g":"Ex5","id":"14-642-56"},{"d":"2026-10-02","t":"due","x":"Exercise 5: Lux Sensing via I2C due — 35 pts","g":"Ex5","id":"14-642-57"},{"d":"2026-09-25","t":"start","x":"Exercise 6 window opens","g":"Ex6","id":"14-642-58"},{"d":"2026-10-02","t":"due","x":"Exercise 6: Write a Neopixel Driver due — 40 pts","g":"Ex6","id":"14-642-59"},{"d":"2026-10-02","t":"start","x":"Exercise 7 window opens","g":"Ex7","id":"14-642-60"},{"d":"2026-10-06","t":"due","x":"Exercise 7: Dance Party Lighting due — 50 pts","g":"Ex7","id":"14-642-61"},{"d":"2026-10-06","t":"start","x":"Exercise 8 window opens","g":"Ex8","id":"14-642-62"},{"d":"2026-10-09","t":"due","x":"Exercise 8: One-Second Timer with SysTick due — 10 pts","g":"Ex8","id":"14-642-63"},{"d":"2026-10-06","t":"start","x":"Exercise 9 window opens","g":"Ex9","id":"14-642-64"},{"d":"2026-10-09","t":"due","x":"Exercise 9: Enable a Soft Reset Button due — 20 pts","g":"Ex9","id":"14-642-65"},{"d":"2026-10-09","t":"start","x":"Exercise 10 window opens","g":"Ex10","id":"14-642-66"},{"d":"2026-10-20","t":"due","x":"Exercise 10: Timer-Driven ADC Sampling due — 25 pts","g":"Ex10","id":"14-642-67"},{"d":"2026-10-20","t":"start","x":"Exercise 11 window opens","g":"Ex11","id":"14-642-68"},{"d":"2026-10-23","t":"due","x":"Exercise 11: ADC-Driven Visualizer due — 25 pts","g":"Ex11","id":"14-642-69"},{"d":"2026-10-20","t":"start","x":"Exercise 12 window opens","g":"Ex12","id":"14-642-70"},{"d":"2026-10-23","t":"due","x":"Exercise 12: Implement and Test Locking due — 20 pts","g":"Ex12","id":"14-642-71"},{"d":"2026-10-23","t":"start","x":"Exercise 13 window opens","g":"Ex13","id":"14-642-72"},{"d":"2026-10-30","t":"due","x":"Exercise 13: Launch a User Application due — 35 pts","g":"Ex13","id":"14-642-73"},{"d":"2026-10-23","t":"start","x":"Exercise 14 window opens","g":"Ex14","id":"14-642-74"},{"d":"2026-10-30","t":"due","x":"Exercise 14: Minimal System Call Support due — 35 pts","g":"Ex14","id":"14-642-75"},{"d":"2026-10-23","t":"start","x":"Exercise 15 window opens","g":"Ex15","id":"14-642-76"},{"d":"2026-10-30","t":"due","x":"Exercise 15: Creating Custom System Calls due — 60 pts","g":"Ex15","id":"14-642-77"},{"d":"2026-10-30","t":"start","x":"Exercise 16 window opens","g":"Ex16","id":"14-642-78"},{"d":"2026-11-13","t":"due","x":"Exercise 16: Implement Multitasking due — 60 pts","g":"Ex16","id":"14-642-79"},{"d":"2026-10-30","t":"start","x":"Exercise 17 window opens","g":"Ex17","id":"14-642-80"},{"d":"2026-11-13","t":"due","x":"Exercise 17: Implement Periodic Tasks and Rate Monotonic Scheduling due — 60 pts","g":"Ex17","id":"14-642-81"},{"d":"2026-11-13","t":"start","x":"Exercise 18 window opens","g":"Ex18","id":"14-642-82"},{"d":"2026-11-20","t":"due","x":"Exercise 18: Protect Kernel and Thread Memory using the MPU due — 45 pts","g":"Ex18","id":"14-642-83"},{"d":"2026-11-20","t":"start","x":"Exercise 19 window opens","g":"Ex19","id":"14-642-84"},{"d":"2026-11-24","t":"due","x":"Exercise 19: User-Space Locking due — 40 pts","g":"Ex19","id":"14-642-85"},{"d":"2026-11-20","t":"start","x":"Exercise 20 window opens","g":"Ex20","id":"14-642-86"},{"d":"2026-11-24","t":"due","x":"Exercise 20: Implement PCP due — 65 pts","g":"Ex20","id":"14-642-87"}],"folder":"~/Documents/CMU/14-642"},{"code":"14-757","name":"ML with Adversaries in Mind","items":[{"d":"2026-08-25","t":"class","x":"Intro and Review of Statistics and Visualization","id":"14-757-0"},{"d":"2026-08-27","t":"class","x":"Probability Review","id":"14-757-1"},{"d":"2026-09-01","t":"class","x":"Classification and Naïve Bayes — Ch. 1","id":"14-757-2"},{"d":"2026-09-03","t":"class","x":"Adversarial Spam Filtering","id":"14-757-3"},{"d":"2026-09-03","t":"due","x":"HW0 due","id":"14-757-4"},{"d":"2026-09-08","t":"class","x":"Support Vector Machines — Ch. 2.1","id":"14-757-5"},{"d":"2026-09-10","t":"class","x":"Adversarial Linear Classification","id":"14-757-6"},{"d":"2026-09-15","t":"class","x":"Random Forests — Ch. 2.2","id":"14-757-7"},{"d":"2026-09-17","t":"class","x":"Neural Networks — Ch. 16","id":"14-757-8"},{"d":"2026-09-17","t":"due","x":"HW1 due","id":"14-757-9"},{"d":"2026-09-22","t":"class","x":"Convolutional Neural Networks — Ch. 17","id":"14-757-10"},{"d":"2026-09-24","t":"class","x":"Evasion Attacks on Neural Network Classifiers","id":"14-757-11"},{"d":"2026-09-29","t":"class","x":"Image and Malware Classification — Ch. 18.1","id":"14-757-12"},{"d":"2026-10-01","t":"class","x":"Regression — Ch. 10.1–2","id":"14-757-13"},{"d":"2026-10-01","t":"due","x":"HW2 due","id":"14-757-14"},{"d":"2026-10-06","t":"class","x":"Robust Regression — Ch. 10.3–4","id":"14-757-15"},{"d":"2026-10-08","t":"class","x":"Visual Linear Algebra Review","id":"14-757-16"},{"d":"2026-10-20","t":"class","x":"Principal Components Analysis — Ch. 4, 5","id":"14-757-17"},{"d":"2026-10-22","t":"class","x":"PCA and Multidimensional Scaling — Ch. 5, 6.2","id":"14-757-18"},{"d":"2026-10-22","t":"due","x":"HW3 due","id":"14-757-19"},{"d":"2026-10-27","t":"class","x":"Adversarial Network Anomaly Detection","id":"14-757-20"},{"d":"2026-10-29","t":"class","x":"Clustering and k-Means — Ch. 4.2, 8.1–2","id":"14-757-21"},{"d":"2026-11-05","t":"class","x":"Vector Quantization — Ch. 8.3","id":"14-757-22"},{"d":"2026-11-05","t":"due","x":"HW4 due","id":"14-757-23"},{"d":"2026-11-10","t":"class","x":"Maximum Likelihood Estimation","id":"14-757-24"},{"d":"2026-11-12","t":"class","x":"Expectation-Maximization — Ch. 9","id":"14-757-25"},{"d":"2026-11-17","t":"class","x":"Markov Chains and Hidden Markov Models — Ch. 13.1–2","id":"14-757-26"},{"d":"2026-11-19","t":"class","x":"PageRank and Search Engine Optimization","id":"14-757-27"},{"d":"2026-11-19","t":"due","x":"HW5 due","id":"14-757-28"},{"d":"2026-12-01","t":"class","x":"Towards Generative Adversarial Networks — Ch. 19","id":"14-757-29"},{"d":"2026-12-03","t":"class","x":"GANs and Diffusion Models","id":"14-757-30"},{"d":"2026-12-03","t":"due","x":"HW6 due","id":"14-757-31"}],"folder":"~/Documents/CMU/14-757"},{"code":"15-618","name":"Parallel Computer Architecture","items":[{"d":"2026-08-24","t":"class","x":"Why Parallelism?","id":"15-618-0"},{"d":"2026-08-26","t":"class","x":"Out-of-order Processor & Pipeline","id":"15-618-1"},{"d":"2026-08-28","t":"class","x":"A Modern Multi-Core Processor","id":"15-618-2"},{"d":"2026-08-28","t":"out","x":"L1 released","g":"L1","id":"15-618-3"},{"d":"2026-08-31","t":"class","x":"Parallel Programming Models","id":"15-618-4"},{"d":"2026-09-02","t":"class","x":"GPU Architecture and CUDA Programming","id":"15-618-5"},{"d":"2026-09-02","t":"due","x":"L1 early deadline (waitlist Thu 9/3)","g":"L1","id":"15-618-6"},{"d":"2026-09-04","t":"class","x":"GPU Architecture and CUDA Programming (cont.)","id":"15-618-7"},{"d":"2026-09-09","t":"class","x":"Parallel Programming Basics","id":"15-618-8"},{"d":"2026-09-09","t":"due","x":"L1 due","g":"L1","id":"15-618-9"},{"d":"2026-09-09","t":"out","x":"L2 released","g":"L2","id":"15-618-10"},{"d":"2026-09-11","t":"class","x":"Performance Optimization I","id":"15-618-11"},{"d":"2026-09-14","t":"class","x":"Performance Optimization II","id":"15-618-12"},{"d":"2026-09-16","t":"class","x":"Interconnection Networks","id":"15-618-13"},{"d":"2026-09-18","t":"class","x":"Snooping-Based Cache Coherence","id":"15-618-14"},{"d":"2026-09-21","t":"class","x":"Directory-Based Cache Coherence","id":"15-618-15"},{"d":"2026-09-23","t":"class","x":"Snooping-Based Multiprocessor Design","id":"15-618-16"},{"d":"2026-09-23","t":"due","x":"L2 due","g":"L2","id":"15-618-17"},{"d":"2026-09-23","t":"out","x":"L3 released","g":"L3","id":"15-618-18"},{"d":"2026-09-25","t":"exam","x":"Exam I — through Lecture 13","id":"15-618-19"},{"d":"2026-09-28","t":"class","x":"Performance Analysis / Profiling","id":"15-618-20"},{"d":"2026-09-30","t":"class","x":"Implementing Synchronization","id":"15-618-21"},{"d":"2026-10-02","t":"class","x":"Fine-Grained Sync, Lock-Free Programming","id":"15-618-22"},{"d":"2026-10-05","t":"class","x":"Transactional Memory","id":"15-618-23"},{"d":"2026-10-07","t":"class","x":"Heterogeneous Parallelism, HW Specialization","id":"15-618-24"},{"d":"2026-10-07","t":"due","x":"L3 due","g":"L3","id":"15-618-25"},{"d":"2026-10-07","t":"out","x":"L4 released","g":"L4","id":"15-618-26"},{"d":"2026-10-09","t":"class","x":"Virtual Memory","id":"15-618-27"},{"d":"2026-10-19","t":"class","x":"Guest Lecture","id":"15-618-28"},{"d":"2026-10-21","t":"class","x":"Memory Consistency","id":"15-618-29"},{"d":"2026-10-23","t":"class","x":"Parallel Deep Learning — data parallelism","id":"15-618-30"},{"d":"2026-10-23","t":"due","x":"L4 due","g":"L4","id":"15-618-31"},{"d":"2026-10-26","t":"class","x":"Parallel Deep Learning — model & pipeline parallelism","id":"15-618-32"},{"d":"2026-10-28","t":"class","x":"AI in System Design","id":"15-618-33"},{"d":"2026-11-02","t":"exam","x":"Exam II","id":"15-618-34"},{"d":"2026-11-04","t":"event","x":"Project idea meetings","id":"15-618-35"},{"d":"2026-11-06","t":"event","x":"Project idea meetings","id":"15-618-36"},{"d":"2026-11-11","t":"due","x":"Project Proposal due","g":"Project","id":"15-618-37"},{"d":"2026-11-25","t":"event","x":"Milestone-progress meetings","id":"15-618-38"},{"d":"2026-11-27","t":"event","x":"Milestone-progress meetings","id":"15-618-39"},{"d":"2026-11-30","t":"due","x":"Project Milestone due","g":"Project","id":"15-618-40"},{"d":"2026-12-09","t":"event","x":"Project Poster Session (exact date TBA, 12/7–12/11)","g":"Project","id":"15-618-41"}],"folder":"~/Documents/CMU/15-618"}]}
+</script>
+
+<script>
+(function(){
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("viz-data").textContent);
+
+  var COLORS = {
+    "15-440": {var:"--c-ds"},
+    "14-642": {var:"--c-es"},
+    "15-618": {var:"--c-pa"},
+    "14-757": {var:"--c-ml"}
+  };
+  var TYPE_LABEL = { class:"Class meets", start:"Window opens (inferred)", out:"Released", due:"Due", exam:"Exam", event:"Event / milestone" };
+  var TYPE_ORDER = ["class","start","out","due","exam","event"];
+  var DOW = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  var MONTH3 = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  function parseISO(s){ var p=s.split("-"); return Date.UTC(+p[0], +p[1]-1, +p[2]); }
+  function fmtDate(s){ var d=new Date(parseISO(s)); return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"}); }
+  function fmtShort(s){ var d=new Date(parseISO(s)); return d.toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"}); }
+  function fmtRange(s,e){ if(s===e) return fmtDate(s); return fmtShort(s)+" – "+fmtShort(e); }
+  function isoOf(ms){ var d=new Date(ms); return d.getUTCFullYear()+"-"+String(d.getUTCMonth()+1).padStart(2,"0")+"-"+String(d.getUTCDate()).padStart(2,"0"); }
+
+  var DAY_MS = 86400000;
+  var startMs = parseISO(DATA.start), endMs = parseISO(DATA.end);
+  var totalDays = Math.round((endMs-startMs)/DAY_MS)+1;
+
+  var todayMsRaw = (function(){ var n=new Date(); return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()); })();
+  var todayISO = isoOf(todayMsRaw);
+
+  var MARGIN = {left:6, right:32, top:64, bottom:40};
+  var DAY_W = 68;
+  var plotW = totalDays*DAY_W;
+  var LANE_H = 116;
+  var plotH, svgH; // depend on how many courses are active — (re)computed in renderTimeline()
+  var svgW = MARGIN.left+plotW+MARGIN.right;
+
+  function xOfMs(ms){ return MARGIN.left + ((ms-startMs)/DAY_MS)*DAY_W; }
+  function xOf(iso){ return xOfMs(parseISO(iso)); }
+
+  var svg = document.getElementById("chart");
+  var laneLabelsEl = document.getElementById("lane-labels");
+
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs){ var e=document.createElementNS(NS,tag); for(var k in attrs){ e.setAttribute(k, attrs[k]); } return e; }
+
+  /* =================== tooltip =================== */
+  var tooltip = document.getElementById("tooltip");
+  function buildAssignmentRecords(){
+    // group items by course+group (or course+id for singletons) — used by both
+    // tooltip chain info and the week drawer.
+    var recs = {}; // key -> {key, course, label, items:[]}
+    DATA.courses.forEach(function(course){
+      course.items.forEach(function(item){
+        if(item.t === "class") return;
+        var gid = item.g || item.id;
+        var key = course.code+"::"+gid;
+        if(!recs[key]) recs[key] = {key:key, course:course.code, courseName:course.name, label:item.g || cleanLabel(item.x), items:[]};
+        recs[key].items.push(item);
+      });
+    });
+    Object.keys(recs).forEach(function(k){
+      recs[k].items.sort(function(a,b){ return a.d<b.d?-1:a.d>b.d?1:0; });
+      recs[k].first = recs[k].items[0].d;
+      recs[k].last = recs[k].items[recs[k].items.length-1].d;
+    });
+    return recs;
+  }
+  function cleanLabel(x){
+    return x.replace(/\s*—\s*\d[\d,]*\/?\d*\s*pts?.*$/i,"")
+            .replace(/\s*\(.*?\)\s*$/,"")
+            .replace(/\s*(released|due)\s*$/i,"")
+            .trim();
+  }
+  var RECORDS = buildAssignmentRecords();
+
+  function roleLabel(t){ return TYPE_LABEL[t] || t; }
+
+  function showTip(target, item, courseLabel){
+    tooltip.innerHTML = "";
+    var d = document.createElement("div"); d.className="tt-date"; d.textContent = fmtDate(item.d)+" · "+roleLabel(item.t);
+    var t = document.createElement("div"); t.className="tt-text"; t.textContent = item.x;
+    tooltip.appendChild(d); tooltip.appendChild(t);
+
+    var gid = item.g || item.id;
+    var rec = RECORDS[courseLabel+"::"+gid];
+    if(item.t==="due" && rec && !rec.items.some(function(it){ return it.t==="start"||it.t==="out"; })){
+      var flag = document.createElement("div"); flag.className="tt-nostart"; flag.textContent="No release or window-open date — only a due date is known.";
+      tooltip.appendChild(flag);
+    }
+    if(rec && rec.items.length>1){
+      var chain = document.createElement("div"); chain.className="tt-chain";
+      rec.items.forEach(function(sib){
+        var row = document.createElement("div"); row.className="tt-chain-row"+(sib===item?" is-self":"");
+        var l = document.createElement("span"); l.textContent = fmtShort(sib.d)+" — "+roleLabel(sib.t);
+        row.appendChild(l);
+        chain.appendChild(row);
+      });
+      var days = Math.round((parseISO(rec.last)-parseISO(rec.first))/DAY_MS);
+      var span = document.createElement("div"); span.className="tt-span";
+      span.textContent = days>0 ? (days+" day"+(days===1?"":"s")+" · "+fmtShort(rec.first)+" → "+fmtShort(rec.last)) : "Same day";
+      chain.appendChild(span);
+      tooltip.appendChild(chain);
+    }
+
+    var c = document.createElement("div"); c.className="tt-course"; c.textContent = courseLabel;
+    tooltip.appendChild(c);
+    tooltip.classList.add("is-visible");
+    positionTip(target);
+  }
+  function positionTip(target){
+    var r = target.getBoundingClientRect();
+    var tw = tooltip.offsetWidth||220, th = tooltip.offsetHeight||50;
+    var left = r.left + r.width/2 - tw/2;
+    var top = r.top - th - 10;
+    left = Math.max(8, Math.min(left, window.innerWidth-tw-8));
+    if(top<8) top = r.bottom+10;
+    tooltip.style.left = left+"px";
+    tooltip.style.top = top+"px";
+  }
+  function hideTip(){ tooltip.classList.remove("is-visible"); }
+
+  /* =================== pair highlight + dotted connector =================== */
+  var pairLayer;
+  function clearPair(){
+    document.querySelectorAll(".mark.is-paired").forEach(function(n){ n.classList.remove("is-paired"); });
+    document.querySelectorAll(".mark.is-dimmed").forEach(function(n){ n.classList.remove("is-dimmed"); });
+    while(pairLayer.firstChild) pairLayer.removeChild(pairLayer.firstChild);
+  }
+  function showPair(item, courseCode, allMarksByItemId){
+    clearPair();
+    var gid = item.g || item.id;
+    var rec = RECORDS[courseCode+"::"+gid];
+    if(!rec || rec.items.length<2) return;
+    var nodes = rec.items.map(function(it){ return allMarksByItemId[it.id]; }).filter(Boolean);
+    nodes.forEach(function(n){ n.el.classList.add("is-paired"); });
+    // dim other marks in the same lane so the pair stands out
+    document.querySelectorAll('.lane-group[data-course="'+courseCode+'"] .mark').forEach(function(n){
+      if(nodes.indexOf(n.__ref)===-1 && n.__ref) n.classList.add("is-dimmed");
+    });
+    for(var i=1;i<nodes.length;i++){
+      var a=nodes[i-1], b=nodes[i];
+      pairLayer.appendChild(el("line",{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:"var(--pair-line)","stroke-width":1.4,"stroke-dasharray":"3,3","stroke-opacity":0.65}));
+    }
+  }
+
+  function attachTip(node, item, courseCode, x, y, markRef){
+    node.setAttribute("tabindex","0");
+    node.setAttribute("role","img");
+    node.setAttribute("aria-label", fmtDate(item.d)+": "+item.x+" ("+courseCode+")");
+    node.__ref = markRef;
+    function enter(){ showTip(node, item, courseCode); showPair(item, courseCode, MARKS_BY_ID); }
+    node.addEventListener("pointerenter", enter);
+    node.addEventListener("pointermove", function(){ positionTip(node); });
+    node.addEventListener("pointerleave", function(){ hideTip(); clearPair(); });
+    node.addEventListener("focus", enter);
+    node.addEventListener("blur", function(){ hideTip(); clearPair(); });
+  }
+
+  /* =================== toast =================== */
+  var toastEl = document.getElementById("toast");
+  var toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove("is-visible"); }, 2200);
+  }
+
+  /* =================== background layers =================== */
+  // flat, unfiltered date index for the plain-list fallback table — independent
+  // of which courses are toggled active, so it stays a complete record.
+  var kdRows = [];
+  DATA.courses.forEach(function(course){
+    course.items.forEach(function(item){
+      kdRows.push({sortKey:item.d, date:fmtDate(item.d), course:course.code, text:item.x, type:item.t});
+    });
+  });
+
+  var viz, currentWeek = null, weekBandsByNum = {}, MARKS_BY_ID = {};
+
+  // builds the whole SVG timeline + its frozen sidebar from scratch, using only
+  // the currently-active courses — so hiding a course actually shrinks the chart
+  // instead of leaving a dimmed or blank lane behind.
+  function renderTimeline(){
+    var activeCourses = DATA.courses.filter(function(c){ return ACTIVE[c.code]; });
+    plotH = LANE_H*Math.max(activeCourses.length, 1);
+    svgH = MARGIN.top+plotH+MARGIN.bottom;
+    svg.setAttribute("viewBox","0 0 "+svgW+" "+svgH);
+    svg.setAttribute("width", svgW);
+    svg.setAttribute("height", svgH);
+
+    svg.innerHTML = "";
+    laneLabelsEl.innerHTML = "";
+    MARKS_BY_ID = {};
+    weekBandsByNum = {};
+    currentWeek = null;
+
+    /* background layers */
+    var bgLayer = el("g", {});
+    svg.appendChild(bgLayer);
+    for(var d0=startMs; d0<=endMs; d0+=DAY_MS){
+      var dow = new Date(d0).getUTCDay(); // 0 Sun .. 6 Sat
+      if(dow===0 || dow===6){
+        var wx = xOfMs(d0);
+        bgLayer.appendChild(el("rect",{x:wx,y:MARGIN.top,width:DAY_W,height:plotH,fill:"var(--weekend-fill)"}));
+      }
+    }
+    DATA.breaks.forEach(function(b){
+      var x1 = xOf(b.s), x2 = xOf(b.e)+DAY_W;
+      var rect = el("rect", {x:x1, y:MARGIN.top, width:Math.max(x2-x1,2), height:plotH, fill:"var(--break-fill)"});
+      bgLayer.appendChild(rect);
+      var label = el("text", {x:(x1+x2)/2, y:MARGIN.top-10, "text-anchor":"middle", class:"break-label"});
+      label.textContent = b.x;
+      bgLayer.appendChild(label);
+    });
+
+    /* week bands + day grid */
+    var axisLayer = el("g", {});
+    svg.appendChild(axisLayer);
+
+    DATA.weeks.forEach(function(wk){
+      var x1 = xOf(wk.s), x2 = xOf(wk.e)+DAY_W;
+      var isCurrent = todayISO>=wk.s && todayISO<=wk.e;
+      if(isCurrent) currentWeek = wk;
+
+      var band = el("g", {class:"week-band", tabindex:"0", role:"button"});
+      weekBandsByNum[wk.n] = band;
+      band.setAttribute("aria-label","Week "+wk.n+", "+fmtRange(wk.s,wk.e)+" — show tasks below");
+      var hit = el("rect", {class:"wk-hit", x:x1, y:16, width:x2-x1, height:32, rx:6, fill: isCurrent? "var(--this-week)":"transparent"});
+      band.appendChild(hit);
+      var lbl = el("text", {x:x1+8, y:30, class:"week-label"});
+      lbl.textContent = "Week "+wk.n;
+      band.appendChild(lbl);
+      var rng = el("text", {x:x1+8, y:42, class:"week-range"});
+      rng.textContent = fmtRange(wk.s, wk.e);
+      band.appendChild(rng);
+      if(isCurrent){
+        var pill = el("rect",{x:x2-58,y:19,width:50,height:14,rx:7,fill:"var(--ink)"});
+        band.appendChild(pill);
+        var pillT = el("text",{x:x2-33,y:29,"text-anchor":"middle",class:"today-label"});
+        pillT.textContent = "THIS WEEK";
+        pillT.style.fontSize="7.5px";
+        band.appendChild(pillT);
+      }
+      var selectFn = function(week){ return function(){ selectWeek(week); }; }(wk);
+      band.addEventListener("click", selectFn);
+      band.addEventListener("keydown", function(fn){ return function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); fn(); } }; }(selectFn));
+      axisLayer.appendChild(band);
+
+      // week divider
+      axisLayer.appendChild(el("line",{x1:x1,y1:16,x2:x1,y2:MARGIN.top+plotH,stroke:"var(--line-strong)","stroke-width":1}));
+
+      // day-of-week + date-number columns
+      for(var i=0;i<7;i++){
+        var dms = parseISO(wk.s)+i*DAY_MS;
+        var dx = xOfMs(dms);
+        var cx = dx+DAY_W/2;
+        var dLbl = el("text",{x:cx,y:53,class:"dow-label"});
+        dLbl.textContent = DOW[i];
+        axisLayer.appendChild(dLbl);
+        var dt = new Date(dms);
+        var dnum = dt.getUTCDate();
+        var numText = (dnum===1) ? (MONTH3[dt.getUTCMonth()]+" 1") : String(dnum);
+        var isToday = isoOf(dms)===todayISO;
+        var nLbl = el("text",{x:cx,y:64.5,class:"day-num"+(isToday?" is-today":"")});
+        nLbl.textContent = numText;
+        axisLayer.appendChild(nLbl);
+        if(i>0) axisLayer.appendChild(el("line",{x1:dx,y1:46,x2:dx,y2:MARGIN.top+plotH,stroke:"var(--line)","stroke-width":0.6,"stroke-opacity":0.6}));
+      }
+    });
+    // trailing edge of last week
+    var lastWk = DATA.weeks[DATA.weeks.length-1];
+    axisLayer.appendChild(el("line",{x1:xOf(lastWk.e)+DAY_W,y1:16,x2:xOf(lastWk.e)+DAY_W,y2:MARGIN.top+plotH,stroke:"var(--line-strong)","stroke-width":1}));
+
+    /* lanes */
+    viz = el("g", {class:"viz"});
+    // re-apply any active type filters (Class meets / Due / Exam / …) — this is a
+    // fresh <g> each rebuild, so it doesn't carry over the hide-<type> classes the
+    // type-toggle chips had set on the previous one.
+    document.querySelectorAll('#type-toggles .type-chip.is-off').forEach(function(c){
+      viz.classList.add("hide-"+c.dataset.type);
+    });
+    svg.appendChild(viz);
+    pairLayer = el("g", {class:"pair-layer"});
+    // pairLayer appended after marks so dotted lines draw above them, but before today-line/tooltip DOM
+
+    var topSpacer = document.createElement("div");
+    topSpacer.style.height = MARGIN.top+"px";
+    laneLabelsEl.appendChild(topSpacer);
+
+    activeCourses.forEach(function(course, idx){
+      var laneY0 = MARGIN.top + idx*LANE_H;
+      var baseline = laneY0 + LANE_H - 24;
+      var colorVar = "var("+COLORS[course.code].var+")";
+
+      var laneG = el("g", {class:"lane-group", "data-course":course.code});
+      viz.appendChild(laneG);
+
+      laneG.appendChild(el("line", {x1:MARGIN.left, y1:baseline, x2:MARGIN.left+plotW, y2:baseline, stroke:"var(--line-strong)", "stroke-width":1}));
+
+      // sidebar row (frozen — lives outside the horizontally scrolling SVG)
+      var row = document.createElement("div");
+      row.className = "lane-row"; row.dataset.course = course.code;
+      row.style.height = LANE_H+"px";
+      var localBaseline = LANE_H-24; // baseline offset within this row, mirrors SVG math
+      var codeEl = document.createElement("div"); codeEl.className="lr-code";
+      codeEl.style.top=(localBaseline-16)+"px"; codeEl.style.color="var("+COLORS[course.code].var+")";
+      codeEl.textContent = course.code;
+      var nameEl = document.createElement("div"); nameEl.className="lr-name";
+      nameEl.style.top=(localBaseline-1)+"px";
+      nameEl.textContent = course.name;
+      nameEl.setAttribute("spellcheck","false");
+      codeEl.setAttribute("spellcheck","false");
+      var swatchEl = document.createElement("div"); swatchEl.className="lr-swatch";
+      swatchEl.style.top=(localBaseline+8)+"px"; swatchEl.style.background="var("+COLORS[course.code].var+")";
+      var fbtn = document.createElement("button"); fbtn.className="folder-btn"; fbtn.type="button";
+      fbtn.style.top=(localBaseline-33)+"px";
+      fbtn.setAttribute("aria-label","Copy folder path for "+course.code);
+      fbtn.innerHTML = '<svg width="15" height="13" viewBox="0 0 15 13" fill="none"><path d="M1 2.4A1.4 1.4 0 0 1 2.4 1h3.2l1.6 1.8h6.4A1.4 1.4 0 0 1 15 4.2v6.9A1.4 1.4 0 0 1 13.6 12.5H2.4A1.4 1.4 0 0 1 1 11.1V2.4Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+      fbtn.addEventListener("click", function(folder){ return function(){ copyFolder(folder); }; }(course.folder));
+      row.appendChild(codeEl); row.appendChild(nameEl); row.appendChild(swatchEl); row.appendChild(fbtn);
+      laneLabelsEl.appendChild(row);
+
+      // track marks by date so pins land in a stacked column whenever two *different*
+      // (possibly ungrouped) items fall on the same day in this lane — otherwise they'd render
+      // exactly on top of one another and hide all but the last-drawn one.
+      var byDate = {};
+      course.items.forEach(function(item){
+        if(item.t === "class") return;
+        (byDate[item.d] = byDate[item.d] || []).push(item);
+      });
+
+      course.items.forEach(function(item){
+        var x = xOf(item.d)+DAY_W/2;
+
+        if(item.t === "class"){
+          var tickG = el("g", {class:"mark mk-class"});
+          tickG.appendChild(el("line", {x1:x,y1:baseline-8,x2:x,y2:baseline+8, stroke:colorVar, "stroke-width":2.4, "stroke-opacity":0.55}));
+          tickG.appendChild(el("rect", {x:x-8,y:baseline-14,width:16,height:28, fill:"transparent", class:"mk-shape"}));
+          laneG.appendChild(tickG);
+          attachTip(tickG, item, course.code, x, baseline);
+          MARKS_BY_ID[item.id] = {el:tickG, x:x, y:baseline};
+          return;
+        }
+
+        var gid = item.g || item.id;
+        var dateSiblings = byDate[item.d];
+        var stackIdx = dateSiblings.indexOf(item);
+        var pinY = baseline - 26 - stackIdx*17;
+
+        var g = el("g", {class:"mark mk-"+item.t, "data-group":gid});
+        g.appendChild(el("line", {x1:x,y1:baseline-7,x2:x,y2:pinY+7, stroke:colorVar, "stroke-width":1.3, "stroke-opacity":0.5}));
+
+        if(item.t === "start"){
+          g.appendChild(el("circle", {cx:x,cy:pinY,r:5.5, fill:"var(--surface)", stroke:colorVar, "stroke-width":2, "stroke-dasharray":"2.2,1.8", class:"mk-shape"}));
+        } else if(item.t === "out"){
+          g.appendChild(el("circle", {cx:x,cy:pinY,r:5.5, fill:"var(--surface)", stroke:colorVar, "stroke-width":2.2, class:"mk-shape"}));
+        } else if(item.t === "due"){
+          var dueRec = RECORDS[course.code+"::"+gid];
+          var dueHasStart = dueRec ? dueRec.items.some(function(it){ return it.t === "start" || it.t === "out"; }) : true;
+          var dueAttrs = {cx:x,cy:pinY,r:6, fill:"var(--status-due)", stroke:"var(--surface)", "stroke-width":2.2, class:"mk-shape"};
+          if(!dueHasStart){
+            dueAttrs.stroke = "var(--ink)";
+            dueAttrs["stroke-dasharray"] = "1.6,1.3";
+            g.classList.add("mk-no-start");
+          }
+          g.appendChild(el("circle", dueAttrs));
+          var checkD = "M"+(x-3)+" "+(pinY+0.3)+" L"+(x-0.6)+" "+(pinY+2.8)+" L"+(x+3.3)+" "+(pinY-2.7);
+          g.appendChild(el("path", {d:checkD, fill:"none", stroke:"var(--surface)", "stroke-width":1.5, "stroke-linecap":"round", "stroke-linejoin":"round", class:"mk-shape mk-check"}));
+        } else if(item.t === "exam"){
+          var d8=7.5;
+          var pts = [x,pinY-d8, x+d8,pinY, x,pinY+d8, x-d8,pinY].join(" ");
+          g.appendChild(el("polygon", {points:pts, fill:"var(--status-exam)", stroke:"var(--surface)", "stroke-width":2.2, class:"mk-shape"}));
+        } else if(item.t === "event"){
+          g.appendChild(el("rect", {x:x-5.5,y:pinY-5.5,width:11,height:11,rx:2.5, fill:"var(--ink-soft)", stroke:"var(--surface)", "stroke-width":2.2, class:"mk-shape"}));
+        }
+        g.appendChild(el("circle", {cx:x,cy:pinY,r:12, fill:"transparent"}));
+        laneG.appendChild(g);
+        var markRef = {el:g, x:x, y:pinY};
+        MARKS_BY_ID[item.id] = markRef;
+        attachTip(g, item, course.code, x, pinY, markRef);
+      });
+    });
+    svg.appendChild(pairLayer);
+
+    /* today line */
+    if(todayMsRaw >= startMs && todayMsRaw <= endMs){
+      var tx = xOfMs(todayMsRaw)+DAY_W/2;
+      var tg = el("g", {});
+      var lineBottom = MARGIN.top+plotH+16;
+      tg.appendChild(el("line", {x1:tx,y1:12,x2:tx,y2:lineBottom, stroke:"var(--ink)", "stroke-width":1.5, "stroke-dasharray":"3,3", "stroke-opacity":0.55}));
+      var tpill = el("rect", {x:tx-22,y:lineBottom,width:44,height:16,rx:8, fill:"var(--ink)"});
+      tg.appendChild(tpill);
+      var tt = el("text", {x:tx,y:lineBottom+11.5,"text-anchor":"middle", class:"today-label"});
+      tt.textContent = "TODAY";
+      tg.appendChild(tt);
+      svg.appendChild(tg);
+    }
+
+    laneLabelsEl.style.height = svgH+"px";
+
+    // a toggle-triggered rebuild destroys the old week-band DOM, so reapply the
+    // current selection highlight (selectedWeek is set once the week panel exists).
+    if(typeof selectedWeek !== "undefined" && selectedWeek && weekBandsByNum[selectedWeek.n]){
+      weekBandsByNum[selectedWeek.n].classList.add("is-selected");
+    }
+  }
+
+  /* =================== scroll to current week =================== */
+  function scrollToToday(){
+    var container = document.getElementById("chart-scroll");
+    var anchorMs = (todayMsRaw>=startMs && todayMsRaw<=endMs) ? todayMsRaw : startMs;
+    var wk = currentWeek || DATA.weeks[0];
+    var x = xOf(wk.s);
+    var scale = svg.getBoundingClientRect().width / svgW;
+    container.scrollLeft = Math.max(0, x*scale - 90);
+  }
+  requestAnimationFrame(function(){ requestAnimationFrame(scrollToToday); });
+  window.addEventListener("resize", scrollToToday);
+
+  /* =================== course + type toggles =================== */
+  var HIDDEN_BY_DEFAULT = {"15-618":true};
+  var ACTIVE = {};
+  DATA.courses.forEach(function(c){ ACTIVE[c.code] = !HIDDEN_BY_DEFAULT[c.code]; });
+
+  // re-renders every view that shows per-course data so an inactive course is
+  // fully absent, not just faded: timeline (a real reflow — the chart shrinks),
+  // workload chart + legend, week-panel tasks, and the course-policy card.
+  function applyCourseFilter(){
+    renderTimeline();
+    DATA.courses.forEach(function(course){
+      var active = ACTIVE[course.code];
+      var policyCard = document.querySelector('.policy-card[data-course="'+course.code+'"]');
+      var legendItem = document.querySelector('.wl-item[data-course="'+course.code+'"]');
+      if(policyCard) policyCard.style.display = active ? "" : "none";
+      if(legendItem) legendItem.style.display = active ? "" : "none";
+    });
+    renderWorkloadChart();
+    // renderWorkloadChart() rebuilds its bars from scratch, so reapply the
+    // current-week highlight the same way selectWeek() originally set it.
+    if(typeof selectedWeek !== "undefined" && selectedWeek && workloadBandsByNum[selectedWeek.n]){
+      workloadBandsByNum[selectedWeek.n].classList.add("is-selected");
+    }
+    if(typeof selectedWeek !== "undefined" && selectedWeek) renderWeekPanel(selectedWeek);
+  }
+
+  var courseToggleWrap = document.getElementById("course-toggles");
+  DATA.courses.forEach(function(course){
+    var chip = document.createElement("button");
+    chip.className = "chip"; chip.type = "button";
+    chip.style.setProperty("--course", "var("+COLORS[course.code].var+")");
+    var dot = document.createElement("span"); dot.className="dot";
+    var label = document.createElement("span"); label.textContent = course.code;
+    chip.appendChild(dot); chip.appendChild(label);
+    chip.classList.toggle("is-off", !ACTIVE[course.code]);
+    chip.setAttribute("aria-pressed", ACTIVE[course.code] ? "true" : "false");
+    chip.addEventListener("click", function(){
+      ACTIVE[course.code] = !ACTIVE[course.code];
+      chip.classList.toggle("is-off", !ACTIVE[course.code]);
+      chip.setAttribute("aria-pressed", ACTIVE[course.code] ? "true" : "false");
+      applyCourseFilter();
+    });
+    courseToggleWrap.appendChild(chip);
+  });
+
+  // initial paint of the timeline: safe to call now (viz/laneLabelsEl/svg are ready).
+  // renderWorkloadChart()/renderWeekPanel() are NOT safe to call yet — they read
+  // vars (workloadBandsByNum, selectedWeek) that are still a few lines from being
+  // declared — so the policy card/legend get their first ACTIVE-correct state
+  // inline here, and workload/week-panel simply get it from their own first run
+  // later in the script, which already reads the (already-populated) ACTIVE map.
+  renderTimeline();
+  DATA.courses.forEach(function(course){
+    if(ACTIVE[course.code]) return;
+    var policyCard = document.querySelector('.policy-card[data-course="'+course.code+'"]');
+    if(policyCard) policyCard.style.display = "none";
+  });
+
+  var typeToggleWrap = document.getElementById("type-toggles");
+  var shapeSvgFor = {
+    class: '<svg width="14" height="14"><line x1="7" y1="2" x2="7" y2="12" stroke="currentColor" stroke-width="2"/></svg>',
+    start: '<svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2,1.6"/></svg>',
+    out: '<svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+    due: '<svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="var(--status-due)"/></svg>',
+    exam: '<svg width="14" height="14"><polygon points="7,1 13,7 7,13 1,7" fill="var(--status-exam)"/></svg>',
+    event: '<svg width="14" height="14"><rect x="2" y="2" width="10" height="10" rx="2" fill="var(--ink-soft)"/></svg>'
+  };
+  TYPE_ORDER.forEach(function(type){
+    var chip = document.createElement("button");
+    chip.className = "type-chip"; chip.type = "button";
+    chip.dataset.type = type;
+    chip.innerHTML = shapeSvgFor[type];
+    var label = document.createElement("span"); label.textContent = TYPE_LABEL[type];
+    chip.appendChild(label);
+    chip.setAttribute("aria-pressed","true");
+    chip.addEventListener("click", function(){
+      var on = chip.classList.toggle("is-off");
+      chip.setAttribute("aria-pressed", on?"false":"true");
+      viz.classList.toggle("hide-"+type, on);
+    });
+    typeToggleWrap.appendChild(chip);
+  });
+
+  /* =================== list view fallback =================== */
+  var kdBody = document.getElementById("kd-body");
+  kdRows.sort(function(a,b){ return a.sortKey<b.sortKey?-1:a.sortKey>b.sortKey?1:0; });
+  kdRows.forEach(function(row){
+    var tr = document.createElement("tr");
+    var td1 = document.createElement("td"); td1.className="kd-date"; td1.textContent = row.date;
+    var td2 = document.createElement("td"); td2.textContent = row.course;
+    var td3 = document.createElement("td"); td3.textContent = row.text + (row.type!=="class" ? "  ["+TYPE_LABEL[row.type]+"]" : "");
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+    kdBody.appendChild(tr);
+  });
+
+  /* =================== folder copy =================== */
+  function copyFolder(path){
+    function done(ok){ toast(ok ? "Copied "+path : "Couldn't copy — path: "+path); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(path).then(function(){done(true);}).catch(function(){ fallbackCopy(path, done); });
+    } else {
+      fallbackCopy(path, done);
+    }
+  }
+  function fallbackCopy(path, cb){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = path; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      cb(ok);
+    }catch(e){ cb(false); }
+  }
+
+  /* =================== persistence: sqlite (via server.py), else artifact capability, else localStorage =================== */
+  var STATE = {completed:{}, notes:{}};
+  var LS_KEY = "fall2026-timeline-state";
+  var artifactNS = null;
+  var saveTimer = null;
+  var dbSaveTimer = null;
+
+  function loadLocal(){
+    try{ var raw = localStorage.getItem(LS_KEY); if(raw) STATE = JSON.parse(raw); }catch(e){}
+  }
+  function saveLocal(){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); }catch(e){}
+  }
+  function loadRemote(){
+    return fetch("data/state.json", {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+  }
+  function loadDB(){
+    return fetch("/api/state", {cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+  }
+  function saveDB(){
+    clearTimeout(dbSaveTimer);
+    dbSaveTimer = setTimeout(function(){
+      fetch("/api/state", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(STATE)
+      }).catch(function(){ /* server.py not running: localStorage already has it */ });
+    }, 400);
+  }
+  function persist(){
+    saveLocal();
+    saveDB();
+    if(artifactNS){
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(function(){
+        artifactNS.publish({"data/state.json": JSON.stringify(STATE)}).catch(function(){ /* conflict/rate-limit: local copy already saved */ });
+      }, 500);
+    }
+  }
+
+  function isEmptyState(s){
+    return !s || (Object.keys(s.completed||{}).length===0 && Object.keys(s.notes||{}).length===0);
+  }
+
+  /* =================== reflect week-panel completion onto the timeline's due marks =================== */
+  function syncDueMarks(key){
+    var rec = RECORDS[key];
+    if(!rec) return;
+    var done = !!STATE.completed[key];
+    rec.items.forEach(function(it){
+      if(it.t !== "due") return;
+      var ref = MARKS_BY_ID[it.id];
+      if(ref && ref.el) ref.el.classList.toggle("is-complete", done);
+    });
+  }
+  function syncAllDueMarks(){
+    Object.keys(RECORDS).forEach(syncDueMarks);
+  }
+
+  function initPersistence(){
+    loadLocal();
+    syncAllDueMarks();
+    loadDB().then(function(remote){
+      if(!isEmptyState(remote)){
+        STATE = remote;
+        syncAllDueMarks();
+        if(selectedWeek) renderWeekPanel(selectedWeek);
+      } else if(!isEmptyState(STATE)){
+        saveDB(); // first run against a fresh DB: seed it from existing localStorage progress
+      }
+    });
+    if(window.claude && window.claude.use){
+      window.claude.use("artifact").then(function(ns){
+        artifactNS = ns;
+        if(!ns) return;
+        loadRemote().then(function(remote){
+          if(remote && typeof remote === "object"){
+            STATE = remote;
+            syncAllDueMarks();
+            if(selectedWeek) renderWeekPanel(selectedWeek);
+          }
+        });
+      }).catch(function(){});
+    }
+  }
+  initPersistence();
+
+  /* =================== weekly workload chart =================== */
+  var workloadBandsByNum = {};
+  (function(){
+    var legendEl = document.getElementById("workload-legend");
+    DATA.courses.forEach(function(c){
+      var item = document.createElement("span"); item.className="wl-item"; item.dataset.course=c.code;
+      item.style.display = ACTIVE[c.code] ? "" : "none";
+      var dot = document.createElement("span"); dot.className="wl-dot"; dot.style.background="var("+COLORS[c.code].var+")";
+      var t = document.createElement("span"); t.textContent = c.code;
+      item.appendChild(dot); item.appendChild(t);
+      legendEl.appendChild(item);
+    });
+  })();
+
+  function computeWeekWorkload(wk){
+    var byCourse = {}; var examsByCourse = {};
+    DATA.courses.forEach(function(c){ byCourse[c.code] = 0; examsByCourse[c.code] = 0; });
+    DATA.courses.forEach(function(c){
+      if(!ACTIVE[c.code]) return;
+      c.items.forEach(function(item){
+        if(item.d<wk.s || item.d>wk.e) return;
+        if(item.t==="due"){ byCourse[c.code]++; }
+        else if(item.t==="exam"){ byCourse[c.code]++; examsByCourse[c.code]++; }
+      });
+    });
+    var total = DATA.courses.reduce(function(s,c){ return s+byCourse[c.code]; }, 0);
+    var examTotal = DATA.courses.reduce(function(s,c){ return s+examsByCourse[c.code]; }, 0);
+    return {wk:wk, byCourse:byCourse, examsByCourse:examsByCourse, total:total, examTotal:examTotal, hasExam:examTotal>0};
+  }
+
+  function renderWorkloadChart(){
+    var wlSvg = document.getElementById("workload-chart");
+    wlSvg.innerHTML = "";
+    var W = 960, H = 158;
+    var WM = {left:22, right:6, top:18, bottom:20};
+    var plotW = W-WM.left-WM.right, plotH = H-WM.top-WM.bottom;
+    wlSvg.setAttribute("viewBox","0 0 "+W+" "+H);
+
+    var rows = DATA.weeks.map(computeWeekWorkload);
+    var maxTotal = Math.max.apply(null, rows.map(function(r){return r.total;}).concat([2]));
+    var niceMax = Math.max(2, Math.ceil(maxTotal));
+
+    // recessive gridlines at 0 / mid / max
+    [0, niceMax/2, niceMax].forEach(function(v){
+      var y = WM.top + plotH - (v/niceMax)*plotH;
+      wlSvg.appendChild(el("line",{x1:WM.left,y1:y,x2:W-WM.right,y2:y,stroke:"var(--line)","stroke-width":1}));
+      var t = el("text",{x:WM.left-5,y:y+3,"text-anchor":"end",class:"wl-axis"});
+      t.textContent = Math.round(v);
+      wlSvg.appendChild(t);
+    });
+
+    var n = rows.length;
+    var gap = 4;
+    var bw = (plotW-gap*(n-1))/n;
+    var yBase = WM.top+plotH;
+
+    rows.forEach(function(r){
+      var x = WM.left + (r.wk.n-1)*(bw+gap);
+      var col = el("g", {class:"wl-col", "data-week":r.wk.n});
+      workloadBandsByNum[r.wk.n] = col;
+
+      var hoverBg = el("rect",{class:"wl-hover-bg", x:x-gap/2, y:WM.top-2, width:bw+gap, height:plotH+16, rx:4});
+      col.appendChild(hoverBg);
+
+      var yCursor = yBase;
+      DATA.courses.forEach(function(c){
+        var v = r.byCourse[c.code];
+        if(!v) return;
+        var segH = (v/niceMax)*plotH;
+        var y = yCursor-segH;
+        col.appendChild(el("rect",{x:x,y:y,width:bw,height:Math.max(segH-1.5,0.6),rx:1.5,fill:"var("+COLORS[c.code].var+")"}));
+        yCursor = y-1.5;
+      });
+      if(r.total===0){
+        col.appendChild(el("line",{x1:x,y1:yBase-1,x2:x+bw,y2:yBase-1,stroke:"var(--line-strong)","stroke-width":1.5}));
+      }
+      if(r.hasExam){
+        var examMarks = [];
+        DATA.courses.forEach(function(c){
+          for(var k=0;k<r.examsByCourse[c.code];k++){ examMarks.push(c.code); }
+        });
+        var d8 = 3.6;
+        var spacing = Math.min(10, bw/examMarks.length);
+        var rowW = spacing*(examMarks.length-1);
+        var startX = x+bw/2 - rowW/2;
+        var dy = yCursor-7;
+        examMarks.forEach(function(code, mi){
+          var dx = startX + mi*spacing;
+          var pts=[dx,dy-d8, dx+d8,dy, dx,dy+d8, dx-d8,dy].join(" ");
+          col.appendChild(el("polygon",{points:pts, fill:"var("+COLORS[code].var+")", stroke:"var(--surface)","stroke-width":1}));
+        });
+      }
+      var isCurrentWk = todayISO>=r.wk.s && todayISO<=r.wk.e;
+      var lbl = el("text",{x:x+bw/2,y:H-6,"text-anchor":"middle",class:"wl-wknum"+(isCurrentWk?" is-current":"")});
+      lbl.textContent = r.wk.n;
+      col.appendChild(lbl);
+
+      var hit = el("rect",{class:"wl-hit", x:x-gap/2, y:0, width:bw+gap, height:H, fill:"transparent", tabindex:"0", role:"button"});
+      var parts = DATA.courses.filter(function(c){ return r.byCourse[c.code]>0; })
+        .map(function(c){ return c.code+" "+r.byCourse[c.code]; }).join(", ");
+      hit.setAttribute("aria-label","Week "+r.wk.n+": "+r.total+" due"+(r.hasExam?" (exam week)":"")+(parts?" — "+parts:""));
+      var selFn = function(wk){ return function(){ selectWeek(wk); document.getElementById("week-panel").scrollIntoView({block:"nearest"}); }; }(r.wk);
+      hit.addEventListener("click", selFn);
+      hit.addEventListener("keydown", function(fn){ return function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); fn(); } }; }(selFn));
+      hit.addEventListener("pointerenter", function(row){ return function(){ showWorkloadTip(hit, row); }; }(r));
+      hit.addEventListener("pointermove", function(){ positionTip(hit); });
+      hit.addEventListener("focus", function(row){ return function(){ showWorkloadTip(hit, row); }; }(r));
+      hit.addEventListener("pointerleave", hideTip);
+      hit.addEventListener("blur", hideTip);
+      col.appendChild(hit);
+
+      wlSvg.appendChild(col);
+    });
+  }
+
+  function showWorkloadTip(target, row){
+    tooltip.innerHTML = "";
+    var d = document.createElement("div"); d.className="tt-date";
+    d.textContent = "Week "+row.wk.n+" · "+fmtRange(row.wk.s,row.wk.e);
+    tooltip.appendChild(d);
+    var t = document.createElement("div"); t.className="tt-text";
+    t.textContent = row.total+" due"+(row.total===1?"":"s")+(row.hasExam?" · exam week":"");
+    tooltip.appendChild(t);
+    var chain = document.createElement("div"); chain.className="tt-chain";
+    DATA.courses.forEach(function(c){
+      var v = row.byCourse[c.code];
+      if(!v) return;
+      var ex = row.examsByCourse[c.code];
+      var r2 = document.createElement("div"); r2.className="tt-chain-row";
+      var l = document.createElement("span"); l.textContent = c.code+" — "+v+(ex?" ("+ex+" exam"+(ex>1?"s":"")+")":"");
+      r2.appendChild(l);
+      chain.appendChild(r2);
+    });
+    if(chain.children.length) tooltip.appendChild(chain);
+    tooltip.classList.add("is-visible");
+    positionTip(target);
+  }
+
+  renderWorkloadChart();
+
+  /* =================== week panel (inline, always visible) =================== */
+  var weekPanelTitle = document.getElementById("week-panel-title");
+  var weekPanelSub = document.getElementById("week-panel-sub");
+  var weekPanelBody = document.getElementById("week-panel-body");
+  var weekPrevBtn = document.getElementById("week-prev");
+  var weekNextBtn = document.getElementById("week-next");
+  var selectedWeek = null;
+
+  function weekOverlap(rec, wk){ return rec.first<=wk.e && rec.last>=wk.s; }
+
+  function weekNumFromURL(){
+    try{
+      var n = parseInt(new URLSearchParams(window.location.search).get("week"), 10);
+      return isNaN(n) ? null : n;
+    }catch(e){ return null; }
+  }
+  function weekByNum(n){
+    for(var i=0;i<DATA.weeks.length;i++){ if(DATA.weeks[i].n===n) return DATA.weeks[i]; }
+    return null;
+  }
+  function updateURL(wk){
+    try{
+      var url = new URL(window.location.href);
+      url.searchParams.set("week", wk.n);
+      window.history.replaceState(null, "", url);
+    }catch(e){}
+  }
+
+  function renderWeekPanel(wk){
+    weekPanelTitle.textContent = "Week "+wk.n;
+    var todayNote = (todayISO>=wk.s && todayISO<=wk.e) ? " · this week" : "";
+    weekPanelSub.textContent = fmtRange(wk.s, wk.e) + todayNote;
+
+    var byCourse = {};
+    Object.keys(RECORDS).forEach(function(key){
+      var rec = RECORDS[key];
+      if(weekOverlap(rec, wk)){
+        (byCourse[rec.course] = byCourse[rec.course] || []).push(rec);
+      }
+    });
+
+    weekPanelBody.innerHTML = "";
+    var courseCodes = DATA.courses.filter(function(c){return ACTIVE[c.code];}).map(function(c){return c.code;});
+    var any = false;
+    courseCodes.forEach(function(code){
+      var recs = byCourse[code];
+      if(!recs || !recs.length) return;
+      any = true;
+      recs.sort(function(a,b){ return a.last<b.last?-1:a.last>b.last?1:0; });
+      var course = DATA.courses.filter(function(c){return c.code===code;})[0];
+
+      var sec = document.createElement("div"); sec.className="drawer-course";
+      var head = document.createElement("div"); head.className="drawer-course-head";
+      head.style.setProperty("--course","var("+COLORS[code].var+")");
+      var dot = document.createElement("span"); dot.className="dot";
+      var htext = document.createElement("span"); htext.textContent = code+" — "+course.name;
+      head.appendChild(dot); head.appendChild(htext);
+      sec.appendChild(head);
+
+      var grid = document.createElement("div"); grid.className="drawer-tasks";
+      recs.forEach(function(rec){
+        grid.appendChild(renderTask(rec));
+      });
+      sec.appendChild(grid);
+      weekPanelBody.appendChild(sec);
+    });
+
+    if(!any){
+      var empty = document.createElement("div"); empty.className="drawer-empty";
+      empty.textContent = "No assignments, quizzes, or milestones land in this week.";
+      weekPanelBody.appendChild(empty);
+    }
+  }
+
+  function renderTask(rec){
+    var hasStart = rec.items.some(function(it){ return it.t === "start" || it.t === "out"; });
+    var wrap = document.createElement("div"); wrap.className = "task"+(STATE.completed[rec.key]?" is-done":"");
+    var row = document.createElement("div"); row.className="task-row";
+
+    var cb = document.createElement("input"); cb.type="checkbox"; cb.checked = !!STATE.completed[rec.key];
+    cb.addEventListener("change", function(){
+      STATE.completed[rec.key] = cb.checked;
+      wrap.classList.toggle("is-done", cb.checked);
+      syncDueMarks(rec.key);
+      persist();
+    });
+
+    var main = document.createElement("div"); main.className="task-main";
+    var label = document.createElement("span"); label.className="task-label"; label.textContent = rec.label;
+    var meta = document.createElement("span"); meta.className="task-meta";
+    var days = Math.round((parseISO(rec.last)-parseISO(rec.first))/DAY_MS);
+    if(rec.items.length>1){
+      meta.textContent = roleLabel(rec.items[0].t)+" "+fmtDate(rec.first)+" → "+roleLabel(rec.items[rec.items.length-1].t)+" "+fmtDate(rec.last)+(days>0?" · "+days+"d":"");
+    } else {
+      meta.textContent = roleLabel(rec.items[0].t)+" "+fmtDate(rec.items[0].d);
+    }
+    main.appendChild(label); main.appendChild(meta);
+    if(!hasStart){
+      var badge = document.createElement("span"); badge.className="no-start-badge"; badge.textContent="no start date";
+      badge.title = "No release or window-open date on record for this one — only a due date is known.";
+      main.appendChild(badge);
+    }
+
+    var hasNote = !!(STATE.notes[rec.key] && STATE.notes[rec.key].trim());
+    var noteBtn = document.createElement("button"); noteBtn.type="button";
+    noteBtn.className = "note-toggle"+(hasNote?" has-note":"");
+    noteBtn.setAttribute("aria-label", hasNote ? "Edit note" : "Add note");
+    noteBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8.6 1.9L11.1 4.4L4.3 11.2L1.4 11.6L1.8 8.7L8.6 1.9Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+
+    var note = document.createElement("textarea"); note.className="task-note"; note.placeholder="Add a note…";
+    note.value = STATE.notes[rec.key] || "";
+    note.hidden = !hasNote;
+    var flag = document.createElement("div"); flag.className="save-flag"; flag.textContent="Saved";
+    var noteTimer;
+    note.addEventListener("input", function(){
+      clearTimeout(noteTimer);
+      noteTimer = setTimeout(function(){
+        STATE.notes[rec.key] = note.value;
+        noteBtn.classList.toggle("has-note", !!note.value.trim());
+        persist();
+        flag.classList.add("is-visible");
+        setTimeout(function(){ flag.classList.remove("is-visible"); }, 1200);
+      }, 700);
+    });
+    noteBtn.addEventListener("click", function(){
+      note.hidden = !note.hidden;
+      if(!note.hidden) note.focus();
+    });
+
+    row.appendChild(cb); row.appendChild(main); row.appendChild(noteBtn);
+    wrap.appendChild(row); wrap.appendChild(note); wrap.appendChild(flag);
+    return wrap;
+  }
+
+  function selectWeek(wk){
+    if(selectedWeek && weekBandsByNum[selectedWeek.n]){
+      weekBandsByNum[selectedWeek.n].classList.remove("is-selected");
+    }
+    if(selectedWeek && workloadBandsByNum[selectedWeek.n]){
+      workloadBandsByNum[selectedWeek.n].classList.remove("is-selected");
+    }
+    selectedWeek = wk;
+    if(weekBandsByNum[wk.n]) weekBandsByNum[wk.n].classList.add("is-selected");
+    if(workloadBandsByNum[wk.n]) workloadBandsByNum[wk.n].classList.add("is-selected");
+    renderWeekPanel(wk);
+    updateURL(wk);
+    weekPrevBtn.disabled = (wk.n<=DATA.weeks[0].n);
+    weekNextBtn.disabled = (wk.n>=DATA.weeks[DATA.weeks.length-1].n);
+  }
+  weekPrevBtn.addEventListener("click", function(){
+    var wk = weekByNum(selectedWeek.n-1);
+    if(wk){ selectWeek(wk); weekPanelTitle.scrollIntoView({block:"nearest"}); }
+  });
+  weekNextBtn.addEventListener("click", function(){
+    var wk = weekByNum(selectedWeek.n+1);
+    if(wk){ selectWeek(wk); weekPanelTitle.scrollIntoView({block:"nearest"}); }
+  });
+
+  (function(){
+    var initial = weekByNum(weekNumFromURL()) || currentWeek || DATA.weeks[0];
+    selectWeek(initial);
+  })();
+
+})();
+</script>
+</body>
+</html>
