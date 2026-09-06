@@ -36,7 +36,7 @@ A personal semester dashboard purpose-built for this exact course load (15-440, 
 - Week panel: click a week to see its tasks with checkboxes and free-text notes.
 - Course policy cards: late-day policy, grading breakdown, and AI-use policy per course, each sourced/dated.
 - Plain-list fallback view (sortable-by-eye table) for screen-reader/accessibility use.
-- A "copy folder path" affordance per course, since a browser page can't open Finder directly — pastes into Finder's Go to Folder.
+- A folder button per course opens that course's folder directly in Finder via `server.py`'s `/api/open-folder` endpoint (`open <path>`); without the server running it falls back to copying the path so it can be pasted into Finder's Go to Folder.
 - Checkbox/note state persists to a local SQLite file (`state.db`) via `server.py`'s `/api/state` endpoint, with `localStorage` as an instant-load cache and offline/no-server fallback. Nothing leaves the machine — no analytics, no tracking, no external network calls.
 
 ## Evidence on Hand
