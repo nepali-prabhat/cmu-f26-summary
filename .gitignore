@@ -2,3 +2,5 @@
 .cursor
 .impeccable
 __pycache__
+server.lo
+.DS_Store

@@ -16,11 +16,11 @@ A single user: the site owner, a CMU student, planning their own Fall 2026 semes
 
 ## Product Purpose
 
-Give the owner one page that answers "what's happening and what's due, across all four of my courses, this semester" — merging four separate course schedules (lectures, releases, due dates, exams) into a single visual timeline, a per-week workload view, and a checkable task list with personal notes, so they don't have to cross-reference four different Canvas pages/syllabi.
+Give the owner one page that answers "what's happening and what's due, across all three of my courses, this semester" — merging three separate course schedules (lectures, releases, due dates, exams) into a single visual timeline, a per-week workload view, and a checkable task list with personal notes, so they don't have to cross-reference three different Canvas pages/syllabi.
 
 ## Positioning
 
-A personal semester dashboard purpose-built for this exact course load (15-440, 14-642, 15-618, 14-757), not a generic student planner — the data model, policy text, and folder paths are specific to these four syllabi and this student's own file layout.
+A personal semester dashboard purpose-built for this exact course load (15-440, 14-642, 14-757), not a generic student planner — the data model, policy text, and folder paths are specific to these three syllabi and this student's own file layout.
 
 ## Operating Context
 
@@ -30,8 +30,8 @@ A personal semester dashboard purpose-built for this exact course load (15-440, 
 
 ## Capabilities and Constraints
 
-- Four courses currently tracked, each with a color identity (`--c-ds`, `--c-es`, `--c-pa`, `--c-ml`) already established in the visual system: `15-440` Distributed Systems, `14-642` Embedded Systems, `15-618` Parallel Computer Architecture, `14-757` ML with Adversaries in Mind.
-- Day-by-day SVG timeline (classes, releases, due dates, exams, events) with course/type toggle filters and a "this week" indicator.
+- Three courses currently tracked, each with a color identity (`--c-ds`, `--c-es`, `--c-ml`) already established in the visual system: `15-440` Distributed Systems, `14-642` Embedded Systems, `14-757` ML with Adversaries in Mind.
+- Day-by-day SVG timeline (classes, releases, due dates, exams, events) with a "this week" indicator.
 - Weekly workload chart (stacked bar of due dates + exams per week, diamond markers for exams).
 - Week panel: click a week to see its tasks with checkboxes and free-text notes.
 - Course policy cards: late-day policy, grading breakdown, and AI-use policy per course, each sourced/dated.
@@ -41,7 +41,7 @@ A personal semester dashboard purpose-built for this exact course load (15-440, 
 
 ## Evidence on Hand
 
-- Full Fall 2026 schedule data for all four courses is already embedded in `index.html`'s `viz-data` JSON (dates, lecture topics, assignment names/points, exam dates) — treat this as real, current data, not a placeholder to replace.
+- Full Fall 2026 schedule data for all three courses is already embedded in `index.html`'s `viz-data` JSON (dates, lecture topics, assignment names/points, exam dates) — treat this as real, current data, not a placeholder to replace.
 - Course policy text (late days, grading, AI policy) is transcribed from each course's actual syllabus, with source/date noted per card (e.g. "PDF syllabus, uploaded Aug 25, 2026"). Do not invent or alter policy content — only the presentation.
 - Semester bounds: Aug 24 – Dec 13, 2026, including named breaks (Labor Day, Fall Break, Democracy Day, Thanksgiving).
 

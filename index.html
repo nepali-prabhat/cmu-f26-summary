@@ -5,510 +5,1186 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Fall 2026 Timeline</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>
+/* set before first paint so the page never flashes the wrong ground.
+   Mocha is the theme, so dark is the default rather than the OS preference —
+   the button switches to the warm light flavour and that choice sticks. */
+(function(){
+  var KEY = "fall2026-theme-ctp2", t = null;
+  try{ t = localStorage.getItem(KEY); }catch(e){}
+  if(t !== "light" && t !== "dark") t = "dark";
+  document.documentElement.setAttribute("data-theme", t);
+  window.__setTheme = function(next){
+    document.documentElement.setAttribute("data-theme", next);
+    try{ localStorage.setItem(KEY, next); }catch(e){}
+  };
+})();
+</script>
 <style>
-  :root{
-    --bg:#eef0e8;
-    --surface:#ffffff;
-    --surface-2:#e2e6d8;
-    --surface-3:#d5dac7;
-    --ink:#1e2319;
-    --ink-soft:#575f4f;
-    --ink-faint:#696e5f;
-    --line:#d3d8c5;
-    --line-strong:#8c956f;
-    --break-fill: rgba(87,95,79,0.14);
-    --weekend-fill: rgba(87,95,79,0.05);
-    --this-week: rgba(30,35,25,0.07);
+/* ══════════════════════════════════════════════════════════════════════════
+   Classical — the design system's tokens and component classes.
+   Retune the look from the :root variables at the top.
+   ══════════════════════════════════════════════════════════════════════ */
+/* Classical — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
 
-    --c-ds:#2876d2;
-    --c-es:#ae3e11;
-    --c-pa:#15865e;
-    --c-ml:#9e6c00;
+:root {
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-text: #201f1d;
+  --color-accent: #b68235;
+  --color-accent-2: #ac803e;
+  --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
 
-    --status-due:#cd4a18;
-    --status-exam:#d03b3b;
-    --pair-line:#1e2319;
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f8f4f4;
+  --color-neutral-200: #eae7e7;
+  --color-neutral-300: #d7d3d3;
+  --color-neutral-400: #bab6b6;
+  --color-neutral-500: #9b9797;
+  --color-neutral-600: #7d7979;
+  --color-neutral-700: #605d5d;
+  --color-neutral-800: #444141;
+  --color-neutral-900: #2d2b2b;
 
-    --shadow: 0 1px 2px rgba(30,35,25,0.06), 0 8px 24px -10px rgba(30,35,25,0.18);
-    --shadow-lg: 0 12px 40px -12px rgba(20,25,15,0.35);
+  --color-accent-100: #fff3e4;
+  --color-accent-200: #ffe3bf;
+  --color-accent-300: #facb8d;
+  --color-accent-400: #e1ad66;
+  --color-accent-500: #c28d41;
+  --color-accent-600: #a06f24;
+  --color-accent-700: #7d5411;
+  --color-accent-800: #5a3b0a;
+  --color-accent-900: #3a270d;
+
+  --color-accent-2-100: #fff3e4;
+  --color-accent-2-200: #ffe3be;
+  --color-accent-2-300: #f5cd96;
+  --color-accent-2-400: #dbaf70;
+  --color-accent-2-500: #bc8f4e;
+  --color-accent-2-600: #9b7232;
+  --color-accent-2-700: #79561f;
+  --color-accent-2-800: #573d14;
+  --color-accent-2-900: #382810;
+
+  --font-heading: "Cormorant Garamond", system-ui, sans-serif;
+  --font-heading-weight: 600; /* review round 3: bold retired — semibold is the
+     interface headings' ceiling (they need the weight at small sizes); display
+     text goes lighter still, to the normal cut (see the deck) */
+  --font-body: "Lora", system-ui, sans-serif;
+
+  --space-1: 4.6px;
+  --space-2: 9.2px;
+  --space-3: 13.8px;
+  --space-4: 18.4px;
+  --space-6: 27.6px;
+  --space-8: 36.8px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+
+  /* Elevation — derived from the ground: soft ink-tinted shadows on a
+     light theme, a hairline edge + ambient darkness on a dark one. */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2d2b2b 22%, transparent);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.plate{filter:sepia(0.22) saturate(0.82) contrast(1.05);box-sizing:border-box;
+  border:6px solid var(--color-surface);outline:1px solid var(--color-divider)}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — built with the tokens above. Plain CSS
+   on plain HTML: no JavaScript, no build step. Each class is documented in
+   readme.md and demonstrated in foundations/ and components/.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; }
+h6 { letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* — rules — */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
+     the pair sits side by side in sign-up rows */
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: transparent;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+.seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md); background: transparent; border: 1px solid var(--color-divider);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-divider);
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--color-divider);
+}
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); box-shadow: var(--shadow-lg); border: 1px solid var(--color-divider);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Timeline skin — this page's components, built on the tokens above.
+   ══════════════════════════════════════════════════════════════════════ */
+/* Fall 2026 timeline — component skin on the Classical design system.
+   Layout lives in each page's own <style>; everything here is shared. */
+
+:root{
+  --surface: #f8f7f6;
+  --surface-2: #eceae8;
+  --surface-3: #e0ddda;
+  --ink: var(--color-text);
+  --ink-soft: #4a4746;
+  --ink-faint: #6a6664;
+  --line: color-mix(in srgb, var(--color-text) 13%, transparent);
+  --line-strong: color-mix(in srgb, var(--color-text) 30%, transparent);
+  --break-fill: color-mix(in srgb, var(--color-text) 5%, transparent);
+  --weekend-fill: color-mix(in srgb, var(--color-text) 2.5%, transparent);
+  --this-week: color-mix(in srgb, var(--color-accent) 15%, transparent);
+
+  --c-ds: oklch(0.47 0.085 255);
+  --c-es: oklch(0.47 0.09 32);
+  --c-ml: oklch(0.47 0.085 322);
+
+  --status-due: var(--color-text);
+  --status-exam: var(--color-accent-600);
+  --pair-line: var(--color-text);
+}
+:root[data-theme="dark"]{
+  --color-bg: #1a1918;
+  --color-surface: #262322;
+  --color-text: #ece7e2;
+  --color-accent: #d3a765;
+  --color-divider: color-mix(in srgb, #ece7e2 18%, transparent);
+  --color-accent-600: #d3a765;
+  --color-accent-700: #e0bd8c;
+  --surface: #211f1e;
+  --surface-2: #2b2827;
+  --surface-3: #383433;
+  --ink-soft: #c9c3bd;
+  --ink-faint: #a29c96;
+  --line: color-mix(in srgb, #ece7e2 14%, transparent);
+  --line-strong: color-mix(in srgb, #ece7e2 30%, transparent);
+  --break-fill: color-mix(in srgb, #ece7e2 7%, transparent);
+  --weekend-fill: color-mix(in srgb, #ece7e2 3.5%, transparent);
+  --this-week: color-mix(in srgb, #d3a765 20%, transparent);
+  --c-ds: oklch(0.76 0.09 255);
+  --c-es: oklch(0.75 0.1 40);
+  --c-ml: oklch(0.76 0.085 322);
+  --status-due: #ece7e2;
+  --status-exam: #d3a765;
+  --pair-line: #ece7e2;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 3px 12px rgba(0,0,0,0.45);
+  --shadow-lg: 0 14px 38px rgba(0,0,0,0.55);
+}
+
+*{ box-sizing:border-box; }
+h1,h2,h3,h4,h5,h6,.wk-row,.chip,.btn-line,.task-label,.pol-tab,th{ font-variant-numeric:lining-nums tabular-nums; }
+body{ margin:0; background:var(--color-bg); color:var(--color-text);
+  font-family:var(--font-body); font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased; }
+@media (prefers-reduced-motion: reduce){ *{ animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+a{ color:var(--color-accent-700); text-underline-offset:3px; }
+a:hover{ color:var(--color-accent-600); }
+button{ font-family:inherit; color:inherit; }
+:focus{ outline:none; }
+:focus-visible{ outline:2px solid var(--color-accent); outline-offset:2px; }
+::selection{ background:color-mix(in srgb, var(--color-accent) 30%, transparent); }
+::-webkit-scrollbar{ width:9px; height:9px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:5px; }
+
+/* ── shared editorial atoms ── */
+.kicker{ font-family:var(--font-heading); font-weight:600; font-size:11px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint);
+  font-feature-settings:"tnum","lnum"; }
+.num{ font-feature-settings:"tnum","lnum"; }
+.rule{ height:1px; background:var(--line); border:0; margin:0; }
+h1,h2,h3,h4{ font-family:var(--font-heading); font-weight:600; margin:0; letter-spacing:-.01em; }
+.panel{ border:1px solid var(--line); border-radius:var(--radius-md); background:var(--surface); }
+.panel-head{ display:flex; align-items:center; gap:var(--space-3); flex-wrap:wrap;
+  padding:var(--space-3) var(--space-4); border-bottom:1px solid var(--line); }
+.panel-head h2{ font-size:19px; }
+
+/* ── buttons / chips ── */
+.btn-line{ display:inline-flex; align-items:center; gap:6px; background:transparent;
+  border:1px solid var(--line-strong); border-radius:var(--radius-md);
+  padding:6px 11px; font-family:var(--font-heading); font-weight:600; font-size:13px;
+  cursor:pointer; transition:background .15s ease, border-color .15s ease; }
+.btn-line:hover{ background:color-mix(in srgb, var(--color-accent) 12%, transparent); border-color:var(--color-accent); }
+.btn-line:active{ background:color-mix(in srgb, var(--color-accent) 22%, transparent); }
+.btn-line:disabled{ opacity:.45; cursor:default; }
+
+/* ── week index (sidebar) ── */
+#week-list{ display:flex; flex-direction:column; }
+.wk-row{ display:grid; grid-template-columns:22px 1fr 30px; align-items:center; gap:9px;
+  background:transparent; border:0; border-bottom:1px solid var(--line);
+  padding:6px 3px; cursor:pointer; text-align:left; transition:background .12s ease; }
+.wk-row:hover{ background:color-mix(in srgb, var(--color-accent) 9%, transparent); }
+.wk-row.is-selected{ background:color-mix(in srgb, var(--color-accent) 16%, transparent);
+  box-shadow:inset 2px 0 0 var(--color-accent); }
+.wk-row-num{ font-family:var(--font-heading); font-weight:600; font-size:14px;
+  font-feature-settings:"tnum","lnum"; color:var(--ink-faint); }
+.wk-row.is-selected .wk-row-num, .wk-row.is-current .wk-row-num{ color:var(--color-text); }
+.wk-row.is-current .wk-row-num::after{ content:"·"; color:var(--color-accent); margin-left:2px; }
+.wk-row-mid{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+.wk-row-range{ font-size:11.5px; color:var(--ink-faint); font-feature-settings:"tnum","lnum"; white-space:nowrap; }
+.wk-row.is-selected .wk-row-range{ color:var(--ink-soft); }
+.wk-row-bar{ display:flex; gap:1.5px; height:4px; }
+.wk-row-seg{ display:block; min-width:2px; border-radius:1px; }
+.wk-row-pad{ display:block; }
+.wk-row-count{ font-size:11px; font-feature-settings:"tnum","lnum"; color:var(--ink-faint);
+  text-align:right; justify-self:end; display:flex; align-items:center; }
+.wk-row-count.is-complete{ color:var(--color-accent-700); }
+
+/* ── the timeline chart ── */
+.chart-shell{ display:flex; align-items:stretch; border:1px solid var(--line);
+  border-radius:var(--radius-md); background:var(--surface); overflow:hidden; }
+.lane-labels{ flex:none; width:158px; border-right:1px solid var(--line-strong); position:relative; z-index:2; background:var(--surface); }
+.lane-row{ position:relative; display:flex; flex-direction:column; justify-content:center; gap:6px;
+  padding:0 var(--space-3); border-bottom:1px solid var(--line); }
+.lane-row:last-child{ border-bottom:none; }
+.lr-head{ display:flex; align-items:center; justify-content:space-between; gap:4px; }
+.lr-id{ display:flex; align-items:center; gap:7px; min-width:0; }
+.lr-dot{ width:7px; height:7px; border-radius:50%; background:var(--course); flex:none; }
+.lr-code{ font-family:var(--font-heading); font-weight:600; font-size:15px;
+  font-feature-settings:"tnum","lnum"; color:var(--course); white-space:nowrap; letter-spacing:.01em; }
+.lr-name{ font-size:11.5px; color:var(--ink-faint); line-height:1.35;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.folder-btn{ flex:none; width:22px; height:22px; display:flex; align-items:center; justify-content:center;
+  background:transparent; border:none; border-radius:3px; cursor:pointer; color:var(--ink-faint);
+  padding:0; opacity:0; transition:opacity .15s ease, color .15s ease; }
+.lane-row:hover .folder-btn{ opacity:.7; }
+.folder-btn:hover, .folder-btn:focus-visible{ opacity:1; color:var(--course); }
+.folder-btn svg{ display:block; }
+.lr-progress{ align-self:flex-start; display:inline-flex; align-items:center; gap:4px;
+  font-size:10.5px; font-feature-settings:"tnum","lnum"; padding:1px 7px; border-radius:999px;
+  border:1px solid var(--line-strong); color:var(--ink-soft); background:transparent; cursor:pointer; }
+.lr-progress:hover{ border-color:var(--course); color:var(--color-text); }
+.lr-progress:empty{ display:none; }
+.lr-progress.is-complete{ border-color:var(--color-accent); color:var(--color-accent-700); }
+.lr-progress svg{ display:block; }
+.lr-progress.is-pop{ animation:task-confirm-check .34s cubic-bezier(.34,1.56,.64,1); }
+.chart-scroll{ flex:1; min-width:0; overflow-x:auto; overflow-y:hidden; }
+.chart-scroll svg{ display:block; height:auto; }
+
+.week-band{ cursor:pointer; }
+.week-band rect{ transition:fill .12s ease; }
+.week-band:hover rect.wk-hit, .week-band:focus rect.wk-hit{ fill:color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.week-band.is-selected rect.wk-hit{ fill:var(--this-week); stroke:var(--color-accent); stroke-width:1px; }
+.week-col-hit{ fill:transparent; cursor:pointer; transition:fill .12s ease; }
+.week-col-hit:hover{ fill:color-mix(in srgb, var(--color-accent) 7%, transparent); }
+.week-label{ font-family:var(--font-heading); font-weight:600; font-size:12.5px;
+  font-feature-settings:"tnum","lnum"; fill:var(--color-text); pointer-events:none; }
+.week-range{ font-family:var(--font-body); font-size:10px; font-feature-settings:"tnum","lnum";
+  fill:var(--ink-faint); pointer-events:none; }
+.week-count{ font-size:9.5px; fill:var(--ink-soft); pointer-events:none; }
+.dow-label{ font-family:var(--font-heading); font-weight:600; font-size:9.5px; letter-spacing:.08em;
+  fill:var(--ink-faint); text-anchor:middle; }
+.day-num{ font-family:var(--font-body); font-size:10.5px; font-feature-settings:"tnum","lnum";
+  fill:var(--ink-faint); text-anchor:middle; }
+.day-num.is-today{ fill:var(--color-text); font-weight:600; }
+.break-label{ font-family:var(--font-heading); font-weight:600; font-size:10.5px;
+  letter-spacing:.1em; text-transform:uppercase; fill:var(--ink-faint); }
+.today-label{ font-family:var(--font-heading); font-weight:600; font-size:9.5px;
+  letter-spacing:.1em; fill:var(--color-bg); }
+.lane-code{ font-family:var(--font-heading); font-weight:600; font-size:13px; }
+.lane-name{ font-size:10.5px; fill:var(--ink-faint); }
+
+.mark{ cursor:pointer; }
+.mark:focus{ outline:none; }
+.mk-shape{ transform-origin:center; transform-box:fill-box; transition:transform .1s ease, opacity .12s ease; }
+.mark:hover .mk-shape, .mark:focus .mk-shape, .mark.is-paired .mk-shape, .mark.is-pinned .mk-shape{ transform:scale(1.3); }
+.mark.is-pinned .mk-shape{ filter:drop-shadow(0 0 2px var(--color-accent)) drop-shadow(0 0 2px var(--color-accent)); }
+.mark.is-dimmed .mk-shape, .mark.is-dimmed line{ opacity:.22; }
+.mk-check{ pointer-events:none; stroke-dasharray:1px; stroke-dashoffset:1px; opacity:0;
+  transition:stroke-dashoffset .34s cubic-bezier(.2,.8,.2,1), opacity .1s linear; }
+.mark.is-complete .mk-check{ stroke-dashoffset:0px; opacity:1; }
+.mark.mk-no-start .mk-shape{ transform:scale(1.12); }
+.mark.mk-no-start:hover .mk-shape, .mark.mk-no-start:focus .mk-shape, .mark.mk-no-start.is-paired .mk-shape{ transform:scale(1.4); }
+.viz.hide-class .mk-class, .viz.hide-start .mk-start, .viz.hide-out .mk-out,
+.viz.hide-due .mk-due, .viz.hide-exam .mk-exam, .viz.hide-event .mk-event{ display:none; }
+
+/* ── tooltip / toast / popup ── */
+.tooltip{ position:fixed; z-index:80; pointer-events:none; max-width:290px;
+  background:var(--color-bg); color:var(--color-text); border:1px solid var(--line-strong);
+  font-size:13px; line-height:1.45; padding:var(--space-2) var(--space-3);
+  border-radius:var(--radius-md); box-shadow:var(--shadow-lg); opacity:0;
+  transform:translateY(4px); transition:opacity .12s ease, transform .12s ease; }
+.tooltip.is-visible{ opacity:1; transform:translateY(0); }
+.tooltip .tt-date{ font-family:var(--font-heading); font-weight:600; font-size:10.5px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:3px; }
+.tooltip .tt-text{ font-weight:500; }
+.tooltip .tt-progress{ font-size:12px; color:var(--ink-soft); font-weight:400; margin-top:2px; }
+.tooltip .tt-course{ font-size:11px; color:var(--ink-faint); margin-top:5px; font-feature-settings:"tnum","lnum"; }
+.tooltip .tt-nostart{ font-size:11.5px; color:var(--ink-soft); margin-top:5px; }
+.tooltip .tt-chain{ margin-top:7px; padding-top:7px; border-top:1px solid var(--line); }
+.tooltip .tt-chain-row{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--ink-soft); padding:1px 0; }
+.tooltip .tt-chain-row.is-self{ color:var(--color-text); font-weight:600; }
+.tooltip .tt-span{ margin-top:5px; font-size:12px; font-weight:600; color:var(--color-accent-700); }
+.toast{ position:fixed; z-index:90; left:50%; bottom:26px; transform:translate(-50%,12px);
+  background:var(--color-text); color:var(--color-bg); font-size:13px;
+  padding:8px 14px; border-radius:var(--radius-md); box-shadow:var(--shadow-lg);
+  opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; }
+.toast.is-visible{ opacity:1; transform:translate(-50%,0); }
+.count-popup{ position:fixed; z-index:85; background:var(--color-bg); border:1px solid var(--line-strong);
+  border-radius:var(--radius-md); box-shadow:var(--shadow-lg); padding:4px 0; min-width:196px; max-width:280px; }
+.count-popup-head{ padding:4px 12px 6px; font-family:var(--font-heading); font-weight:600;
+  font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);
+  border-bottom:1px solid var(--line); margin-bottom:3px; font-feature-settings:"tnum","lnum"; }
+.count-popup-row{ display:flex; align-items:center; gap:8px; padding:4px 12px; font-size:13px; }
+.count-popup-row .icon{ flex:none; width:12px; height:12px; display:flex; align-items:center; }
+.count-popup-row .icon.icon-pct{ width:auto; font-size:10px; font-feature-settings:"tnum","lnum"; }
+.count-popup-row.is-done .label{ text-decoration:line-through; color:var(--ink-faint); }
+.count-popup-empty{ padding:5px 12px; font-size:12.5px; color:var(--ink-faint); }
+
+/* ── week panel: the week's tasks ── */
+.week-display{ display:flex; align-items:baseline; gap:var(--space-3); }
+.week-display h2{ font-size:34px; font-weight:400; letter-spacing:-.02em; font-feature-settings:"tnum","lnum"; }
+.week-panel-sub{ font-size:12.5px; color:var(--ink-faint); font-feature-settings:"tnum","lnum"; }
+.week-summary{ margin-left:auto; display:flex; align-items:center; gap:var(--space-2); flex-wrap:wrap; }
+.week-summary-badge{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px;
+  font-feature-settings:"tnum","lnum"; padding:2px 9px; border-radius:999px;
+  border:1px solid var(--line-strong); color:var(--ink-soft); white-space:nowrap; }
+.week-summary-label{ font-family:var(--font-heading); font-weight:600; font-size:10px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); }
+.week-summary-badge.is-complete{ border-color:var(--color-accent); color:var(--color-accent-700); }
+.week-summary-badge svg{ display:block; }
+.week-nav{ display:flex; gap:5px; }
+.week-nav button{ background:transparent; border:1px solid var(--line-strong); border-radius:var(--radius-md);
+  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:var(--ink-soft); font-size:15px; line-height:1; }
+.week-nav button:hover:not(:disabled){ border-color:var(--color-accent); color:var(--color-text);
+  background:color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.week-nav button:disabled{ opacity:.3; cursor:default; }
+.drawer-empty{ color:var(--ink-faint); font-size:14px; padding:var(--space-6) 0; text-align:center; }
+.drawer-course{ padding:var(--space-3) 0; border-top:1px solid var(--line); }
+.drawer-course:first-child{ border-top:0; }
+.drawer-course-head{ display:flex; align-items:center; gap:7px; font-family:var(--font-heading);
+  font-weight:600; font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--course); margin-bottom:var(--space-2); font-feature-settings:"tnum","lnum"; }
+.drawer-course-head .dot{ width:6px; height:6px; border-radius:50%; background:var(--course); flex:none; }
+.drawer-tasks{ display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr)); gap:0 var(--space-6); }
+.task{ border-bottom:1px solid var(--line); padding:var(--space-2) 0; }
+.task-row{ display:flex; align-items:center; gap:9px; }
+.task-check{ flex:none; width:15px; height:15px; margin:0; accent-color:var(--course, var(--color-accent)); cursor:pointer; }
+.task-main{ flex:1; min-width:0; display:flex; align-items:baseline; gap:7px; flex-wrap:wrap; }
+.task-label{ font-family:var(--font-heading); font-weight:600; font-size:15.5px; line-height:1.25;
+  font-feature-settings:"tnum","lnum"; }
+.task.is-done .task-label{ text-decoration:line-through; color:var(--ink-faint); }
+.task.is-done .task-meta{ color:var(--ink-faint); opacity:.75; }
+.task-meta{ font-size:11px; color:var(--ink-faint); font-feature-settings:"tnum","lnum"; }
+.no-start-badge, .task-status-badge, .task-due-badge{ font-family:var(--font-heading); font-weight:600;
+  font-size:10px; letter-spacing:.1em; text-transform:uppercase; border-radius:2px;
+  padding:1px 5px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
+.no-start-badge{ color:var(--ink-faint); border:1px solid var(--line-strong); }
+.task-status-badge{ color:var(--ink-soft); border:1px solid var(--line); }
+.task-status-icon{ flex:none; display:block; }
+.task-status-badge.status-upcoming{ color:var(--ink-faint); border-style:dashed; }
+.task-status-badge.status-started{ border-color:var(--course, var(--line-strong)); }
+.task-status-badge.status-started .task-status-icon{ color:var(--course, var(--ink-soft)); }
+.task-status-badge.status-carried .task-status-icon{ color:var(--ink-faint); }
+.task-due-badge{ color:var(--color-bg); background:var(--color-text); }
+.task-progress-row{ display:flex; align-items:center; gap:9px; margin-top:5px; padding-left:24px; }
+.task-progress{ -webkit-appearance:none; appearance:none; flex:1; min-width:0; height:14px;
+  margin:0; background:transparent; cursor:pointer; --fill:0%; }
+.task-progress::-webkit-slider-runnable-track{ height:3px; border-radius:2px;
+  background:linear-gradient(to right, var(--course, var(--color-accent)) var(--fill), var(--line-strong) var(--fill)); transition:background .18s ease; }
+.task-progress::-moz-range-track{ height:3px; border-radius:2px; background:var(--line); }
+.task-progress::-moz-range-progress{ height:3px; border-radius:2px; background:var(--course, var(--color-accent)); }
+.task-progress::-webkit-slider-thumb{ -webkit-appearance:none; appearance:none; width:11px; height:11px;
+  margin-top:-4px; border-radius:50%; background:var(--surface); border:1.5px solid var(--course, var(--color-accent)); cursor:pointer; }
+.task-progress::-moz-range-thumb{ width:11px; height:11px; border-radius:50%; background:var(--surface);
+  border:1.5px solid var(--course, var(--color-accent)); cursor:pointer; }
+.task-progress-pct{ flex:none; min-width:1.6em; font-size:10.5px; color:var(--ink-faint);
+  font-feature-settings:"tnum","lnum"; display:flex; align-items:center; }
+.task.is-done .task-progress-pct{ color:var(--color-accent-700); }
+.task-completed-row{ display:flex; align-items:center; gap:5px; margin-top:3px; padding-left:24px;
+  font-size:10.5px; color:var(--ink-faint); font-feature-settings:"tnum","lnum"; }
+.task-completed-row[hidden]{ display:none; }
+.task-completed-date{ font:inherit; color:inherit; background:transparent; border:none;
+  border-bottom:1px dashed var(--line-strong); padding:0 1px; cursor:pointer; }
+.task-completed-date:hover{ color:var(--color-text); }
+:root[data-theme="dark"] .task-completed-date::-webkit-calendar-picker-indicator{ filter:invert(1); }
+.note-toggle{ flex:none; width:22px; height:22px; border-radius:3px; border:none; background:transparent;
+  color:var(--ink-faint); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.note-toggle:hover{ background:var(--surface-2); color:var(--color-text); }
+.note-toggle.has-note{ color:var(--color-accent-700); }
+.task-note{ width:calc(100% - 24px); margin:5px 0 5px 24px; resize:vertical; min-height:30px;
+  font:inherit; font-size:12.5px; padding:5px 7px; border-radius:var(--radius-md);
+  border:1px solid var(--line); background:transparent; color:var(--color-text); }
+.task-note[hidden]{ display:none; }
+.task-note:focus{ border-color:var(--color-accent); }
+.save-flag{ font-size:10px; color:var(--ink-faint); opacity:0; transition:opacity .3s ease; padding-left:24px; }
+.save-flag.is-visible{ opacity:1; }
+@keyframes task-confirm-bg{ 0%{ background:color-mix(in srgb, var(--course, var(--color-accent)) 22%, transparent); } 100%{ background:transparent; } }
+@keyframes task-confirm-check{ 0%{ transform:scale(1); } 45%{ transform:scale(1.3); } 100%{ transform:scale(1); } }
+.task.is-confirming{ animation:task-confirm-bg .8s ease-out; }
+.task.is-confirming .task-progress-pct{ animation:task-confirm-check .3s cubic-bezier(.34,1.56,.64,1); }
+
+/* ── workload chart ── */
+.workload-body svg{ display:block; width:100%; height:auto; }
+.wl-axis, .wl-wknum{ font-family:var(--font-body); font-size:9px; font-feature-settings:"tnum","lnum"; fill:var(--ink-faint); }
+.wl-wknum.is-current{ fill:var(--color-text); font-weight:600; }
+.wl-hit{ cursor:pointer; }
+.wl-seg{ transition:opacity .12s ease; }
+.wl-seg-checkpoint, .wl-seg-quiz{ opacity:.72; }
+.wl-seg-micro{ opacity:.48; }
+.wl-col:hover .wl-seg, .wl-col.is-selected .wl-seg{ opacity:1; }
+.wl-col .wl-hover-bg{ opacity:0; transition:opacity .12s ease; fill:color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.wl-col:hover .wl-hover-bg{ opacity:1; }
+.wl-col.is-selected .wl-hover-bg{ opacity:1; fill:var(--this-week); }
+.workload-legend{ display:flex; flex-wrap:wrap; gap:2px 14px; }
+.workload-legend .wl-item{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px;
+  color:var(--ink-soft); font-feature-settings:"tnum","lnum"; }
+.workload-legend .wl-dot{ width:7px; height:7px; border-radius:50%; flex:none; }
+
+/* ── disclosures ── */
+details.fold{ border-top:1px solid var(--line); }
+details.fold > summary{ cursor:pointer; list-style:none; display:flex; align-items:center; gap:9px;
+  padding:var(--space-3) 0; font-family:var(--font-heading); font-weight:600; font-size:15px; }
+details.fold > summary::-webkit-details-marker{ display:none; }
+details.fold > summary:hover{ color:var(--color-accent-700); }
+.disclosure-chevron{ color:var(--ink-faint); flex:none; transition:transform .15s ease; }
+details[open] > summary .disclosure-chevron{ transform:rotate(90deg); }
+.fold-note{ font-size:12px; color:var(--ink-faint); margin:0 0 var(--space-3); max-width:74ch; }
+.fold-body{ padding-bottom:var(--space-4); }
+
+/* ── policies ── */
+#policy-tabs{ display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-3); }
+.pol-tab{ background:transparent; border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:4px 10px; font-size:12.5px; font-feature-settings:"tnum","lnum"; color:var(--ink-soft); cursor:pointer; }
+.pol-tab[hidden]{ display:none; }
+.pol-tab:hover{ border-color:var(--course); color:var(--color-text); }
+.pol-tab.is-active{ border-color:var(--course); color:var(--course);
+  box-shadow:inset 0 0 0 1px var(--course); }
+.policy-card{ display:none; }
+.policy-card.is-shown{ display:block; }
+.policy-head{ display:flex; align-items:baseline; gap:var(--space-2); padding-bottom:var(--space-2);
+  border-bottom:1px solid var(--line); margin-bottom:var(--space-3); }
+.policy-head .code{ font-family:var(--font-heading); font-weight:600; font-size:17px;
+  color:var(--course); font-feature-settings:"tnum","lnum"; }
+.policy-head .name{ font-size:13px; color:var(--ink-faint); }
+.policy-cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); gap:var(--space-4) var(--space-6); }
+.policy-row .label{ display:block; font-family:var(--font-heading); font-weight:600; font-size:10.5px;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint);
+  padding-bottom:5px; margin-bottom:var(--space-2); border-bottom:1px solid var(--line); }
+.policy-row p{ margin:0 0 var(--space-2); font-size:13px; line-height:1.6; text-align:justify;
+  hyphens:auto; text-wrap:pretty; }
+.policy-row p:last-child{ margin-bottom:0; }
+.policy-row .src{ font-size:11px; color:var(--ink-faint); font-style:italic; text-align:left; }
+
+/* ── plain list ── */
+.list-scroll{ max-height:340px; overflow-y:auto; border-top:1px solid var(--line); }
+table.kd{ width:100%; border-collapse:collapse; }
+table.kd th{ position:sticky; top:0; background:var(--color-bg); text-align:left;
+  font-family:var(--font-heading); font-weight:600; font-size:10.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-faint); padding:7px 12px; border-bottom:1px solid var(--line-strong); }
+table.kd td{ padding:6px 12px; font-size:13px; border-top:1px solid var(--line); vertical-align:top; }
+table.kd .kd-date{ font-size:12px; color:var(--ink-faint); white-space:nowrap; font-feature-settings:"tnum","lnum"; }
+
+footer.notes{ color:var(--ink-faint); font-size:12.5px; max-width:76ch; }
+footer.notes p{ margin:0 0 var(--space-2); line-height:1.65; }
+code.inline{ font-family:var(--font-heading); font-weight:600; border-bottom:1px solid var(--line-strong); }
+
+
+/* ══ type + density revision: one grotesque, hierarchy by weight/size/case ══ */
+:root{
+  --font-heading: "Archivo", "Helvetica Neue", Helvetica, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Helvetica, sans-serif;
+  --font-heading-weight: 600;
+}
+body{ font-size:13.5px; line-height:1.45; letter-spacing:-0.002em; }
+h1,h2,h3,h4,h5,h6{ letter-spacing:-0.02em; }
+.kicker, .control-label, .week-summary-label, .policy-row .label,
+.drawer-course-head, .count-popup-head, table.kd th, .tooltip .tt-date,
+.no-start-badge, .task-status-badge, .task-due-badge, .break-label, .today-label, .dow-label{
+  font-weight:700; letter-spacing:.13em;
+}
+.kicker{ font-size:10px; }
+
+/* week's tasks — the thing being read most, so it carries the strongest steps */
+.drawer-course{ padding:var(--space-2) 0 var(--space-1); }
+.drawer-course-head{ font-size:10px; margin-bottom:5px; letter-spacing:.14em; }
+.drawer-tasks{ grid-template-columns:repeat(auto-fill,minmax(min(100%,232px),1fr)); gap:0 var(--space-4); }
+.task{ padding:6px 0; }
+.task-label{ font-size:14px; font-weight:600; letter-spacing:-0.01em; }
+.task-meta{ font-size:10.5px; letter-spacing:0; color:var(--ink-faint); }
+.task-row{ gap:8px; }
+.task-progress-row{ margin-top:3px; padding-left:23px; }
+.task-progress-row .task-progress{ height:12px; }
+.task-completed-row, .save-flag{ padding-left:23px; }
+.no-start-badge, .task-status-badge, .task-due-badge{ font-size:9px; padding:1px 4px; }
+.week-summary-badge{ font-size:12px; padding:1px 8px; }
+.week-summary-label{ font-size:9px; }
+
+/* chart labels */
+.week-label{ font-size:11.5px; font-weight:700; letter-spacing:0; }
+.week-range{ font-size:9.5px; }
+.dow-label{ font-size:8.5px; letter-spacing:.1em; }
+.day-num{ font-size:10px; }
+.break-label{ font-size:9px; }
+.today-label{ font-size:8.5px; }
+.lr-code{ font-size:14px; font-weight:700; letter-spacing:-0.01em; }
+.lr-name{ font-size:11px; }
+.lane-labels{ width:146px; }
+.lane-row{ gap:4px; padding:0 var(--space-2); }
+
+/* lists, folds, policies */
+details.fold > summary{ font-size:13.5px; font-weight:600; padding:var(--space-2) 0; }
+.policy-row p{ text-align:left; font-size:12.5px; line-height:1.55; }
+.policy-row .label{ font-size:9.5px; }
+.policy-head .code{ font-size:15px; font-weight:700; }
+.policy-head .name{ font-size:12px; }
+.pol-tab{ font-size:12px; font-weight:600; padding:3px 9px; }
+table.kd th{ font-size:9.5px; padding:6px 10px; }
+table.kd td{ padding:5px 10px; font-size:12.5px; }
+.tooltip{ font-size:12.5px; }
+.tooltip .tt-date{ font-size:9.5px; }
+.btn-line{ font-size:12px; font-weight:600; padding:5px 10px; letter-spacing:0; }
+.wk-row-num{ font-weight:700; }
+footer.notes{ font-size:12px; }
+footer.notes p{ line-height:1.6; }
+
+
+/* ══ light-mode color revision: warmer paper, real chroma in the course inks ══ */
+:root{
+  --color-bg: #f4f1ec;              /* warm paper, a touch warmer than the raw token */
+  --color-text: #191715;
+  --surface: #fffdf9;               /* cards and the chart sit brighter than the page */
+  --surface-2: #efebe3;
+  --surface-3: #e4dfd4;
+  --ink-soft: #46423d;
+  --ink-faint: #6a6459;
+  --line: color-mix(in srgb, #191715 15%, transparent);
+  --line-strong: color-mix(in srgb, #191715 34%, transparent);
+  --break-fill: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  --weekend-fill: color-mix(in srgb, #191715 4%, transparent);
+  --this-week: color-mix(in srgb, var(--color-accent) 22%, transparent);
+
+  --c-ds: #1f4fb0;                  /* 15-440 — ink blue */
+  --c-es: #b0361c;                  /* 14-642 — brick */
+  --c-ml: #8a2c78;                  /* 14-757 — plum */
+
+  --status-due: #191715;
+  --status-exam: var(--color-accent-600);
+}
+:root:not([data-theme="dark"]) .chart-shell{ background:var(--surface); box-shadow:var(--shadow-sm); }
+:root:not([data-theme="dark"]) .lane-labels{ background:var(--surface); }
+:root:not([data-theme="dark"]) table.kd th{ background:var(--color-bg); }
+:root:not([data-theme="dark"]) .tooltip{ background:#191715; color:#f4f1ec; border-color:#191715; }
+:root:not([data-theme="dark"]) .tooltip .tt-date,
+:root:not([data-theme="dark"]) .tooltip .tt-chain-row,
+:root:not([data-theme="dark"]) .tooltip .tt-course,
+:root:not([data-theme="dark"]) .tooltip .tt-nostart{ color:color-mix(in srgb, #f4f1ec 72%, transparent); }
+:root:not([data-theme="dark"]) .tooltip .tt-chain-row.is-self{ color:#f4f1ec; }
+:root:not([data-theme="dark"]) .tooltip .tt-chain{ border-top-color:color-mix(in srgb, #f4f1ec 25%, transparent); }
+:root:not([data-theme="dark"]) .tooltip .tt-span{ color:var(--color-accent-300); }
+
+
+/* ══ no rules under titles — spacing carries the separation ══ */
+.policy-row .label{ border-bottom:0; padding-bottom:0; margin-bottom:6px; }
+.policy-head{ border-bottom:0; padding-bottom:0; margin-bottom:var(--space-3); }
+details.fold > summary{ padding:10px 0; }
+
+
+/* ══ Catppuccin: Mocha (dark) / Latte (light) ══ */
+:root[data-theme="dark"]{
+  --ctp-base:#1e1e2e; --ctp-mantle:#181825; --ctp-crust:#11111b;
+  --ctp-s0:#313244; --ctp-s1:#45475a; --ctp-s2:#585b70;
+  --color-bg:#181825;
+  --surface:#1e1e2e; --surface-2:#313244; --surface-3:#45475a;
+  --color-text:#cdd6f4; --ink-soft:#bac2de; --ink-faint:#9399b2;
+  --line:#313244; --line-strong:#585b70;
+  --color-divider:#313244;
+  --color-accent:#cba6f7; --color-accent-600:#cba6f7; --color-accent-700:#dcc0fb;
+  --color-accent-300:#e0c7fc;
+  --break-fill:color-mix(in srgb, #585b70 55%, transparent);
+  --weekend-fill:color-mix(in srgb, #313244 55%, transparent);
+  --this-week:color-mix(in srgb, #cba6f7 22%, transparent);
+  --c-ds:#89b4fa;   /* 15-440 */
+  --c-es:#eba0ac;   /* 14-642 */
+  --c-ml:#94e2d5;   /* 14-757 */
+  --status-due:#cdd6f4; --status-exam:#f9e2af; --pair-line:#cdd6f4;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.45);
+  --shadow-md:0 3px 12px rgba(0,0,0,.5);
+  --shadow-lg:0 14px 38px rgba(0,0,0,.6);
+}
+:root:not([data-theme="dark"]){
+  --color-bg:#e6e9ef;
+  --surface:#eff1f5; --surface-2:#ccd0da; --surface-3:#bcc0cc;
+  --color-text:#4c4f69; --ink-soft:#5c5f77; --ink-faint:#6c6f85;
+  --line:#ccd0da; --line-strong:#acb0be;
+  --color-divider:#ccd0da;
+  --color-accent:#8839ef; --color-accent-600:#8839ef; --color-accent-700:#7a2fd8;
+  --color-accent-300:#c9a4f7;
+  --break-fill:color-mix(in srgb, #acb0be 45%, transparent);
+  --weekend-fill:color-mix(in srgb, #acb0be 22%, transparent);
+  --this-week:color-mix(in srgb, #8839ef 16%, transparent);
+  --c-ds:#1e66f5;   /* 15-440 */
+  --c-es:#d20f39;   /* 14-642 */
+  --c-ml:#179299;   /* 14-757 */
+  --status-due:#4c4f69; --status-exam:#df8e1d; --pair-line:#4c4f69;
+}
+/* tooltip follows the palette in both themes */
+.tooltip{ background:var(--surface); color:var(--color-text); border-color:var(--line-strong); }
+:root:not([data-theme="dark"]) .tooltip{ background:var(--surface); color:var(--color-text); border-color:var(--line-strong); }
+:root:not([data-theme="dark"]) .tooltip .tt-date,
+:root:not([data-theme="dark"]) .tooltip .tt-course,
+:root:not([data-theme="dark"]) .tooltip .tt-nostart{ color:var(--ink-faint); }
+:root:not([data-theme="dark"]) .tooltip .tt-chain-row{ color:var(--ink-soft); }
+:root:not([data-theme="dark"]) .tooltip .tt-chain-row.is-self{ color:var(--color-text); }
+:root:not([data-theme="dark"]) .tooltip .tt-chain{ border-top-color:var(--line); }
+:root:not([data-theme="dark"]) .tooltip .tt-span{ color:var(--color-accent-700); }
+:root[data-theme="dark"] .tooltip .tt-span{ color:var(--color-accent-700); }
+.toast{ background:var(--color-text); color:var(--color-bg); }
+:root:not([data-theme="dark"]) .chart-shell,
+:root:not([data-theme="dark"]) .lane-labels{ background:var(--surface); }
+.task-due-badge{ color:var(--color-bg); background:var(--color-text); }
+.today-label{ fill:var(--color-bg); }
+
+
+/* ══ type revision: Instrument Sans, mono only for small figures ══ */
+:root{
+  --font-heading:"Instrument Sans","Helvetica Neue",Helvetica,sans-serif;
+  --font-body:"Instrument Sans","Helvetica Neue",Helvetica,sans-serif;
+  --font-figure:"JetBrains Mono",ui-monospace,monospace;
+}
+.wk-row-num, .wk-row-count, .week-panel-sub, .task-meta,
+.dow-label, .day-num, .week-range, .wl-axis, .wl-wknum,
+.bar-id span, .task-completed-row, .task-progress-pct{
+  font-family:var(--font-figure); font-variant-numeric:tabular-nums;
+}
+.wk-row-num{ font-size:10.5px; font-weight:500; letter-spacing:.02em; }
+.wk-row-count{ font-size:9px; }
+.task-meta{ font-size:10px; letter-spacing:-0.01em; }
+.week-panel-sub{ font-size:11px; letter-spacing:-0.01em; }
+.bar-id span{ font-size:10.5px; letter-spacing:-0.01em; }
+.kicker, .control-label, .week-summary-label, .policy-row .label,
+.drawer-course-head, .count-popup-head, table.kd th, .tooltip .tt-date,
+.no-start-badge, .task-status-badge, .task-due-badge, .break-label{
+  letter-spacing:.1em;
+}
+.task-label{ font-size:13.5px; font-weight:600; letter-spacing:-0.005em; }
+.lr-code{ font-size:13.5px; font-weight:600; }
+
+
+/* softer Latte course inks so the strip and marks sit with the rest of the palette */
+:root:not([data-theme="dark"]){
+  --c-ds:#7287fd;   /* lavender  — 15-440 */
+  --c-es:#e64553;   /* maroon    — 14-642 */
+  --c-ml:#179299;   /* teal      — 14-757 */
+}
+
+
+/* ══ Catppuccin Mocha everywhere ══
+   Dark is canonical Mocha. Light is a deliberate hybrid, not stock Latte: it
+   keeps Latte's neutral grounds but takes Mocha's pastel accent and course
+   inks, because Latte's own accents (#8839ef, #1e66f5, #d20f39) read harsh
+   and saturated rather than pastel. Do not "correct" light back to Latte.
+
+   The tradeoff: those pastels are light-on-light here, so they hold only as
+   large fills — strip bars, dots, chart marks, progress tracks. Every place
+   var(--course) sets small TEXT takes --course-ink instead: the same Mocha
+   hue walked down in OKLCH until it clears 4.5:1 on --surface. */
+:root[data-theme="dark"]{
+  --c-ds-ink:#89b4fa; --c-es-ink:#eba0ac; --c-ml-ink:#94e2d5;  /* pastels read fine on Mocha */
+  --color-accent-ink:#cba6f7;
+  --status-exam:#f9e2af;                                       /* mocha yellow */
+
+  /* Green ground. Mocha's neutrals are blue-violet (every rung sits at hue
+     272-284 in OKLCH), which read too blue here, so the whole neutral ramp is
+     rotated to hue 150 with L and C untouched — same rungs, same contrast,
+     green cast. ~30 deg off the teal course ink, so the lanes stay distinct.
+     The accent and course inks are NOT rotated: those stay pure Mocha.
+
+     Secondary text also keeps its earlier one-rung lift (Overlay2 → Subtext0
+     for --ink-faint, Subtext1 → Text for --ink-soft), since Overlay2 measured
+     only 4.45:1 against --surface-2 and carries most of the 9-11px figures.
+     --ink-soft matching --color-text is fine: hierarchy here comes from size
+     and weight, not ink value. Measured after rotation: text/bg 12.2:1,
+     ink-faint/surface-2 5.6:1. */
+  --color-bg:#111d13; --surface:#152418; --surface-2:#28392b; --surface-3:#3d4e40;
+  --color-text:#c4dfc9; --ink-soft:#c4dfc9; --ink-faint:#9db6a1;
+  --line:#28392b; --line-strong:#4f6253; --color-divider:#28392b;
+  --break-fill:color-mix(in srgb, #4f6253 55%, transparent);
+  --weekend-fill:color-mix(in srgb, #28392b 55%, transparent);
+}
+:root:not([data-theme="dark"]){
+  /* Latte's neutral grounds, rotated to the same hue 150 as the dark ramp */
+  --color-bg:#e5ebe6; --surface:#eef2ef; --surface-2:#cad3cb; --surface-3:#b9c4bb;
+  --color-text:#405845; --ink-soft:#526756; --ink-faint:#637766;
+  --line:#cad3cb; --line-strong:#a8b4aa; --color-divider:#cad3cb;
+
+  /* Mocha inks, not Latte's */
+  --color-accent:#cba6f7;                                      /* mauve, as a fill/border */
+  --color-accent-300:#cba6f7;
+  --color-accent-700:#8d4fc8;                                  /* accent-700 sets text */
+  --color-accent-600:#7a3fb0;                                  /* ...and 600 is its hover */
+  --color-accent-ink:#8d4fc8;
+  --c-ds:#89b4fa; --c-es:#eba0ac; --c-ml:#94e2d5;              /* fills */
+  --c-ds-ink:#2a6ad1; --c-es-ink:#b54a62; --c-ml-ink:#007b6c;  /* the same hues, as text */
+
+  --this-week:color-mix(in srgb, #cba6f7 30%, transparent);
+  --break-fill:color-mix(in srgb, #a8b4aa 45%, transparent);
+  --weekend-fill:color-mix(in srgb, #a8b4aa 22%, transparent);
+  --status-due:#405845; --pair-line:#405845;
+  /* mocha yellow is 1.3:1 on this ground — same hue, darkened, per the rule above */
+  --status-exam:#8a6904;
+}
+
+/* course color as small text — the darkened step, never the raw pastel */
+.lr-code,
+.drawer-course-head,
+.policy-head .code,
+.pol-tab.is-active,
+.folder-btn:hover, .folder-btn:focus-visible{ color:var(--course-ink, var(--course)); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Page layout.
+   ══════════════════════════════════════════════════════════════════════ */
+
+  /* ── page shell ─────────────────────────────────────────────────────── */
+  .app{ max-width:1500px; margin:0 auto; }
+  .sheet{ display:flex; flex-direction:column; gap:22px; padding:0 20px 48px; min-width:0; }
+
+  .theme-dark{ display:none; }
+  :root[data-theme="dark"] .theme-dark{ display:inline; }
+  :root[data-theme="dark"] .theme-light{ display:none; }
+
+  .block{ display:flex; flex-direction:column; gap:7px; min-width:0; }
+  .block-head{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+  .block-head h3{ font-size:13px; font-weight:600; letter-spacing:-0.005em; }
+  .block-head .kicker{ margin-left:auto; }
+  .block-note{ font-size:11px; color:var(--ink-faint); line-height:1.55; max-width:96ch; }
+  .block.strip-head{ position:sticky; top:0; z-index:40; background:var(--color-bg);
+    padding:14px 0 10px; gap:9px; }
+  .block.strip-head h3{ font-size:20px; font-weight:600; letter-spacing:-0.02em; }
+  .chart-actions{ margin-left:auto; display:flex; gap:6px; }
+
+  /* 16-week strip — the sidebar rows laid on their side */
+  #week-list{ flex-direction:row; gap:3px; align-items:stretch; }
+  .wk-row{ flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:5px 2px 4px; border-bottom:0; border-radius:0; box-shadow:none;
+    border-top:1px solid var(--line); }
+  .wk-row.is-selected{ box-shadow:inset 0 2px 0 var(--color-accent); }
+  .wk-row-mid{ width:100%; align-items:center; gap:3px; }
+  .wk-row-range{ display:none; }
+  .wk-row-bar{ width:100%; height:30px; flex-direction:column-reverse; gap:1.5px; }
+  .wk-row-seg{ width:100%; min-height:2px; }
+  .wk-row-num{ font-size:11.5px; }
+  .wk-row-count{ font-size:9.5px; justify-self:center; }
+
+  /* week's work */
+  .week-top{ display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; padding-bottom:2px; }
+  .week-display{ display:flex; align-items:baseline; gap:10px; }
+  .week-display h2{ font-size:19px; font-weight:600; letter-spacing:-0.02em; line-height:1.1; }
+  .week-panel-sub{ font-size:11.5px; }
+  .week-top .week-summary{ margin-left:0; margin-right:auto; }
+  .week-foot{ font-size:10.5px; color:var(--ink-faint); }
+
+  .legend{ display:flex; flex-wrap:wrap; gap:4px 16px; font-size:10.5px; color:var(--ink-faint); }
+  .legend span{ display:inline-flex; align-items:center; gap:5px; }
+  .legend svg{ display:block; }
+  .folds{ display:flex; flex-direction:column; margin-top:4px; }
+  .folds .fold:last-child{ border-bottom:1px solid var(--line); }
+
+  @media (max-width: 700px){
+    .sheet{ padding:0 14px 40px; gap:18px; }
+    .wk-row-num{ font-size:10px; }
+    .wk-row-count{ display:none; }
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#181a15; --surface:#212319; --surface-2:#2a2d20; --surface-3:#343827;
-      --ink:#ecefe2; --ink-soft:#b6bca6; --ink-faint:#848c78;
-      --line:#383c2c; --line-strong:#6b7253;
-      --break-fill: rgba(182,188,166,0.10);
-      --weekend-fill: rgba(182,188,166,0.045);
-      --this-week: rgba(236,239,226,0.06);
-      --c-ds:#3987e5;
-      --c-es:#d95926;
-      --c-pa:#199e70;
-      --c-ml:#c98500;
-      --status-due:#ec835a; --status-exam:#e2554f;
-      --pair-line:#ecefe2;
-      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 8px 28px -10px rgba(0,0,0,0.5);
-      --shadow-lg: 0 16px 48px -12px rgba(0,0,0,0.6);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#181a15; --surface:#212319; --surface-2:#2a2d20; --surface-3:#343827;
-    --ink:#ecefe2; --ink-soft:#b6bca6; --ink-faint:#848c78;
-    --line:#383c2c; --line-strong:#6b7253;
-    --break-fill: rgba(182,188,166,0.10);
-    --weekend-fill: rgba(182,188,166,0.045);
-    --this-week: rgba(236,239,226,0.06);
-    --c-ds:#3987e5;
-    --c-es:#d95926;
-    --c-pa:#199e70;
-    --c-ml:#c98500;
-    --status-due:#ec835a; --status-exam:#e2554f;
-    --pair-line:#ecefe2;
-    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 8px 28px -10px rgba(0,0,0,0.5);
-    --shadow-lg: 0 16px 48px -12px rgba(0,0,0,0.6);
-  }
 
-  *{box-sizing:border-box;}
-  body{ margin:0; background:var(--bg); color:var(--ink); font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; scrollbar-color:var(--line-strong) transparent; scrollbar-width:thin; }
-  @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
-  a{color:var(--c-ds); text-underline-offset:0.15em;}
-  button{ font-family:inherit; }
-  button:focus-visible, [tabindex]:focus-visible, input:focus-visible, textarea:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
-  ::selection{ background:var(--ink); color:var(--bg); }
-
-  ::-webkit-scrollbar{ width:10px; height:10px; }
-  ::-webkit-scrollbar-track{ background:transparent; }
-  ::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:6px; border:2px solid var(--surface); background-clip:padding-box; }
-  ::-webkit-scrollbar-thumb:hover{ background:var(--ink-faint); background-clip:padding-box; }
-
-  .wrap{ max-width:1280px; margin:0 auto; padding:2.5rem 1.5rem 4rem; }
-
-  header.page{ display:flex; flex-direction:column; gap:0.3rem; padding-bottom:0.9rem; margin-bottom:1.1rem; border-bottom:1px solid var(--line); }
-  .eyebrow{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:0.78rem; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft); }
-  h1{ font-family:"IBM Plex Serif", Georgia, serif; font-weight:600; font-size:clamp(1.5rem, 2.6vw, 1.9rem); margin:0; text-wrap:balance; letter-spacing:-0.01em; }
-  code.inline{ font-family:"IBM Plex Mono",monospace; background:var(--surface-2); padding:0.1rem 0.35rem; border-radius:4px; font-size:0.85em; }
-
-  .top-actions{ display:flex; align-items:flex-start; gap:0.6rem; margin-bottom:1.1rem; }
-  details.controls-disclosure{ flex:1; min-width:0; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
-  details.controls-disclosure summary{ cursor:pointer; padding:0.75rem 1.1rem; font-weight:600; font-size:0.86rem; list-style:none; display:flex; align-items:center; gap:0.5rem; }
-  details.controls-disclosure summary::-webkit-details-marker{ display:none; }
-  details.controls-disclosure[open] summary{ border-bottom:1px solid var(--line); }
-  .today-btn{ flex:none; font-family:"IBM Plex Mono",monospace; font-size:0.78rem; font-weight:500; padding:0.75rem 1rem; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; box-shadow:var(--shadow); white-space:nowrap; transition:background .15s ease, border-color .15s ease; }
-  .today-btn:hover{ background:var(--surface-2); border-color:var(--line-strong); }
-  .today-btn:focus-visible{ outline:2px solid var(--ink); outline-offset:2px; }
-  .today-btn:disabled{ opacity:0.4; cursor:default; }
-  .controls{ display:flex; flex-wrap:wrap; align-items:center; gap:1.5rem; padding:0.9rem 1.1rem; max-width:100%; }
-  .control-group{ display:flex; flex-wrap:wrap; align-items:center; gap:0.5rem; min-width:0; }
-  .control-label{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); margin-right:0.15rem; }
-
-  .chip{ display:inline-flex; align-items:center; gap:0.4rem; font-family:"IBM Plex Mono",monospace; font-size:0.76rem; font-weight:500; padding:0.32rem 0.65rem; border-radius:999px; border:1.5px solid var(--course, var(--line-strong)); background:var(--surface); color:var(--ink); cursor:pointer; user-select:none; transition:opacity .15s ease, background .15s ease; }
-  .chip .dot{ width:9px; height:9px; border-radius:50%; background:var(--course, var(--ink-faint)); flex:none; }
-  .chip.is-off{ opacity:0.35; }
-  .chip:hover{ background:var(--surface-2); }
-  .type-chip{ display:inline-flex; align-items:center; gap:0.35rem; font-family:"IBM Plex Mono",monospace; font-size:0.72rem; color:var(--ink-soft); padding:0.3rem 0.55rem; border-radius:999px; border:1px solid var(--line); cursor:pointer; background:var(--surface); user-select:none; }
-  .type-chip.is-off{ opacity:0.35; }
-  .type-chip svg{ display:block; flex:none; }
-  .hint-chip{ margin-left:auto; font-size:0.76rem; color:var(--ink-faint); display:flex; align-items:center; gap:0.4rem; }
-  .key{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:4px; padding:0 0.3rem; }
-
-  .chart-shell{ display:flex; align-items:stretch; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:1rem; overflow:hidden; }
-  .lane-labels{ flex:none; width:150px; background:var(--surface); border-right:1px solid var(--line-strong); position:relative; z-index:2; }
-  .lane-row{
-    position:relative; display:flex; flex-direction:column; justify-content:center; gap:0.34rem;
-    padding:0 13px; border-bottom:1px solid var(--line); transition:background .15s ease;
-  }
-  .lane-row:last-child{ border-bottom:none; }
-  .lane-row:hover{ background:color-mix(in srgb, var(--course) 5%, transparent); }
-  .lr-head{ display:flex; align-items:center; justify-content:space-between; gap:0.3rem; }
-  .lr-id{ display:flex; align-items:center; gap:0.4rem; min-width:0; }
-  .lr-dot{ width:7px; height:7px; border-radius:50%; background:var(--course); flex:none; }
-  .lr-code{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; font-weight:700; color:var(--course); letter-spacing:0.01em; white-space:nowrap; }
-  .lr-name{ font-family:"IBM Plex Sans",sans-serif; font-size:10.5px; color:var(--ink-faint); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-
-  .folder-btn{ flex:none; width:22px; height:22px; display:flex; align-items:center; justify-content:center; background:transparent; border:none; border-radius:6px; cursor:pointer; color:var(--ink-faint); padding:0; opacity:0.45; transition:opacity .15s ease, background .15s ease, color .15s ease; }
-  .lane-row:hover .folder-btn{ opacity:1; }
-  .folder-btn:hover, .folder-btn:focus-visible{ background:var(--surface-2); color:var(--course); opacity:1; outline:none; }
-  .folder-btn svg{ display:block; }
-
-  .lr-progress{
-    align-self:flex-start; display:inline-flex; align-items:center; gap:3px;
-    font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600;
-    padding:1.5px 7px; border-radius:999px; border:1.2px solid var(--course); color:var(--ink-soft);
-    background:var(--surface); cursor:pointer; transition:background .15s ease, border-color .15s ease, color .15s ease;
-  }
-  .lr-progress:hover, .lr-progress:focus-visible{ background:var(--surface-2); outline:none; }
-  .lr-progress:empty{ display:none; }
-  .lr-progress.is-complete{ border-color:var(--line-strong); color:var(--ink-soft); }
-  .lr-progress svg{ display:block; }
-  .lr-progress.is-pop{ animation:task-confirm-check .34s cubic-bezier(.34,1.56,.64,1); }
-
-  .count-popup{ position:fixed; z-index:85; background:var(--surface); border:1px solid var(--line-strong); border-radius:10px; box-shadow:var(--shadow-lg); padding:0.35rem 0; min-width:190px; max-width:280px; }
-  .count-popup-head{ padding:0.25rem 0.75rem 0.4rem; font-size:0.66rem; font-weight:600; letter-spacing:0.02em; color:var(--ink-soft); font-family:"IBM Plex Mono",monospace; text-transform:uppercase; border-bottom:1px solid var(--line); margin-bottom:0.15rem; }
-  .count-popup-row{ display:flex; align-items:center; gap:0.5rem; padding:0.3rem 0.75rem; font-size:0.78rem; font-family:"IBM Plex Sans",sans-serif; }
-  .count-popup-row .icon{ flex:none; width:12px; height:12px; display:flex; align-items:center; }
-  .count-popup-row .icon.icon-pct{ width:auto; font-family:"IBM Plex Mono",monospace; font-size:0.62rem; }
-  .count-popup-row.is-done .label{ text-decoration:line-through; color:var(--ink-faint); }
-  .count-popup-empty{ padding:0.3rem 0.75rem 0.4rem; font-size:0.76rem; color:var(--ink-faint); }
-  .chart-scroll{ flex:1; min-width:0; overflow-x:auto; overflow-y:hidden; }
-  .chart-scroll svg{ display:block; height:auto; }
-
-  .week-band{ cursor:pointer; }
-  .week-band rect{ transition:fill .12s ease; }
-  .week-band:hover rect.wk-hit, .week-band:focus rect.wk-hit{ fill:var(--surface-3); }
-  .week-band.is-selected rect.wk-hit{ stroke:var(--ink); stroke-width:1.5px; }
-  .week-col-hit{ fill:transparent; cursor:pointer; transition:fill .12s ease; }
-  .week-col-hit:hover{ fill:var(--this-week); }
-  .week-label{ font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500; fill:var(--ink); pointer-events:none; }
-  .week-range{ font-family:"IBM Plex Sans",sans-serif; font-size:9.5px; fill:var(--ink-faint); pointer-events:none; }
-  .week-count{ font-family:"IBM Plex Mono",monospace; font-size:9px; fill:var(--ink-soft); pointer-events:none; }
-  .dow-label{ font-family:"IBM Plex Mono",monospace; font-size:9px; fill:var(--ink-faint); text-anchor:middle; }
-  .day-num{ font-family:"IBM Plex Mono",monospace; font-size:10px; fill:var(--ink-soft); text-anchor:middle; }
-  .day-num.is-today{ fill:var(--ink); font-weight:600; }
-  .break-label{ font-family:"IBM Plex Mono",monospace; font-size:10px; fill:var(--ink-faint); letter-spacing:0.02em; }
-  .today-label{ font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:500; fill:var(--surface); }
-  .lane-code{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; font-weight:600; }
-  .lane-name{ font-family:"IBM Plex Sans",sans-serif; font-size:10.5px; fill:var(--ink-faint); }
-
-  .mark{ cursor:pointer; }
-  .mark:focus{ outline:none; }
-  .mk-shape{ transform-origin:center; transform-box:fill-box; transition:transform .1s ease, opacity .12s ease; }
-  .mark:hover .mk-shape, .mark:focus .mk-shape, .mark.is-paired .mk-shape, .mark.is-pinned .mk-shape{ transform:scale(1.3); }
-  .mark.is-pinned .mk-shape{ filter:drop-shadow(0 0 2px var(--ink)) drop-shadow(0 0 2px var(--ink)); }
-  .mark.is-dimmed .mk-shape{ opacity:0.28; }
-  .mark.is-dimmed line{ opacity:0.28; }
-  .mk-check{ pointer-events:none; stroke-dasharray:1px; stroke-dashoffset:1px; opacity:0; transition:stroke-dashoffset .34s cubic-bezier(.2,.8,.2,1), opacity .1s linear; }
-  .mark.is-complete .mk-check{ stroke-dashoffset:0px; opacity:1; }
-  .mark.mk-no-start .mk-shape{ transform:scale(1.12); }
-  .mark.mk-no-start:hover .mk-shape, .mark.mk-no-start:focus .mk-shape, .mark.mk-no-start.is-paired .mk-shape{ transform:scale(1.4); }
-
-  /* type filter hide rules */
-  .viz.hide-class .mk-class{ display:none; }
-  .viz.hide-start .mk-start{ display:none; }
-  .viz.hide-out .mk-out{ display:none; }
-  .viz.hide-due .mk-due{ display:none; }
-  .viz.hide-exam .mk-exam{ display:none; }
-  .viz.hide-event .mk-event{ display:none; }
-
-  .tooltip{ position:fixed; z-index:80; pointer-events:none; max-width:300px; background:var(--ink); color:var(--bg); font-size:0.8rem; line-height:1.4; padding:0.6rem 0.75rem; border-radius:8px; box-shadow:0 10px 30px -8px rgba(0,0,0,0.4); opacity:0; transform:translateY(4px); transition:opacity .12s ease, transform .12s ease; }
-  .tooltip.is-visible{ opacity:1; transform:translateY(0); }
-  .tooltip .tt-date{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; letter-spacing:0.04em; text-transform:uppercase; opacity:0.7; margin-bottom:0.15rem; }
-  .tooltip .tt-text{ font-weight:500; }
-  .tooltip .tt-progress{ font-weight:400; font-size:0.74rem; opacity:0.75; margin-top:0.1rem; }
-  .tooltip .tt-course{ font-family:"IBM Plex Mono",monospace; font-size:0.68rem; opacity:0.65; margin-top:0.25rem; }
-  .tooltip .tt-nostart{ font-size:0.72rem; opacity:0.8; margin-top:0.3rem; }
-  .tooltip .tt-chain{ margin-top:0.4rem; padding-top:0.4rem; border-top:1px solid rgba(255,255,255,0.18); }
-  .tooltip .tt-chain-row{ display:flex; justify-content:space-between; gap:0.6rem; font-size:0.74rem; opacity:0.9; padding:0.06rem 0; }
-  .tooltip .tt-chain-row.is-self{ font-weight:600; opacity:1; }
-  .tooltip .tt-span{ margin-top:0.3rem; font-size:0.74rem; font-weight:600; }
-
-  .toast{ position:fixed; z-index:90; left:50%; bottom:28px; transform:translate(-50%,12px); background:var(--ink); color:var(--bg); font-size:0.82rem; padding:0.55rem 0.9rem; border-radius:8px; box-shadow:var(--shadow-lg); opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; }
-  .toast.is-visible{ opacity:1; transform:translate(-50%,0); }
-
-  /* ---------- weekly workload chart ---------- */
-  .workload-panel{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:1.5rem; padding:0.9rem 1.1rem 0.7rem; }
-  .workload-head{ display:flex; align-items:baseline; justify-content:space-between; gap:0.8rem; flex-wrap:wrap; margin-bottom:0.5rem; }
-  .workload-head h2{ font-family:"IBM Plex Serif",Georgia,serif; font-size:1.02rem; margin:0; }
-  .workload-legend{ display:flex; flex-wrap:wrap; gap:0.15rem 0.8rem; }
-  .workload-legend .wl-item{ display:inline-flex; align-items:center; gap:0.32rem; font-family:"IBM Plex Mono",monospace; font-size:0.7rem; color:var(--ink-soft); }
-  .workload-legend .wl-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
-  .workload-body{ width:100%; }
-  .workload-body svg{ display:block; width:100%; height:auto; }
-  .wl-axis{ font-family:"IBM Plex Mono",monospace; font-size:8.5px; fill:var(--ink-faint); }
-  .wl-wknum{ font-family:"IBM Plex Mono",monospace; font-size:8.5px; fill:var(--ink-faint); }
-  .wl-wknum.is-current{ fill:var(--ink); font-weight:600; }
-  .wl-hit{ cursor:pointer; }
-  .wl-seg{ transition:opacity .12s ease; }
-  .wl-seg-checkpoint, .wl-seg-quiz{ opacity:0.78; }
-  .wl-seg-micro{ opacity:0.55; }
-  .wl-col:hover .wl-seg, .wl-col.is-selected .wl-seg{ opacity:1; }
-  .wl-hit:hover ~ .wl-hover-bg, .wl-col.is-selected .wl-hover-bg{ opacity:1; }
-  .wl-col .wl-hover-bg{ opacity:0; transition:opacity .12s ease; fill:var(--surface-2); }
-  .wl-col:hover .wl-hover-bg{ opacity:1; }
-  .wl-col.is-selected .wl-hover-bg{ opacity:1; fill:var(--this-week); }
-  .workload-foot{ margin-top:0.5rem; font-size:0.68rem; color:var(--ink-faint); }
-  .wl-exam-key{ color:var(--ink-soft); }
-
-  /* ---------- week panel (inline, always visible, compact) ---------- */
-  .week-panel{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:1.5rem; }
-  .week-panel-head{ padding:0.7rem 1.1rem; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:0.8rem; flex-wrap:wrap; }
-  .week-panel-head h2{ font-family:"IBM Plex Serif",Georgia,serif; font-size:1.02rem; margin:0; display:inline; }
-  .week-panel-sub{ font-size:0.76rem; color:var(--ink-soft); font-family:"IBM Plex Mono",monospace; display:inline; margin-left:0.55rem; }
-  .week-summary{ display:flex; align-items:center; gap:0.4rem; flex:none; flex-wrap:wrap; }
-  .week-summary-badge{
-    display:inline-flex; align-items:center; gap:5px;
-    font-family:"IBM Plex Mono",monospace; font-size:0.72rem; font-weight:600;
-    padding:0.22rem 0.6rem; border-radius:999px; border:1.3px solid var(--line-strong); color:var(--ink-soft);
-    background:var(--surface); white-space:nowrap; cursor:default;
-  }
-  .week-summary-label{ font-weight:500; letter-spacing:0.03em; text-transform:uppercase; font-size:0.62rem; color:var(--ink-faint); }
-  .week-summary-badge.is-complete{ border-color:var(--ink-soft); color:var(--ink); }
-  .week-summary-badge.is-complete .week-summary-label{ color:var(--ink-soft); }
-  .week-summary-badge svg{ display:block; }
-  .week-nav{ display:flex; gap:0.35rem; flex:none; }
-  .week-nav button{ background:var(--surface-2); border:1px solid var(--line); border-radius:7px; width:25px; height:25px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-soft); font-size:0.9rem; }
-  .week-nav button:hover:not(:disabled){ background:var(--surface-3); color:var(--ink); }
-  .week-nav button:disabled{ opacity:0.3; cursor:default; }
-  .week-panel-body{ padding:0.5rem 1.1rem 0.2rem; }
-  .drawer-empty{ color:var(--ink-faint); font-size:0.84rem; padding:0.9rem 0; text-align:center; }
-  .drawer-course{ margin-bottom:0.6rem; }
-  .drawer-course-head{ display:flex; align-items:center; gap:0.4rem; font-family:"IBM Plex Mono",monospace; font-size:0.68rem; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; color:var(--course); margin-bottom:0.15rem; }
-  .drawer-course-head .dot{ width:6px; height:6px; border-radius:50%; background:var(--course); flex:none; }
-  .drawer-tasks{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:0 1.25rem; }
-  .task{ border-bottom:1px solid var(--line); padding:0.32rem 0; border-radius:5px; }
-  .task:last-child{ border-bottom:none; }
-  @keyframes task-confirm-bg{ 0%{ background:color-mix(in srgb, var(--course, var(--ink)) 24%, transparent); } 100%{ background:transparent; } }
-  @keyframes task-confirm-check{ 0%{ transform:scale(1); } 45%{ transform:scale(1.3); } 100%{ transform:scale(1); } }
-  .task.is-confirming{ animation:task-confirm-bg .8s ease-out; }
-  .task.is-confirming .task-progress-pct{ animation:task-confirm-check .3s cubic-bezier(.34,1.56,.64,1); }
-  .no-start-badge{ font-family:"IBM Plex Mono",monospace; font-size:0.62rem; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-soft); background:var(--surface-2); border:1px solid var(--line-strong); border-radius:4px; padding:0.05rem 0.35rem; white-space:nowrap; }
-  .task-status-badge{ display:inline-flex; align-items:center; gap:4px; font-family:"IBM Plex Mono",monospace; font-size:0.62rem; font-weight:500; letter-spacing:0.02em; text-transform:uppercase; color:var(--ink-soft); border:1px solid var(--line-strong); border-radius:4px; padding:0.05rem 0.4rem; white-space:nowrap; }
-  .task-status-icon{ flex:none; display:block; }
-  .task-status-badge.status-upcoming{ color:var(--ink-faint); border-style:dashed; }
-  .task-status-badge.status-upcoming .task-status-icon{ color:var(--ink-faint); }
-  .task-status-badge.status-started{ border-color:var(--course, var(--line-strong)); }
-  .task-status-badge.status-started .task-status-icon{ color:var(--course, var(--ink-soft)); }
-  .task-status-badge.status-carried{ background:var(--surface-2); }
-  .task-status-badge.status-carried .task-status-icon{ color:var(--ink-soft); }
-  .task-due-badge{ font-family:"IBM Plex Mono",monospace; font-size:0.62rem; font-weight:700; letter-spacing:0.02em; text-transform:uppercase; color:var(--status-due); background:color-mix(in srgb, var(--status-due) 10%, transparent); border:1px solid var(--status-due); border-radius:4px; padding:0.05rem 0.4rem; white-space:nowrap; }
-  .task-row{ display:flex; align-items:center; gap:0.45rem; }
-  .task-check{ flex:none; width:14px; height:14px; margin:0; accent-color:var(--course, var(--ink)); cursor:pointer; }
-  .task-main{ flex:1; min-width:0; display:flex; align-items:baseline; gap:0.4rem; flex-wrap:wrap; }
-  .task-label{ font-size:0.82rem; font-weight:500; line-height:1.3; }
-  .task.is-done .task-label{ text-decoration:line-through; color:var(--ink-faint); }
-  .task.is-done .task-meta{ color:var(--ink-faint); opacity:0.7; }
-  .task-meta{ font-family:"IBM Plex Mono",monospace; font-size:0.64rem; color:var(--ink-faint); }
-
-  .task-progress-row{ display:flex; align-items:center; gap:0.5rem; margin-top:0.3rem; }
-  .task-progress{
-    -webkit-appearance:none; appearance:none; flex:1; min-width:0; height:14px; margin:0; background:transparent; cursor:pointer; --fill:0%;
-  }
-  .task-progress::-webkit-slider-runnable-track{
-    height:5px; border-radius:999px;
-    background:linear-gradient(to right, var(--course, var(--ink)) var(--fill), var(--surface-2) var(--fill));
-    transition:background .18s ease;
-  }
-  .task-progress::-moz-range-track{ height:5px; border-radius:999px; background:var(--surface-2); }
-  .task-progress::-moz-range-progress{ height:5px; border-radius:999px 0 0 999px; background:var(--course, var(--ink)); transition:width .18s ease; }
-  .task-progress::-webkit-slider-thumb{
-    -webkit-appearance:none; appearance:none; width:12px; height:12px; margin-top:-3.5px; border-radius:50%;
-    background:var(--course, var(--ink)); border:2px solid var(--surface); box-shadow:0 1px 3px rgba(0,0,0,0.35); cursor:pointer;
-  }
-  .task-progress::-moz-range-thumb{
-    width:12px; height:12px; border-radius:50%; background:var(--course, var(--ink)); border:2px solid var(--surface); cursor:pointer;
-  }
-  .task-progress:focus-visible::-webkit-slider-thumb{ outline:2px solid var(--ink); outline-offset:2px; }
-  .task-progress:focus-visible::-moz-range-thumb{ outline:2px solid var(--ink); outline-offset:2px; }
-  .task-progress-pct{ flex:none; min-width:1.4em; font-family:"IBM Plex Mono",monospace; font-size:0.66rem; color:var(--ink-faint); display:flex; align-items:center; }
-  .task.is-done .task-progress-pct{ color:var(--ink-soft); }
-  .task-completed-row{ display:flex; align-items:center; gap:0.32rem; margin-top:0.2rem; font-family:"IBM Plex Mono",monospace; font-size:0.64rem; color:var(--ink-faint); }
-  .task-completed-row[hidden]{ display:none; }
-  .task-completed-date{ font:inherit; color:inherit; background:transparent; border:none; border-bottom:1px dashed var(--line-strong); padding:0 1px; cursor:pointer; }
-  .task-completed-date:hover, .task-completed-date:focus-visible{ color:var(--ink); border-bottom-color:var(--ink-soft); outline:none; }
-  .task-completed-date::-webkit-calendar-picker-indicator{ opacity:0.55; cursor:pointer; }
-  .task-completed-date::-webkit-calendar-picker-indicator:hover{ opacity:0.9; }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]) .task-completed-date::-webkit-calendar-picker-indicator{ filter:invert(1); }
-  }
-  :root[data-theme="dark"] .task-completed-date::-webkit-calendar-picker-indicator{ filter:invert(1); }
-  .note-toggle{ flex:none; width:20px; height:20px; border-radius:5px; border:none; background:transparent; color:var(--ink-faint); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.72rem; line-height:1; }
-  .note-toggle:hover{ background:var(--surface-2); color:var(--ink); }
-  .note-toggle.has-note{ color:var(--status-due); }
-  .task-note{ width:100%; margin:0.25rem 0 0.35rem; resize:vertical; min-height:28px; font:inherit; font-size:0.76rem; padding:0.32rem 0.42rem; border-radius:6px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
-  .task-note[hidden]{ display:none; }
-  .task-note:focus{ border-color:var(--line-strong); background:var(--surface); }
-  .save-flag{ font-family:"IBM Plex Mono",monospace; font-size:0.6rem; color:var(--ink-faint); opacity:0; transition:opacity .3s ease; }
-  .save-flag.is-visible{ opacity:1; }
-  .week-panel-foot{ padding:0.5rem 1.1rem; border-top:1px solid var(--line); font-size:0.68rem; color:var(--ink-faint); }
-
-  details.list-view{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:2rem; }
-  details.list-view summary{ cursor:pointer; padding:0.9rem 1.1rem; font-weight:600; font-size:0.92rem; list-style:none; display:flex; align-items:center; gap:0.5rem; }
-  details.list-view summary::-webkit-details-marker{ display:none; }
-  .list-scroll{ max-height:360px; overflow-y:auto; border-top:1px solid var(--line); }
-  table.kd{ width:100%; border-collapse:collapse; }
-  table.kd th{ position:sticky; top:0; background:var(--surface-2); text-align:left; font-family:"IBM Plex Mono",monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); padding:0.5rem 0.9rem; }
-  table.kd td{ padding:0.5rem 0.9rem; font-size:0.84rem; border-top:1px solid var(--line); vertical-align:top; }
-  table.kd .kd-date{ font-family:"IBM Plex Mono",monospace; font-size:0.78rem; color:var(--ink-soft); white-space:nowrap; }
-
-  details.policies{ background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); margin-bottom:2rem; }
-  details.policies summary{ cursor:pointer; padding:0.9rem 1.1rem; font-weight:600; font-size:0.92rem; list-style:none; display:flex; align-items:center; gap:0.5rem; }
-  details.policies summary::-webkit-details-marker{ display:none; }
-  .disclosure-chevron{ color:var(--ink-faint); flex:none; transition:transform .15s ease; }
-  details[open] .disclosure-chevron{ transform:rotate(90deg); }
-  .policies-note{ margin:0 1.1rem 1rem; font-size:0.78rem; color:var(--ink-faint); }
-  .policy-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border-top:1px solid var(--line); }
-  @media (max-width:760px){ .policy-grid{ grid-template-columns:1fr; } }
-  .policy-card{ background:var(--surface); padding:1.1rem 1.3rem 1.3rem; }
-  .policy-head{ display:flex; align-items:baseline; gap:0.55rem; margin-bottom:0.9rem; }
-  .policy-head .dot{ width:10px; height:10px; border-radius:50%; background:var(--course); flex:none; align-self:center; }
-  .policy-head .code{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:0.86rem; color:var(--course); }
-  .policy-head .name{ font-size:0.8rem; color:var(--ink-soft); }
-  .policy-row{ margin-bottom:0.9rem; }
-  .policy-row:last-child{ margin-bottom:0; }
-  .policy-row .label{ font-family:"IBM Plex Mono",monospace; font-size:0.65rem; letter-spacing:0.07em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:0.32rem; display:block; }
-  .policy-row p{ margin:0 0 0.4rem; font-size:0.82rem; color:var(--ink); line-height:1.55; }
-  .policy-row p:last-child{ margin-bottom:0; }
-  .policy-row .src{ font-size:0.72rem; color:var(--ink-faint); }
-
-  footer{ border-top:1px solid var(--line); padding-top:1.4rem; color:var(--ink-faint); font-size:0.82rem; max-width:70ch; }
-  footer p{ margin:0 0 0.55rem; }
-  footer p:last-child{ margin-bottom:0; }
+  /* ── debug: live background swatches (hover the dot, bottom-right) ─────
+     A dev affordance, not part of the design: pick which ground you are
+     assigning, then click a Mocha swatch to set it live. The choice is an
+     inline style on <html>, so it beats both themes and survives a reload
+     until Reset. */
+  .bgdbg{ position:fixed; right:14px; bottom:14px; z-index:200;
+    display:flex; align-items:flex-end; flex-direction:column; gap:8px; }
+  .bgdbg-dot{ width:30px; height:30px; border-radius:50%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; align-self:flex-end;
+    background:var(--surface); border:1px solid var(--line-strong); color:var(--ink-faint);
+    box-shadow:var(--shadow-sm); transition:color .15s ease, border-color .15s ease; }
+  .bgdbg:hover .bgdbg-dot, .bgdbg:focus-within .bgdbg-dot{
+    color:var(--color-accent); border-color:var(--color-accent); }
+  .bgdbg-panel{ display:none; width:250px; padding:10px 11px 11px;
+    background:var(--surface); border:1px solid var(--line-strong);
+    border-radius:var(--radius-md); box-shadow:var(--shadow-lg); }
+  .bgdbg:hover .bgdbg-panel, .bgdbg:focus-within .bgdbg-panel{ display:block; }
+  .bgdbg-title{ font-family:var(--font-heading); font-weight:700; font-size:9.5px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:7px; }
+  .bgdbg-targets{ display:flex; gap:4px; margin-bottom:8px; flex-wrap:wrap; }
+  .bgdbg-target{ background:transparent; border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:2px 7px; font-size:11px; color:var(--ink-soft); cursor:pointer; }
+  .bgdbg-target:hover{ border-color:var(--color-accent); }
+  .bgdbg-target.is-active{ color:var(--color-accent); border-color:var(--color-accent);
+    box-shadow:inset 0 0 0 1px var(--color-accent); }
+  .bgdbg-grid{ display:flex; flex-direction:column; gap:1px; }
+  .bgdbg-sw{ display:flex; align-items:center; gap:8px; width:100%; text-align:left;
+    background:transparent; border:0; border-radius:2px; padding:3px 4px; cursor:pointer;
+    font-family:var(--font-figure); font-size:10.5px; color:var(--ink-soft); }
+  .bgdbg-sw:hover{ background:color-mix(in srgb, var(--color-accent) 14%, transparent);
+    color:var(--color-text); }
+  .bgdbg-sw .sw-chip{ width:26px; height:15px; flex:none; border-radius:2px;
+    border:1px solid var(--line-strong); padding:0; }
+  .bgdbg-sw .hex{ margin-left:auto; color:var(--ink-faint); }
+  .bgdbg-foot{ display:flex; align-items:center; gap:8px; margin-top:8px; }
+  .bgdbg-now{ font-family:var(--font-figure); font-size:10px; color:var(--ink-faint); }
+  .bgdbg-reset{ margin-left:auto; background:transparent; border:1px solid var(--line);
+    border-radius:var(--radius-md); padding:2px 8px; font-size:11px;
+    color:var(--ink-soft); cursor:pointer; }
+  .bgdbg-reset:hover{ border-color:var(--color-accent); color:var(--color-accent); }
+  @media print{ .bgdbg{ display:none; } }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<div class="app">
+  <main class="sheet">
 
-  <header class="page">
-    <span class="eyebrow">Carnegie Mellon · Fall 2026 · Aug 24 – Dec 11</span>
-    <h1>Timeline visualizer</h1>
-  </header>
-
-  <div class="top-actions">
-    <details class="controls-disclosure" id="controls-disclosure">
-      <summary><svg class="disclosure-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Courses &amp; filters</summary>
-      <div class="controls">
-        <div class="control-group" id="course-toggles"><span class="control-label">Courses</span></div>
-        <div class="control-group" id="type-toggles"><span class="control-label">Show</span></div>
-        <div class="hint-chip"><span class="key">click</span> a week to see its tasks</div>
+    <section class="block strip-head">
+      <div class="block-head">
+        <h3>Semester at a glance</h3>
       </div>
-    </details>
-    <button type="button" class="today-btn" id="today-btn">Today</button>
-  </div>
+      <div id="week-list"></div>
+    </section>
 
-  <div class="chart-shell">
-    <div class="lane-labels" id="lane-labels"></div>
-    <div class="chart-scroll" id="chart-scroll">
-      <svg id="chart" role="img" aria-label="Day-by-day timeline of four Fall 2026 courses"></svg>
+    <section class="block">
+      <div class="block-head">
+        <h3>Day by day</h3>
+        <div class="chart-actions">
+          <button type="button" class="btn-line" id="today-btn">Today</button>
+          <button type="button" class="btn-line" id="theme-btn"><span class="theme-light">Dark</span><span class="theme-dark">Light</span></button>
+        </div>
+      </div>
+      <div class="chart-shell">
+        <div class="lane-labels" id="lane-labels"></div>
+        <div class="chart-scroll" id="chart-scroll">
+          <svg id="chart" role="img" aria-label="Day-by-day timeline of the semester's courses"></svg>
+        </div>
+      </div>
+      <div class="legend">
+        <span><svg width="11" height="11" viewBox="0 0 11 11"><circle cx="5.5" cy="5.5" r="4" fill="none" stroke="currentColor" stroke-width="1.6"></circle></svg>Released</span>
+        <span><svg width="11" height="11" viewBox="0 0 11 11"><circle cx="5.5" cy="5.5" r="4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2,1.6"></circle></svg>Window opens (inferred)</span>
+        <span><svg width="11" height="11" viewBox="0 0 11 11"><circle cx="5.5" cy="5.5" r="4.2" fill="currentColor"></circle></svg>Due</span>
+        <span><svg width="11" height="11" viewBox="0 0 11 11"><polygon points="5.5,0.8 10.2,5.5 5.5,10.2 0.8,5.5" fill="currentColor"></polygon></svg>Exam or quiz</span>
+        <span><svg width="11" height="11" viewBox="0 0 11 11"><line x1="5.5" y1="1" x2="5.5" y2="10" stroke="currentColor" stroke-width="2"></line></svg>Class meets</span>
+        <span>Click a mark to pin its chain · click a week to open it</span>
+      </div>
+    </section>
+
+    <section class="block" id="week-panel">
+      <div class="week-top">
+        <div class="week-display">
+          <h2 id="week-panel-title">Week</h2>
+          <span class="week-panel-sub" id="week-panel-sub"></span>
+        </div>
+        <div class="week-summary" id="week-summary"></div>
+      </div>
+      <div id="week-panel-body"></div>
+      <div class="week-foot" id="week-panel-foot">Progress, notes and completion dates save as you go.</div>
+    </section>
+
+    <section class="block" id="workload-panel">
+      <div class="block-head">
+        <h3>Weekly workload</h3>
+        <div class="workload-legend" id="workload-legend"></div>
+      </div>
+      <div class="workload-body">
+        <svg id="workload-chart" role="img" aria-label="Weighted workload landing in each week, stacked by course"></svg>
+      </div>
+      <p class="block-note">Counts the due dates and exams landing in each week, one slice per task, sized by a rough type weight — exam &gt; assignment &gt; quiz &gt; after-class quiz. Not points, not hours. A diamond above a bar is an exam or quiz in that course.</p>
+    </section>
+
+    <div class="folds">
+      <details class="fold" id="policies-view">
+        <summary><svg class="disclosure-chevron" width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Course policies — late days, grading, AI use</summary>
+        <div class="fold-body">
+          <p class="fold-note">As written in each syllabus, read Aug 25, 2026. Syllabi get amended — check Canvas before relying on any of this.</p>
+          <div id="policy-tabs"></div>
+          <div id="policy-grid"></div>
+        </div>
+      </details>
+
+      <details class="fold" id="list-view">
+        <summary><svg class="disclosure-chevron" width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Every date as a plain list</summary>
+        <div class="fold-body">
+          <div class="list-scroll">
+            <table class="kd">
+              <thead><tr><th>Date</th><th>Course</th><th>What</th></tr></thead>
+              <tbody id="kd-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold">
+        <summary><svg class="disclosure-chevron" width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Where this data comes from</summary>
+        <div class="fold-body">
+          <footer class="notes">
+            <p>Lecture topics come from the three schedule/syllabus PDFs embedded in the <code class="inline">dn 2026-08-25.md</code> note. 14-642 meets Monday and Wednesday, 12:30–1:50pm — both days show the same published weekly topic, since Canvas doesn't publish one per day. 15-440's three in-recitation quizzes carry the same exam diamond as its midterm and final, since they're graded the same way.</p>
+            <p>14-642's release and due markers come from its Canvas assignments page. Quizzes list an explicit release date; labs, exercises and the project only publish a due date. An exercise's dashed "window opens" mark is inferred from the previous exercise's due date — not official — and is labelled inferred in its tooltip. Exercise 0 has no predecessor, so it opens on the semester start date.</p>
+            <p>Progress, notes and completion dates save automatically. The folder icon beside a course code copies that course's local folder path — paste it into Finder's Go to Folder (⌘⇧G).</p>
+          </footer>
+        </div>
+      </details>
     </div>
-  </div>
-
-  <section class="week-panel" id="week-panel">
-    <div class="week-panel-head">
-      <div>
-        <h2 id="week-panel-title">Week</h2>
-        <div class="week-panel-sub" id="week-panel-sub"></div>
-      </div>
-      <div class="week-summary" id="week-summary"></div>
-      <div class="week-nav">
-        <button type="button" id="week-prev" aria-label="Previous week">‹</button>
-        <button type="button" id="week-next" aria-label="Next week">›</button>
-      </div>
-    </div>
-    <div class="week-panel-body" id="week-panel-body"></div>
-    <div class="week-panel-foot" id="week-panel-foot">Checkboxes and notes save automatically as you go.</div>
-  </section>
-
-  <section class="workload-panel" id="workload-panel">
-    <div class="workload-head">
-      <h2>Weekly workload</h2>
-      <div class="workload-legend" id="workload-legend"></div>
-    </div>
-    <div class="workload-body">
-      <svg id="workload-chart" role="img" aria-label="Number of due dates and exams landing in each week, stacked by course"></svg>
-    </div>
-    <div class="workload-foot">Counts each week's due dates and exams (release dates and class sessions aren't counted as workload). Each bar is broken into one slice per task, sized by a rough task-type weight (exam > assignment > quiz/checkpoint > 14-757's after-class quizzes) — not exact points or effort. A <span class="wl-exam-key">◆</span> above a bar is an exam or quiz, colored by its course — more than one appears when courses overlap. Click a bar to jump to that week above.</div>
-  </section>
-
-  <details class="policies" id="policies-view">
-    <summary><svg class="disclosure-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Course policies — late days, grading, AI use</summary>
-    <p class="policies-note">As written in each course's syllabus, read on Aug 25, 2026. Syllabi get amended — check Canvas or ask the instructor before relying on any of this for a real deadline.</p>
-    <div class="policy-grid">
-
-      <div class="policy-card" data-course="15-440">
-        <div class="policy-head" style="--course:var(--c-ds)"><span class="dot"></span><span class="code">15-440</span><span class="name">Distributed Systems</span></div>
-        <div class="policy-row">
-          <span class="label">Late days</span>
-          <p>10 late days total for the semester, shared across all projects and homework. Up to 3 per single deadline with no grade penalty. Nothing is accepted more than 72 hours (3 days) after a due date, and TA help stops at the official deadline. On partnered projects, late days are drawn from both partners' balances. The one exception is a serious, advisor-verified medical emergency — contact the instructors directly.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">Grading</span>
-          <p>Projects 36% (P0 5, P1 8, P2 5, P3 18) · Written HW 5% · Quizzes 15% · Midterm 20% · Final 20% · Participation 4%. You must independently pass all three components — homework, quizzes/exams, and projects — to pass the course.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">AI policy</span>
-          <p>Projects: AI tools (including agents) are allowed, but you must understand every line and be able to produce a similar solution on paper without AI. Homework: strongly recommended by hand, AI only as a high-level resource. Quizzes, exams, and presentations: no AI or outside resources at all. Any AI use on a project or homework must be disclosed — the tool/model, how it was used, and what for — and course material can't be fed into a platform whose retention or training policy could leak it.</p>
-          <p class="src">Source: course website syllabus</p>
-        </div>
-      </div>
-
-      <div class="policy-card" data-course="14-642">
-        <div class="policy-head" style="--course:var(--c-es)"><span class="dot"></span><span class="code">14-642</span><span class="name">Embedded Systems</span></div>
-        <div class="policy-row">
-          <span class="label">Late days</span>
-          <p>No fixed late-day bank — it's negotiable. Contact Patrick Tague as soon as you know you'll be late, ideally before the deadline. The syllabus itself says late submissions are still accepted through the last day of class, with any grade penalty left to the instructor's discretion, and that TA help isn't guaranteed once a deadline has passed.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">Grading</span>
-          <p>Lab exercises 75% · Quizzes 25%. Labs may be done with a partner over a private GitHub repo in the cmu14642 org; quizzes are online/asynchronous and must be completed entirely solo.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">AI policy</span>
-          <p>Generative AI is allowed only for basic supporting tasks on labs (e.g. syntax lookups), and every use must be cited — the tool, your exact prompt, and the response you got. AI is prohibited on quizzes outright, and any other use counts as cheating. Course materials (slides, assignments, quiz questions) may not be shared with AI tools at all — that's a copyright violation on top of an integrity one.</p>
-          <p class="src">Source: PDF syllabus, uploaded Aug 25, 2026</p>
-        </div>
-      </div>
-
-      <div class="policy-card" data-course="15-618">
-        <div class="policy-head" style="--course:var(--c-pa)"><span class="dot"></span><span class="code">15-618</span><span class="name">Parallel Computer Architecture</span></div>
-        <div class="policy-row">
-          <span class="label">Late days</span>
-          <p>5 late-day points for the semester, usable on programming assignments only (not quizzes or the final project). A solo assignment costs 1 point/day late; a 2-person team costs 2 points/day (1 from each partner). Once points are gone, late hand-ins lose 10%/day, capped at 3 days late — nothing is accepted after that.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">Grading</span>
-          <p>Programming assignments 25% · two exams 40% (20% each, no final exam) · written assignments + quizzes 10% · final project 25%. Cutoffs: 90 A · 80 B · 70 C · 60 D, with room for borderline bumps based on attendance, participation, and improvement.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">AI policy</span>
-          <p>Varies by assignment, but document all AI use regardless. Conceptual questions: fine for linking topics together. Written assignments: minimize use, no copy/paste in or out, and AI is banned outright during peer grading. Programming assignment 1: no AI tools at all. Assignments 2–4: AI is OK only for small-scale code generation (e.g. a linked list) and framework/API lookups — not for designing the actual parallel algorithm. Reports: AI can help with LaTeX, formatting, and grammar, not rewriting whole paragraphs. Never use it to analyze results or draw conclusions.</p>
-          <p class="src">Source: PDF syllabus, uploaded Aug 25, 2026</p>
-        </div>
-      </div>
-
-      <div class="policy-card" data-course="14-757">
-        <div class="policy-head" style="--course:var(--c-ml)"><span class="dot"></span><span class="code">14-757</span><span class="name">ML with Adversaries in Mind</span></div>
-        <div class="policy-row">
-          <span class="label">Late days</span>
-          <p>Each assignment can go up to 2 days (48 hours) late, drawn from a 7-late-day pool for the whole semester that's applied automatically. Once the pool is used up, late submissions lose 20 points/day. A genuine life-changing event is grounds for extra consideration — talk to Prof. Varodayan ahead of time if you can.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">Grading</span>
-          <p>1050 points total: HW0 = 100, HW1–HW6 = 150 each, code discussions = 50 combined. Letter cutoffs: A 980 · A- 945 · B+ 910 · B 875 · B- 840 · C+ 805 · C 770 · C- 735 · D+ 700 · D 630. Regrade requests are due on Gradescope within 1 week of grades being returned.</p>
-        </div>
-        <div class="policy-row">
-          <span class="label">AI policy</span>
-          <p>Generative AI is welcome, but every contribution needs a citation — quote AI text verbatim with a citation, cite paraphrased AI content, and cite non-text AI output (images, code, etc.) only where the assignment prompt expressly allows it. You still do your own research and build your own bibliographies, and passing off AI content as your own work is treated as plagiarism. You're responsible for anything inaccurate or biased that makes it into your submission.</p>
-          <p class="src">Source: PDF syllabus, uploaded Aug 25, 2026</p>
-        </div>
-      </div>
-
-    </div>
-  </details>
-
-  <footer>
-    <p>Lecture topics come from the four schedule/syllabus PDFs embedded in your <code class="inline">dn 2026-08-25.md</code> note. 14-642 meets Monday and Wednesday, 12:30–1:50pm — both days of a given week show the same published weekly topic, since Canvas doesn't publish a separate one per day. 15-440's three in-recitation quizzes are marked with the same exam diamond as its midterm and final, since they're graded the same as any other exam and count toward the same 15% of the grade.</p>
-    <p>14-642's release and due markers come from its Canvas assignments page. Quizzes list an explicit release date (solid hollow circle); labs and the project only ever publish a due date. Exercises only publish a due date too — their dashed "window opens" marker is inferred as the previous exercise's due date, not an official Canvas release, so it's shown with a dashed outline and labeled "inferred" in its tooltip. Exercise 0 has no predecessor, so its inferred window opens on the semester start date.</p>
-    <p>Checkbox and note state saves automatically. The folder icon next to each course code copies that course's local folder path to your clipboard — a browser page can't open Finder directly, so paste it into Finder's Go to Folder (⌘⇧G).</p>
-  </footer>
-
-  <details class="list-view" id="list-view">
-    <summary><svg class="disclosure-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2L7 5L3 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Open as a plain list (all dates, sortable by eye, screen-reader friendly)</summary>
-    <div class="list-scroll">
-      <table class="kd">
-        <thead><tr><th>Date</th><th>Course</th><th>What</th></tr></thead>
-        <tbody id="kd-body"></tbody>
-      </table>
-    </div>
-  </details>
-
+  </main>
 </div>
 
 <div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
 <div class="toast" id="toast"></div>
 
-<script type="application/json" id="viz-data">{"start":"2026-08-24","end":"2026-12-13","breaks":[{"s":"2026-09-07","e":"2026-09-07","x":"Labor Day"},{"s":"2026-10-12","e":"2026-10-16","x":"Fall Break"},{"s":"2026-11-03","e":"2026-11-03","x":"Democracy Day"},{"s":"2026-11-25","e":"2026-11-27","x":"Thanksgiving"}],"weeks":[{"n":1,"s":"2026-08-24","e":"2026-08-30"},{"n":2,"s":"2026-08-31","e":"2026-09-06"},{"n":3,"s":"2026-09-07","e":"2026-09-13"},{"n":4,"s":"2026-09-14","e":"2026-09-20"},{"n":5,"s":"2026-09-21","e":"2026-09-27"},{"n":6,"s":"2026-09-28","e":"2026-10-04"},{"n":7,"s":"2026-10-05","e":"2026-10-11"},{"n":8,"s":"2026-10-12","e":"2026-10-18"},{"n":9,"s":"2026-10-19","e":"2026-10-25"},{"n":10,"s":"2026-10-26","e":"2026-11-01"},{"n":11,"s":"2026-11-02","e":"2026-11-08"},{"n":12,"s":"2026-11-09","e":"2026-11-15"},{"n":13,"s":"2026-11-16","e":"2026-11-22"},{"n":14,"s":"2026-11-23","e":"2026-11-29"},{"n":15,"s":"2026-11-30","e":"2026-12-06"},{"n":16,"s":"2026-12-07","e":"2026-12-13"}],"courses":[{"code":"15-440","name":"Distributed Systems","items":[{"d":"2026-08-25","t":"class","x":"Introduction","id":"15-440-0"},{"d":"2026-08-27","t":"class","x":"Communication 1 — Internet in a Day, day 1","id":"15-440-1"},{"d":"2026-08-28","t":"class","x":"Recitation: P0","id":"15-440-2"},{"d":"2026-08-28","t":"out","x":"P0 released","g":"P0","id":"15-440-3"},{"d":"2026-09-01","t":"class","x":"Communication 2 — Internet in a Day, day 2","id":"15-440-4"},{"d":"2026-09-03","t":"class","x":"Consistency — classical sync + Go-style concurrency","id":"15-440-5"},{"d":"2026-09-04","t":"class","x":"Recitation: Go debugging","id":"15-440-6"},{"d":"2026-09-07","t":"out","x":"HW1 released","g":"HW1","id":"15-440-7"},{"d":"2026-09-08","t":"class","x":"Time and Synchronization","id":"15-440-8"},{"d":"2026-09-08","t":"out","x":"P1 released (Parts A & B)","g":"P1","id":"15-440-9"},{"d":"2026-09-08","t":"due","x":"P0 due","g":"P0","id":"15-440-10"},{"d":"2026-09-10","t":"class","x":"Distributed Mutual Exclusion","id":"15-440-11"},{"d":"2026-09-11","t":"class","x":"Recitation: P1 Part A","id":"15-440-12"},{"d":"2026-09-15","t":"class","x":"Remote Procedure Calls","id":"15-440-13"},{"d":"2026-09-17","t":"class","x":"Distributed Filesystems","id":"15-440-14"},{"d":"2026-09-17","t":"due","x":"P1 Part A checkpoint due","g":"P1","id":"15-440-15"},{"d":"2026-09-18","t":"exam","x":"Quiz 1 (in recitation)","id":"15-440-16"},{"d":"2026-09-21","t":"out","x":"HW2 released","g":"HW2","id":"15-440-17"},{"d":"2026-09-21","t":"due","x":"HW1 due","g":"HW1","id":"15-440-18"},{"d":"2026-09-22","t":"class","x":"Distributed Filesystems 2 — AFS, Coda, LBFS","id":"15-440-19"},{"d":"2026-09-24","t":"class","x":"Distributed Transactions / Concurrency Control","id":"15-440-20"},{"d":"2026-09-24","t":"due","x":"P1 Part A final due","g":"P1","id":"15-440-21"},{"d":"2026-09-24","t":"event","x":"P1 Part B released (already unlocked with P1)","g":"P1","id":"15-440-22"},{"d":"2026-09-25","t":"class","x":"Recitation: P1 Part B","id":"15-440-23"},{"d":"2026-09-29","t":"class","x":"Midterm review","id":"15-440-24"},{"d":"2026-10-01","t":"exam","x":"First Midterm Exam","id":"15-440-25"},{"d":"2026-10-05","t":"out","x":"P3 proposal released","g":"P3","id":"15-440-26"},{"d":"2026-10-05","t":"due","x":"HW2 due","g":"HW2","id":"15-440-27"},{"d":"2026-10-06","t":"class","x":"Logging, Checkpointing and Crash Recovery","id":"15-440-28"},{"d":"2026-10-08","t":"class","x":"Distributed Replication","id":"15-440-29"},{"d":"2026-10-08","t":"out","x":"P2 released","g":"P2","id":"15-440-30"},{"d":"2026-10-08","t":"due","x":"P1 Part B due","g":"P1","id":"15-440-31"},{"d":"2026-10-20","t":"class","x":"Fault Tolerance & RAID","id":"15-440-32"},{"d":"2026-10-22","t":"class","x":"Introduction to Crypto (Security 1 & 2)","id":"15-440-33"},{"d":"2026-10-22","t":"out","x":"HW3 released","g":"HW3","id":"15-440-34"},{"d":"2026-10-22","t":"due","x":"P3 proposal due","g":"P3","id":"15-440-35"},{"d":"2026-10-23","t":"class","x":"Recitation: P2","id":"15-440-36"},{"d":"2026-10-27","t":"class","x":"Classical BFT","id":"15-440-37"},{"d":"2026-10-27","t":"due","x":"P2 checkpoint due","g":"P2","id":"15-440-38"},{"d":"2026-10-29","t":"class","x":"Longest Chain Consensus + Blockchains","id":"15-440-39"},{"d":"2026-10-30","t":"exam","x":"Quiz 2 (in recitation)","id":"15-440-40"},{"d":"2026-11-05","t":"class","x":"Internet Content Delivery","id":"15-440-41"},{"d":"2026-11-05","t":"out","x":"P3 main assignment released","g":"P3","id":"15-440-42"},{"d":"2026-11-05","t":"due","x":"P2 final due","g":"P2","id":"15-440-43"},{"d":"2026-11-10","t":"class","x":"Distributed Computing / MPI / MapReduce / Hadoop","id":"15-440-44"},{"d":"2026-11-12","t":"class","x":"In-memory cluster compute, Spark, Distributed ML","id":"15-440-45"},{"d":"2026-11-13","t":"exam","x":"Quiz 3 (in recitation)","id":"15-440-46"},{"d":"2026-11-13","t":"out","x":"HW4 released","g":"HW4","id":"15-440-47"},{"d":"2026-11-13","t":"due","x":"HW3 due","g":"HW3","id":"15-440-48"},{"d":"2026-11-17","t":"class","x":"Virtualization","id":"15-440-49"},{"d":"2026-11-19","t":"class","x":"Scaling — 3-tier web service architecture","id":"15-440-50"},{"d":"2026-11-24","t":"class","x":"TBD","id":"15-440-51"},{"d":"2026-11-24","t":"due","x":"P3 checkpoint due","g":"P3","id":"15-440-52"},{"d":"2026-12-01","t":"class","x":"Debugging Large-Scale Distributed Systems (guest)","id":"15-440-53"},{"d":"2026-12-01","t":"due","x":"HW4 due","g":"HW4","id":"15-440-54"},{"d":"2026-12-03","t":"class","x":"Final Exam Review","id":"15-440-55"},{"d":"2026-12-03","t":"due","x":"P3 final due","g":"P3","id":"15-440-56"},{"d":"2026-12-11","t":"exam","x":"Final Exam — date TBD","id":"15-440-57"}],"folder":"~/Documents/CMU/15-440"},{"code":"14-642","name":"Embedded Systems","items":[{"d":"2026-08-24","t":"class","x":"Course Overview; Exploring Electronics — Syllabus, OH info","id":"14-642-0"},{"d":"2026-08-26","t":"class","x":"Course Overview; Exploring Electronics — Syllabus, OH info","id":"14-642-1"},{"d":"2026-08-31","t":"class","x":"Arm, Cortex-M4, Build Process, Bootloader; Arm Assembly — EFS Ch. 0–2","id":"14-642-2"},{"d":"2026-09-02","t":"class","x":"Arm, Cortex-M4, Build Process, Bootloader; Arm Assembly — EFS Ch. 0–2","id":"14-642-3"},{"d":"2026-09-09","t":"class","x":"Optimization — EFS Ch. 2","id":"14-642-4"},{"d":"2026-09-14","t":"class","x":"Peripherals; Counting — EFS Ch. 3–5","id":"14-642-5"},{"d":"2026-09-16","t":"class","x":"Peripherals; Counting — EFS Ch. 3–5","id":"14-642-6"},{"d":"2026-09-21","t":"class","x":"Sensing; Serial Communication — EFS Ch. 6–7","id":"14-642-7"},{"d":"2026-09-23","t":"class","x":"Sensing; Serial Communication — EFS Ch. 6–7","id":"14-642-8"},{"d":"2026-09-28","t":"class","x":"Actuation & Control — EFS Ch. 8–9","id":"14-642-9"},{"d":"2026-09-30","t":"class","x":"Actuation & Control — EFS Ch. 8–9","id":"14-642-10"},{"d":"2026-10-05","t":"class","x":"Faults, Exceptions, & Interrupts — EFS Ch. 10","id":"14-642-11"},{"d":"2026-10-07","t":"class","x":"Faults, Exceptions, & Interrupts — EFS Ch. 10","id":"14-642-12"},{"d":"2026-10-19","t":"class","x":"Resource Sharing, DMA, Files & Concurrency Controls; System Calls — EFS Ch. 11–13","id":"14-642-13"},{"d":"2026-10-21","t":"class","x":"Resource Sharing, DMA, Files & Concurrency Controls; System Calls — EFS Ch. 11–13","id":"14-642-14"},{"d":"2026-10-26","t":"class","x":"Multitasking — EFS Ch. 14","id":"14-642-15"},{"d":"2026-10-28","t":"class","x":"Multitasking — EFS Ch. 14","id":"14-642-16"},{"d":"2026-11-02","t":"class","x":"Real-Time Systems & Scheduling; Multitasking labs and project — EFS Ch. 15","id":"14-642-17"},{"d":"2026-11-04","t":"class","x":"Real-Time Systems & Scheduling; Multitasking labs and project — EFS Ch. 15","id":"14-642-18"},{"d":"2026-11-09","t":"class","x":"Schedulability; Thread Protection — EFS Ch. 15–16","id":"14-642-19"},{"d":"2026-11-11","t":"class","x":"Schedulability; Thread Protection — EFS Ch. 15–16","id":"14-642-20"},{"d":"2026-11-16","t":"class","x":"Thread Synchronization — EFS Ch. 17","id":"14-642-21"},{"d":"2026-11-18","t":"class","x":"Thread Synchronization — EFS Ch. 17","id":"14-642-22"},{"d":"2026-11-23","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-23"},{"d":"2026-11-30","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-24"},{"d":"2026-12-02","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-25"},{"d":"2026-08-28","t":"due","x":"Quiz 0 due — 10 pts","id":"14-642-26"},{"d":"2026-09-04","t":"due","x":"Lab Setup Tests due","id":"14-642-27","g":"LabSetup"},{"d":"2026-09-14","t":"out","x":"Quiz 1 released — 20 pts","g":"Quiz 1","id":"14-642-28"},{"d":"2026-09-18","t":"due","x":"Quiz 1 due","g":"Quiz 1","id":"14-642-29"},{"d":"2026-09-21","t":"out","x":"Quiz 2 released — 20 pts","g":"Quiz 2","id":"14-642-30"},{"d":"2026-09-25","t":"due","x":"Quiz 2 due","g":"Quiz 2","id":"14-642-31"},{"d":"2026-09-28","t":"out","x":"Quiz 3 released — 20 pts","g":"Quiz 3","id":"14-642-32"},{"d":"2026-10-02","t":"due","x":"Quiz 3 due","g":"Quiz 3","id":"14-642-33"},{"d":"2026-10-05","t":"out","x":"Quiz 4 released — 20 pts","g":"Quiz 4","id":"14-642-34"},{"d":"2026-10-09","t":"due","x":"Quiz 4 due","g":"Quiz 4","id":"14-642-35"},{"d":"2026-10-26","t":"out","x":"Quiz 5 released — 20 pts","g":"Quiz 5","id":"14-642-36"},{"d":"2026-10-30","t":"due","x":"Quiz 5 due","g":"Quiz 5","id":"14-642-37"},{"d":"2026-11-02","t":"out","x":"Quiz 6 released — 20 pts","g":"Quiz 6","id":"14-642-38"},{"d":"2026-11-06","t":"due","x":"Quiz 6 due","g":"Quiz 6","id":"14-642-39"},{"d":"2026-11-09","t":"out","x":"Quiz 7 released — 20 pts","g":"Quiz 7","id":"14-642-40"},{"d":"2026-11-13","t":"due","x":"Quiz 7 due","g":"Quiz 7","id":"14-642-41"},{"d":"2026-11-24","t":"due","x":"Project Proposal due — 40 pts","id":"14-642-42"},{"d":"2026-11-30","t":"out","x":"Quiz 8 released — 30 pts","g":"Quiz 8","id":"14-642-43"},{"d":"2026-12-04","t":"due","x":"Quiz 8 due","g":"Quiz 8","id":"14-642-44"},{"d":"2026-12-10","t":"due","x":"Project due — 160 pts","id":"14-642-45"},{"d":"2026-08-24","t":"start","x":"Exercise 0 window opens","g":"Ex0","id":"14-642-46"},{"d":"2026-09-11","t":"due","x":"Exercise 0: Complete the Bootloader due — 25 pts","g":"Ex0","id":"14-642-47"},{"d":"2026-08-24","t":"start","x":"Exercise 1 window opens","g":"Ex1","id":"14-642-48"},{"d":"2026-09-11","t":"due","x":"Exercise 1: Arm Assembly Optimization due — 75 pts","g":"Ex1","id":"14-642-49"},{"d":"2026-09-11","t":"start","x":"Exercise 2 window opens","g":"Ex2","id":"14-642-50"},{"d":"2026-09-18","t":"due","x":"Exercise 2: Create GPIO Wrapper Functions due — 10 pts","g":"Ex2","id":"14-642-51"},{"d":"2026-09-18","t":"start","x":"Exercise 3 window opens","g":"Ex3","id":"14-642-52"},{"d":"2026-09-25","t":"due","x":"Exercise 3: Implement RTT due — 25 pts","g":"Ex3","id":"14-642-53"},{"d":"2026-09-18","t":"start","x":"Exercise 4 window opens","g":"Ex4","id":"14-642-54"},{"d":"2026-09-25","t":"due","x":"Exercise 4: Audio Sensing due — 40 pts","g":"Ex4","id":"14-642-55"},{"d":"2026-09-25","t":"start","x":"Exercise 5 window opens","g":"Ex5","id":"14-642-56"},{"d":"2026-10-02","t":"due","x":"Exercise 5: Lux Sensing via I2C due — 35 pts","g":"Ex5","id":"14-642-57"},{"d":"2026-09-25","t":"start","x":"Exercise 6 window opens","g":"Ex6","id":"14-642-58"},{"d":"2026-10-02","t":"due","x":"Exercise 6: Write a Neopixel Driver due — 40 pts","g":"Ex6","id":"14-642-59"},{"d":"2026-10-02","t":"start","x":"Exercise 7 window opens","g":"Ex7","id":"14-642-60"},{"d":"2026-10-06","t":"due","x":"Exercise 7: Dance Party Lighting due — 50 pts","g":"Ex7","id":"14-642-61"},{"d":"2026-10-06","t":"start","x":"Exercise 8 window opens","g":"Ex8","id":"14-642-62"},{"d":"2026-10-09","t":"due","x":"Exercise 8: One-Second Timer with SysTick due — 10 pts","g":"Ex8","id":"14-642-63"},{"d":"2026-10-06","t":"start","x":"Exercise 9 window opens","g":"Ex9","id":"14-642-64"},{"d":"2026-10-09","t":"due","x":"Exercise 9: Enable a Soft Reset Button due — 20 pts","g":"Ex9","id":"14-642-65"},{"d":"2026-10-09","t":"start","x":"Exercise 10 window opens","g":"Ex10","id":"14-642-66"},{"d":"2026-10-20","t":"due","x":"Exercise 10: Timer-Driven ADC Sampling due — 25 pts","g":"Ex10","id":"14-642-67"},{"d":"2026-10-20","t":"start","x":"Exercise 11 window opens","g":"Ex11","id":"14-642-68"},{"d":"2026-10-23","t":"due","x":"Exercise 11: ADC-Driven Visualizer due — 25 pts","g":"Ex11","id":"14-642-69"},{"d":"2026-10-20","t":"start","x":"Exercise 12 window opens","g":"Ex12","id":"14-642-70"},{"d":"2026-10-23","t":"due","x":"Exercise 12: Implement and Test Locking due — 20 pts","g":"Ex12","id":"14-642-71"},{"d":"2026-10-23","t":"start","x":"Exercise 13 window opens","g":"Ex13","id":"14-642-72"},{"d":"2026-10-30","t":"due","x":"Exercise 13: Launch a User Application due — 35 pts","g":"Ex13","id":"14-642-73"},{"d":"2026-10-23","t":"start","x":"Exercise 14 window opens","g":"Ex14","id":"14-642-74"},{"d":"2026-10-30","t":"due","x":"Exercise 14: Minimal System Call Support due — 35 pts","g":"Ex14","id":"14-642-75"},{"d":"2026-10-23","t":"start","x":"Exercise 15 window opens","g":"Ex15","id":"14-642-76"},{"d":"2026-10-30","t":"due","x":"Exercise 15: Creating Custom System Calls due — 60 pts","g":"Ex15","id":"14-642-77"},{"d":"2026-10-30","t":"start","x":"Exercise 16 window opens","g":"Ex16","id":"14-642-78"},{"d":"2026-11-13","t":"due","x":"Exercise 16: Implement Multitasking due — 60 pts","g":"Ex16","id":"14-642-79"},{"d":"2026-10-30","t":"start","x":"Exercise 17 window opens","g":"Ex17","id":"14-642-80"},{"d":"2026-11-13","t":"due","x":"Exercise 17: Implement Periodic Tasks and Rate Monotonic Scheduling due — 60 pts","g":"Ex17","id":"14-642-81"},{"d":"2026-11-13","t":"start","x":"Exercise 18 window opens","g":"Ex18","id":"14-642-82"},{"d":"2026-11-20","t":"due","x":"Exercise 18: Protect Kernel and Thread Memory using the MPU due — 45 pts","g":"Ex18","id":"14-642-83"},{"d":"2026-11-20","t":"start","x":"Exercise 19 window opens","g":"Ex19","id":"14-642-84"},{"d":"2026-11-24","t":"due","x":"Exercise 19: User-Space Locking due — 40 pts","g":"Ex19","id":"14-642-85"},{"d":"2026-11-20","t":"start","x":"Exercise 20 window opens","g":"Ex20","id":"14-642-86"},{"d":"2026-11-24","t":"due","x":"Exercise 20: Implement PCP due — 65 pts","g":"Ex20","id":"14-642-87"},{"d":"2026-08-28","t":"start","x":"Lab Setup Tests window opens","g":"LabSetup","id":"14-642-88"}],"folder":"~/Documents/CMU/14-642"},{"code":"14-757","name":"ML with Adversaries in Mind","items":[{"d":"2026-08-25","t":"class","x":"Intro and Review of Statistics and Visualization","id":"14-757-0"},{"d":"2026-08-27","t":"class","x":"Probability Review","id":"14-757-1"},{"d":"2026-09-01","t":"class","x":"Classification and Naïve Bayes — Ch. 1","id":"14-757-2"},{"d":"2026-09-03","t":"class","x":"Adversarial Spam Filtering","id":"14-757-3"},{"d":"2026-09-03","t":"due","x":"HW0 due","id":"14-757-4","g":"HW0"},{"d":"2026-09-08","t":"class","x":"Support Vector Machines — Ch. 2.1","id":"14-757-5"},{"d":"2026-09-10","t":"class","x":"Adversarial Linear Classification","id":"14-757-6"},{"d":"2026-09-15","t":"class","x":"Random Forests — Ch. 2.2","id":"14-757-7"},{"d":"2026-09-17","t":"class","x":"Neural Networks — Ch. 16","id":"14-757-8"},{"d":"2026-09-17","t":"due","x":"HW1 due","id":"14-757-9","g":"HW1"},{"d":"2026-09-22","t":"class","x":"Convolutional Neural Networks — Ch. 17","id":"14-757-10"},{"d":"2026-09-24","t":"class","x":"Evasion Attacks on Neural Network Classifiers","id":"14-757-11"},{"d":"2026-09-29","t":"class","x":"Image and Malware Classification — Ch. 18.1","id":"14-757-12"},{"d":"2026-10-01","t":"class","x":"Regression — Ch. 10.1–2","id":"14-757-13"},{"d":"2026-10-01","t":"due","x":"HW2 due","id":"14-757-14","g":"HW2"},{"d":"2026-10-06","t":"class","x":"Robust Regression — Ch. 10.3–4","id":"14-757-15"},{"d":"2026-10-08","t":"class","x":"Visual Linear Algebra Review","id":"14-757-16"},{"d":"2026-10-20","t":"class","x":"Principal Components Analysis — Ch. 4, 5","id":"14-757-17"},{"d":"2026-10-22","t":"class","x":"PCA and Multidimensional Scaling — Ch. 5, 6.2","id":"14-757-18"},{"d":"2026-10-22","t":"due","x":"HW3 due","id":"14-757-19","g":"HW3"},{"d":"2026-10-27","t":"class","x":"Adversarial Network Anomaly Detection","id":"14-757-20"},{"d":"2026-10-29","t":"class","x":"Clustering and k-Means — Ch. 4.2, 8.1–2","id":"14-757-21"},{"d":"2026-11-05","t":"class","x":"Vector Quantization — Ch. 8.3","id":"14-757-22"},{"d":"2026-11-05","t":"due","x":"HW4 due","id":"14-757-23","g":"HW4"},{"d":"2026-11-10","t":"class","x":"Maximum Likelihood Estimation","id":"14-757-24"},{"d":"2026-11-12","t":"class","x":"Expectation-Maximization — Ch. 9","id":"14-757-25"},{"d":"2026-11-17","t":"class","x":"Markov Chains and Hidden Markov Models — Ch. 13.1–2","id":"14-757-26"},{"d":"2026-11-19","t":"class","x":"PageRank and Search Engine Optimization","id":"14-757-27"},{"d":"2026-11-19","t":"due","x":"HW5 due","id":"14-757-28","g":"HW5"},{"d":"2026-12-01","t":"class","x":"Towards Generative Adversarial Networks — Ch. 19","id":"14-757-29"},{"d":"2026-12-03","t":"class","x":"GANs and Diffusion Models","id":"14-757-30"},{"d":"2026-12-03","t":"due","x":"HW6 due","id":"14-757-31","g":"HW6"},{"d":"2026-08-25","t":"out","x":"Quiz 1 released (opens after class)","g":"Quiz 1","id":"14-757-32"},{"d":"2026-08-26","t":"due","x":"Quiz 1 due — 7:00 PM (24hr window)","g":"Quiz 1","id":"14-757-33"},{"d":"2026-08-27","t":"out","x":"Quiz 2 released (opens after class)","g":"Quiz 2","id":"14-757-34"},{"d":"2026-08-28","t":"due","x":"Quiz 2 due — 7:00 PM (24hr window)","g":"Quiz 2","id":"14-757-35"},{"d":"2026-09-01","t":"out","x":"Quiz 3 released (opens after class)","g":"Quiz 3","id":"14-757-36"},{"d":"2026-09-02","t":"due","x":"Quiz 3 due — 7:00 PM (24hr window)","g":"Quiz 3","id":"14-757-37"},{"d":"2026-09-03","t":"out","x":"Quiz 4 released (opens after class)","g":"Quiz 4","id":"14-757-38"},{"d":"2026-09-04","t":"due","x":"Quiz 4 due — 7:00 PM (24hr window)","g":"Quiz 4","id":"14-757-39"},{"d":"2026-09-08","t":"out","x":"Quiz 5 released (opens after class)","g":"Quiz 5","id":"14-757-40"},{"d":"2026-09-09","t":"due","x":"Quiz 5 due — 7:00 PM (24hr window)","g":"Quiz 5","id":"14-757-41"},{"d":"2026-09-10","t":"out","x":"Quiz 6 released (opens after class)","g":"Quiz 6","id":"14-757-42"},{"d":"2026-09-11","t":"due","x":"Quiz 6 due — 7:00 PM (24hr window)","g":"Quiz 6","id":"14-757-43"},{"d":"2026-09-15","t":"out","x":"Quiz 7 released (opens after class)","g":"Quiz 7","id":"14-757-44"},{"d":"2026-09-16","t":"due","x":"Quiz 7 due — 7:00 PM (24hr window)","g":"Quiz 7","id":"14-757-45"},{"d":"2026-09-17","t":"out","x":"Quiz 8 released (opens after class)","g":"Quiz 8","id":"14-757-46"},{"d":"2026-09-18","t":"due","x":"Quiz 8 due — 7:00 PM (24hr window)","g":"Quiz 8","id":"14-757-47"},{"d":"2026-09-22","t":"out","x":"Quiz 9 released (opens after class)","g":"Quiz 9","id":"14-757-48"},{"d":"2026-09-23","t":"due","x":"Quiz 9 due — 7:00 PM (24hr window)","g":"Quiz 9","id":"14-757-49"},{"d":"2026-09-24","t":"out","x":"Quiz 10 released (opens after class)","g":"Quiz 10","id":"14-757-50"},{"d":"2026-09-25","t":"due","x":"Quiz 10 due — 7:00 PM (24hr window)","g":"Quiz 10","id":"14-757-51"},{"d":"2026-09-29","t":"out","x":"Quiz 11 released (opens after class)","g":"Quiz 11","id":"14-757-52"},{"d":"2026-09-30","t":"due","x":"Quiz 11 due — 7:00 PM (24hr window)","g":"Quiz 11","id":"14-757-53"},{"d":"2026-10-01","t":"out","x":"Quiz 12 released (opens after class)","g":"Quiz 12","id":"14-757-54"},{"d":"2026-10-02","t":"due","x":"Quiz 12 due — 7:00 PM (24hr window)","g":"Quiz 12","id":"14-757-55"},{"d":"2026-10-06","t":"out","x":"Quiz 13 released (opens after class)","g":"Quiz 13","id":"14-757-56"},{"d":"2026-10-07","t":"due","x":"Quiz 13 due — 7:00 PM (24hr window)","g":"Quiz 13","id":"14-757-57"},{"d":"2026-10-08","t":"out","x":"Quiz 14 released (opens after class)","g":"Quiz 14","id":"14-757-58"},{"d":"2026-10-09","t":"due","x":"Quiz 14 due — 7:00 PM (24hr window)","g":"Quiz 14","id":"14-757-59"},{"d":"2026-10-20","t":"out","x":"Quiz 15 released (opens after class)","g":"Quiz 15","id":"14-757-60"},{"d":"2026-10-21","t":"due","x":"Quiz 15 due — 7:00 PM (24hr window)","g":"Quiz 15","id":"14-757-61"},{"d":"2026-10-22","t":"out","x":"Quiz 16 released (opens after class)","g":"Quiz 16","id":"14-757-62"},{"d":"2026-10-23","t":"due","x":"Quiz 16 due — 7:00 PM (24hr window)","g":"Quiz 16","id":"14-757-63"},{"d":"2026-10-27","t":"out","x":"Quiz 17 released (opens after class)","g":"Quiz 17","id":"14-757-64"},{"d":"2026-10-28","t":"due","x":"Quiz 17 due — 7:00 PM (24hr window)","g":"Quiz 17","id":"14-757-65"},{"d":"2026-10-29","t":"out","x":"Quiz 18 released (opens after class)","g":"Quiz 18","id":"14-757-66"},{"d":"2026-10-30","t":"due","x":"Quiz 18 due — 7:00 PM (24hr window)","g":"Quiz 18","id":"14-757-67"},{"d":"2026-11-05","t":"out","x":"Quiz 19 released (opens after class)","g":"Quiz 19","id":"14-757-68"},{"d":"2026-11-06","t":"due","x":"Quiz 19 due — 7:00 PM (24hr window)","g":"Quiz 19","id":"14-757-69"},{"d":"2026-11-10","t":"out","x":"Quiz 20 released (opens after class)","g":"Quiz 20","id":"14-757-70"},{"d":"2026-11-11","t":"due","x":"Quiz 20 due — 7:00 PM (24hr window)","g":"Quiz 20","id":"14-757-71"},{"d":"2026-11-12","t":"out","x":"Quiz 21 released (opens after class)","g":"Quiz 21","id":"14-757-72"},{"d":"2026-11-13","t":"due","x":"Quiz 21 due — 7:00 PM (24hr window)","g":"Quiz 21","id":"14-757-73"},{"d":"2026-11-17","t":"out","x":"Quiz 22 released (opens after class)","g":"Quiz 22","id":"14-757-74"},{"d":"2026-11-18","t":"due","x":"Quiz 22 due — 7:00 PM (24hr window)","g":"Quiz 22","id":"14-757-75"},{"d":"2026-11-19","t":"out","x":"Quiz 23 released (opens after class)","g":"Quiz 23","id":"14-757-76"},{"d":"2026-11-20","t":"due","x":"Quiz 23 due — 7:00 PM (24hr window)","g":"Quiz 23","id":"14-757-77"},{"d":"2026-12-01","t":"out","x":"Quiz 24 released (opens after class)","g":"Quiz 24","id":"14-757-78"},{"d":"2026-12-02","t":"due","x":"Quiz 24 due — 7:00 PM (24hr window)","g":"Quiz 24","id":"14-757-79"},{"d":"2026-12-03","t":"out","x":"Quiz 25 released (opens after class)","g":"Quiz 25","id":"14-757-80"},{"d":"2026-12-04","t":"due","x":"Quiz 25 due — 7:00 PM (24hr window)","g":"Quiz 25","id":"14-757-81"},{"d":"2026-08-25","t":"start","x":"HW0 window opens","g":"HW0","id":"14-757-82"},{"d":"2026-09-03","t":"start","x":"HW1 window opens","g":"HW1","id":"14-757-83"},{"d":"2026-09-17","t":"start","x":"HW2 window opens","g":"HW2","id":"14-757-84"},{"d":"2026-10-01","t":"start","x":"HW3 window opens","g":"HW3","id":"14-757-85"},{"d":"2026-10-22","t":"start","x":"HW4 window opens","g":"HW4","id":"14-757-86"},{"d":"2026-11-05","t":"start","x":"HW5 window opens","g":"HW5","id":"14-757-87"},{"d":"2026-11-19","t":"start","x":"HW6 window opens","g":"HW6","id":"14-757-88"}],"folder":"~/Documents/CMU/14-757"},{"code":"15-618","name":"Parallel Computer Architecture","items":[{"d":"2026-08-24","t":"class","x":"Why Parallelism?","id":"15-618-0"},{"d":"2026-08-26","t":"class","x":"Out-of-order Processor & Pipeline","id":"15-618-1"},{"d":"2026-08-28","t":"class","x":"A Modern Multi-Core Processor","id":"15-618-2"},{"d":"2026-08-28","t":"out","x":"L1 released","g":"L1","id":"15-618-3"},{"d":"2026-08-31","t":"class","x":"Parallel Programming Models","id":"15-618-4"},{"d":"2026-09-02","t":"class","x":"GPU Architecture and CUDA Programming","id":"15-618-5"},{"d":"2026-09-02","t":"due","x":"L1 early deadline (waitlist Thu 9/3)","g":"L1","id":"15-618-6"},{"d":"2026-09-04","t":"class","x":"GPU Architecture and CUDA Programming (cont.)","id":"15-618-7"},{"d":"2026-09-09","t":"class","x":"Parallel Programming Basics","id":"15-618-8"},{"d":"2026-09-09","t":"due","x":"L1 due","g":"L1","id":"15-618-9"},{"d":"2026-09-09","t":"out","x":"L2 released","g":"L2","id":"15-618-10"},{"d":"2026-09-11","t":"class","x":"Performance Optimization I","id":"15-618-11"},{"d":"2026-09-14","t":"class","x":"Performance Optimization II","id":"15-618-12"},{"d":"2026-09-16","t":"class","x":"Interconnection Networks","id":"15-618-13"},{"d":"2026-09-18","t":"class","x":"Snooping-Based Cache Coherence","id":"15-618-14"},{"d":"2026-09-21","t":"class","x":"Directory-Based Cache Coherence","id":"15-618-15"},{"d":"2026-09-23","t":"class","x":"Snooping-Based Multiprocessor Design","id":"15-618-16"},{"d":"2026-09-23","t":"due","x":"L2 due","g":"L2","id":"15-618-17"},{"d":"2026-09-23","t":"out","x":"L3 released","g":"L3","id":"15-618-18"},{"d":"2026-09-25","t":"exam","x":"Exam I — through Lecture 13","id":"15-618-19"},{"d":"2026-09-28","t":"class","x":"Performance Analysis / Profiling","id":"15-618-20"},{"d":"2026-09-30","t":"class","x":"Implementing Synchronization","id":"15-618-21"},{"d":"2026-10-02","t":"class","x":"Fine-Grained Sync, Lock-Free Programming","id":"15-618-22"},{"d":"2026-10-05","t":"class","x":"Transactional Memory","id":"15-618-23"},{"d":"2026-10-07","t":"class","x":"Heterogeneous Parallelism, HW Specialization","id":"15-618-24"},{"d":"2026-10-07","t":"due","x":"L3 due","g":"L3","id":"15-618-25"},{"d":"2026-10-07","t":"out","x":"L4 released","g":"L4","id":"15-618-26"},{"d":"2026-10-09","t":"class","x":"Virtual Memory","id":"15-618-27"},{"d":"2026-10-19","t":"class","x":"Guest Lecture","id":"15-618-28"},{"d":"2026-10-21","t":"class","x":"Memory Consistency","id":"15-618-29"},{"d":"2026-10-23","t":"class","x":"Parallel Deep Learning — data parallelism","id":"15-618-30"},{"d":"2026-10-23","t":"due","x":"L4 due","g":"L4","id":"15-618-31"},{"d":"2026-10-26","t":"class","x":"Parallel Deep Learning — model & pipeline parallelism","id":"15-618-32"},{"d":"2026-10-28","t":"class","x":"AI in System Design","id":"15-618-33"},{"d":"2026-11-02","t":"exam","x":"Exam II","id":"15-618-34"},{"d":"2026-11-04","t":"event","x":"Project idea meetings","id":"15-618-35"},{"d":"2026-11-06","t":"event","x":"Project idea meetings","id":"15-618-36"},{"d":"2026-11-11","t":"due","x":"Project Proposal due","g":"Project","id":"15-618-37"},{"d":"2026-11-25","t":"event","x":"Milestone-progress meetings","id":"15-618-38"},{"d":"2026-11-27","t":"event","x":"Milestone-progress meetings","id":"15-618-39"},{"d":"2026-11-30","t":"due","x":"Project Milestone due","g":"Project","id":"15-618-40"},{"d":"2026-12-09","t":"event","x":"Project Poster Session (exact date TBA, 12/7–12/11)","g":"Project","id":"15-618-41"}],"folder":"~/Documents/CMU/15-618"}]}</script>
+
+<div class="bgdbg" id="bgdbg">
+  <div class="bgdbg-panel" role="group" aria-label="Debug: background colors">
+    <div class="bgdbg-title">Debug · background</div>
+    <div class="bgdbg-targets" id="bgdbg-targets"></div>
+    <div class="bgdbg-grid" id="bgdbg-grid"></div>
+    <div class="bgdbg-foot">
+      <span class="bgdbg-now" id="bgdbg-now"></span>
+      <button type="button" class="bgdbg-reset" id="bgdbg-reset">Reset</button>
+    </div>
+  </div>
+  <button type="button" class="bgdbg-dot" aria-label="Debug: change background color">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"/></svg>
+  </button>
+</div>
+
+<script type="application/json" id="viz-data">{"start":"2026-08-24","end":"2026-12-13","breaks":[{"s":"2026-09-07","e":"2026-09-07","x":"Labor Day"},{"s":"2026-10-12","e":"2026-10-16","x":"Fall Break"},{"s":"2026-11-03","e":"2026-11-03","x":"Democracy Day"},{"s":"2026-11-25","e":"2026-11-27","x":"Thanksgiving"}],"weeks":[{"n":1,"s":"2026-08-24","e":"2026-08-30"},{"n":2,"s":"2026-08-31","e":"2026-09-06"},{"n":3,"s":"2026-09-07","e":"2026-09-13"},{"n":4,"s":"2026-09-14","e":"2026-09-20"},{"n":5,"s":"2026-09-21","e":"2026-09-27"},{"n":6,"s":"2026-09-28","e":"2026-10-04"},{"n":7,"s":"2026-10-05","e":"2026-10-11"},{"n":8,"s":"2026-10-12","e":"2026-10-18"},{"n":9,"s":"2026-10-19","e":"2026-10-25"},{"n":10,"s":"2026-10-26","e":"2026-11-01"},{"n":11,"s":"2026-11-02","e":"2026-11-08"},{"n":12,"s":"2026-11-09","e":"2026-11-15"},{"n":13,"s":"2026-11-16","e":"2026-11-22"},{"n":14,"s":"2026-11-23","e":"2026-11-29"},{"n":15,"s":"2026-11-30","e":"2026-12-06"},{"n":16,"s":"2026-12-07","e":"2026-12-13"}],"courses":[{"code":"15-440","name":"Distributed Systems","items":[{"d":"2026-08-25","t":"class","x":"Introduction","id":"15-440-0"},{"d":"2026-08-27","t":"class","x":"Communication 1 — Internet in a Day, day 1","id":"15-440-1"},{"d":"2026-08-28","t":"class","x":"Recitation: P0","id":"15-440-2"},{"d":"2026-08-28","t":"out","x":"P0 released","g":"P0","id":"15-440-3"},{"d":"2026-09-01","t":"class","x":"Communication 2 — Internet in a Day, day 2","id":"15-440-4"},{"d":"2026-09-03","t":"class","x":"Consistency — classical sync + Go-style concurrency","id":"15-440-5"},{"d":"2026-09-04","t":"class","x":"Recitation: Go debugging","id":"15-440-6"},{"d":"2026-09-07","t":"out","x":"HW1 released","g":"HW1","id":"15-440-7"},{"d":"2026-09-08","t":"class","x":"Time and Synchronization","id":"15-440-8"},{"d":"2026-09-08","t":"out","x":"P1 released (Parts A & B)","g":"P1","id":"15-440-9"},{"d":"2026-09-08","t":"due","x":"P0 due","g":"P0","id":"15-440-10"},{"d":"2026-09-10","t":"class","x":"Distributed Mutual Exclusion","id":"15-440-11"},{"d":"2026-09-11","t":"class","x":"Recitation: P1 Part A","id":"15-440-12"},{"d":"2026-09-15","t":"class","x":"Remote Procedure Calls","id":"15-440-13"},{"d":"2026-09-17","t":"class","x":"Distributed Filesystems","id":"15-440-14"},{"d":"2026-09-17","t":"due","x":"P1 Part A checkpoint due","g":"P1","id":"15-440-15"},{"d":"2026-09-18","t":"exam","x":"Quiz 1 (in recitation)","id":"15-440-16"},{"d":"2026-09-21","t":"out","x":"HW2 released","g":"HW2","id":"15-440-17"},{"d":"2026-09-21","t":"due","x":"HW1 due","g":"HW1","id":"15-440-18"},{"d":"2026-09-22","t":"class","x":"Distributed Filesystems 2 — AFS, Coda, LBFS","id":"15-440-19"},{"d":"2026-09-24","t":"class","x":"Distributed Transactions / Concurrency Control","id":"15-440-20"},{"d":"2026-09-24","t":"due","x":"P1 Part A final due","g":"P1","id":"15-440-21"},{"d":"2026-09-24","t":"event","x":"P1 Part B released (already unlocked with P1)","g":"P1","id":"15-440-22"},{"d":"2026-09-25","t":"class","x":"Recitation: P1 Part B","id":"15-440-23"},{"d":"2026-09-29","t":"class","x":"Midterm review","id":"15-440-24"},{"d":"2026-10-01","t":"exam","x":"First Midterm Exam","id":"15-440-25"},{"d":"2026-10-05","t":"out","x":"P3 proposal released","g":"P3","id":"15-440-26"},{"d":"2026-10-05","t":"due","x":"HW2 due","g":"HW2","id":"15-440-27"},{"d":"2026-10-06","t":"class","x":"Logging, Checkpointing and Crash Recovery","id":"15-440-28"},{"d":"2026-10-08","t":"class","x":"Distributed Replication","id":"15-440-29"},{"d":"2026-10-08","t":"out","x":"P2 released","g":"P2","id":"15-440-30"},{"d":"2026-10-08","t":"due","x":"P1 Part B due","g":"P1","id":"15-440-31"},{"d":"2026-10-20","t":"class","x":"Fault Tolerance & RAID","id":"15-440-32"},{"d":"2026-10-22","t":"class","x":"Introduction to Crypto (Security 1 & 2)","id":"15-440-33"},{"d":"2026-10-22","t":"out","x":"HW3 released","g":"HW3","id":"15-440-34"},{"d":"2026-10-22","t":"due","x":"P3 proposal due","g":"P3","id":"15-440-35"},{"d":"2026-10-23","t":"class","x":"Recitation: P2","id":"15-440-36"},{"d":"2026-10-27","t":"class","x":"Classical BFT","id":"15-440-37"},{"d":"2026-10-27","t":"due","x":"P2 checkpoint due","g":"P2","id":"15-440-38"},{"d":"2026-10-29","t":"class","x":"Longest Chain Consensus + Blockchains","id":"15-440-39"},{"d":"2026-10-30","t":"exam","x":"Quiz 2 (in recitation)","id":"15-440-40"},{"d":"2026-11-05","t":"class","x":"Internet Content Delivery","id":"15-440-41"},{"d":"2026-11-05","t":"out","x":"P3 main assignment released","g":"P3","id":"15-440-42"},{"d":"2026-11-05","t":"due","x":"P2 final due","g":"P2","id":"15-440-43"},{"d":"2026-11-10","t":"class","x":"Distributed Computing / MPI / MapReduce / Hadoop","id":"15-440-44"},{"d":"2026-11-12","t":"class","x":"In-memory cluster compute, Spark, Distributed ML","id":"15-440-45"},{"d":"2026-11-13","t":"exam","x":"Quiz 3 (in recitation)","id":"15-440-46"},{"d":"2026-11-13","t":"out","x":"HW4 released","g":"HW4","id":"15-440-47"},{"d":"2026-11-13","t":"due","x":"HW3 due","g":"HW3","id":"15-440-48"},{"d":"2026-11-17","t":"class","x":"Virtualization","id":"15-440-49"},{"d":"2026-11-19","t":"class","x":"Scaling — 3-tier web service architecture","id":"15-440-50"},{"d":"2026-11-24","t":"class","x":"TBD","id":"15-440-51"},{"d":"2026-11-24","t":"due","x":"P3 checkpoint due","g":"P3","id":"15-440-52"},{"d":"2026-12-01","t":"class","x":"Debugging Large-Scale Distributed Systems (guest)","id":"15-440-53"},{"d":"2026-12-01","t":"due","x":"HW4 due","g":"HW4","id":"15-440-54"},{"d":"2026-12-03","t":"class","x":"Final Exam Review","id":"15-440-55"},{"d":"2026-12-03","t":"due","x":"P3 final due","g":"P3","id":"15-440-56"},{"d":"2026-12-11","t":"exam","x":"Final Exam — date TBD","id":"15-440-57"}],"folder":"~/Documents/CMU/15-440"},{"code":"14-642","name":"Embedded Systems","items":[{"d":"2026-08-24","t":"class","x":"Course Overview; Exploring Electronics — Syllabus, OH info","id":"14-642-0"},{"d":"2026-08-26","t":"class","x":"Course Overview; Exploring Electronics — Syllabus, OH info","id":"14-642-1"},{"d":"2026-08-31","t":"class","x":"Arm, Cortex-M4, Build Process, Bootloader; Arm Assembly — EFS Ch. 0–2","id":"14-642-2"},{"d":"2026-09-02","t":"class","x":"Arm, Cortex-M4, Build Process, Bootloader; Arm Assembly — EFS Ch. 0–2","id":"14-642-3"},{"d":"2026-09-09","t":"class","x":"Optimization — EFS Ch. 2","id":"14-642-4"},{"d":"2026-09-14","t":"class","x":"Peripherals; Counting — EFS Ch. 3–5","id":"14-642-5"},{"d":"2026-09-16","t":"class","x":"Peripherals; Counting — EFS Ch. 3–5","id":"14-642-6"},{"d":"2026-09-21","t":"class","x":"Sensing; Serial Communication — EFS Ch. 6–7","id":"14-642-7"},{"d":"2026-09-23","t":"class","x":"Sensing; Serial Communication — EFS Ch. 6–7","id":"14-642-8"},{"d":"2026-09-28","t":"class","x":"Actuation & Control — EFS Ch. 8–9","id":"14-642-9"},{"d":"2026-09-30","t":"class","x":"Actuation & Control — EFS Ch. 8–9","id":"14-642-10"},{"d":"2026-10-05","t":"class","x":"Faults, Exceptions, & Interrupts — EFS Ch. 10","id":"14-642-11"},{"d":"2026-10-07","t":"class","x":"Faults, Exceptions, & Interrupts — EFS Ch. 10","id":"14-642-12"},{"d":"2026-10-19","t":"class","x":"Resource Sharing, DMA, Files & Concurrency Controls; System Calls — EFS Ch. 11–13","id":"14-642-13"},{"d":"2026-10-21","t":"class","x":"Resource Sharing, DMA, Files & Concurrency Controls; System Calls — EFS Ch. 11–13","id":"14-642-14"},{"d":"2026-10-26","t":"class","x":"Multitasking — EFS Ch. 14","id":"14-642-15"},{"d":"2026-10-28","t":"class","x":"Multitasking — EFS Ch. 14","id":"14-642-16"},{"d":"2026-11-02","t":"class","x":"Real-Time Systems & Scheduling; Multitasking labs and project — EFS Ch. 15","id":"14-642-17"},{"d":"2026-11-04","t":"class","x":"Real-Time Systems & Scheduling; Multitasking labs and project — EFS Ch. 15","id":"14-642-18"},{"d":"2026-11-09","t":"class","x":"Schedulability; Thread Protection — EFS Ch. 15–16","id":"14-642-19"},{"d":"2026-11-11","t":"class","x":"Schedulability; Thread Protection — EFS Ch. 15–16","id":"14-642-20"},{"d":"2026-11-16","t":"class","x":"Thread Synchronization — EFS Ch. 17","id":"14-642-21"},{"d":"2026-11-18","t":"class","x":"Thread Synchronization — EFS Ch. 17","id":"14-642-22"},{"d":"2026-11-23","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-23"},{"d":"2026-11-30","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-24"},{"d":"2026-12-02","t":"class","x":"Advanced / special topics — EFS Ch. 18","id":"14-642-25"},{"d":"2026-08-28","t":"due","x":"Quiz 0 due — 10 pts","id":"14-642-26"},{"d":"2026-09-04","t":"due","x":"Lab Setup Tests due","id":"14-642-27","g":"LabSetup"},{"d":"2026-09-14","t":"out","x":"Quiz 1 released — 20 pts","g":"Quiz 1","id":"14-642-28"},{"d":"2026-09-18","t":"due","x":"Quiz 1 due","g":"Quiz 1","id":"14-642-29"},{"d":"2026-09-21","t":"out","x":"Quiz 2 released — 20 pts","g":"Quiz 2","id":"14-642-30"},{"d":"2026-09-25","t":"due","x":"Quiz 2 due","g":"Quiz 2","id":"14-642-31"},{"d":"2026-09-28","t":"out","x":"Quiz 3 released — 20 pts","g":"Quiz 3","id":"14-642-32"},{"d":"2026-10-02","t":"due","x":"Quiz 3 due","g":"Quiz 3","id":"14-642-33"},{"d":"2026-10-05","t":"out","x":"Quiz 4 released — 20 pts","g":"Quiz 4","id":"14-642-34"},{"d":"2026-10-09","t":"due","x":"Quiz 4 due","g":"Quiz 4","id":"14-642-35"},{"d":"2026-10-26","t":"out","x":"Quiz 5 released — 20 pts","g":"Quiz 5","id":"14-642-36"},{"d":"2026-10-30","t":"due","x":"Quiz 5 due","g":"Quiz 5","id":"14-642-37"},{"d":"2026-11-02","t":"out","x":"Quiz 6 released — 20 pts","g":"Quiz 6","id":"14-642-38"},{"d":"2026-11-06","t":"due","x":"Quiz 6 due","g":"Quiz 6","id":"14-642-39"},{"d":"2026-11-09","t":"out","x":"Quiz 7 released — 20 pts","g":"Quiz 7","id":"14-642-40"},{"d":"2026-11-13","t":"due","x":"Quiz 7 due","g":"Quiz 7","id":"14-642-41"},{"d":"2026-11-24","t":"due","x":"Project Proposal due — 40 pts","id":"14-642-42"},{"d":"2026-11-30","t":"out","x":"Quiz 8 released — 30 pts","g":"Quiz 8","id":"14-642-43"},{"d":"2026-12-04","t":"due","x":"Quiz 8 due","g":"Quiz 8","id":"14-642-44"},{"d":"2026-12-10","t":"due","x":"Project due — 160 pts","id":"14-642-45"},{"d":"2026-08-24","t":"start","x":"Exercise 0 window opens","g":"Ex0","id":"14-642-46"},{"d":"2026-09-11","t":"due","x":"Exercise 0: Complete the Bootloader due — 25 pts","g":"Ex0","id":"14-642-47"},{"d":"2026-08-24","t":"start","x":"Exercise 1 window opens","g":"Ex1","id":"14-642-48"},{"d":"2026-09-11","t":"due","x":"Exercise 1: Arm Assembly Optimization due — 75 pts","g":"Ex1","id":"14-642-49"},{"d":"2026-09-11","t":"start","x":"Exercise 2 window opens","g":"Ex2","id":"14-642-50"},{"d":"2026-09-18","t":"due","x":"Exercise 2: Create GPIO Wrapper Functions due — 10 pts","g":"Ex2","id":"14-642-51"},{"d":"2026-09-18","t":"start","x":"Exercise 3 window opens","g":"Ex3","id":"14-642-52"},{"d":"2026-09-25","t":"due","x":"Exercise 3: Implement RTT due — 25 pts","g":"Ex3","id":"14-642-53"},{"d":"2026-09-18","t":"start","x":"Exercise 4 window opens","g":"Ex4","id":"14-642-54"},{"d":"2026-09-25","t":"due","x":"Exercise 4: Audio Sensing due — 40 pts","g":"Ex4","id":"14-642-55"},{"d":"2026-09-25","t":"start","x":"Exercise 5 window opens","g":"Ex5","id":"14-642-56"},{"d":"2026-10-02","t":"due","x":"Exercise 5: Lux Sensing via I2C due — 35 pts","g":"Ex5","id":"14-642-57"},{"d":"2026-09-25","t":"start","x":"Exercise 6 window opens","g":"Ex6","id":"14-642-58"},{"d":"2026-10-02","t":"due","x":"Exercise 6: Write a Neopixel Driver due — 40 pts","g":"Ex6","id":"14-642-59"},{"d":"2026-10-02","t":"start","x":"Exercise 7 window opens","g":"Ex7","id":"14-642-60"},{"d":"2026-10-06","t":"due","x":"Exercise 7: Dance Party Lighting due — 50 pts","g":"Ex7","id":"14-642-61"},{"d":"2026-10-06","t":"start","x":"Exercise 8 window opens","g":"Ex8","id":"14-642-62"},{"d":"2026-10-09","t":"due","x":"Exercise 8: One-Second Timer with SysTick due — 10 pts","g":"Ex8","id":"14-642-63"},{"d":"2026-10-06","t":"start","x":"Exercise 9 window opens","g":"Ex9","id":"14-642-64"},{"d":"2026-10-09","t":"due","x":"Exercise 9: Enable a Soft Reset Button due — 20 pts","g":"Ex9","id":"14-642-65"},{"d":"2026-10-09","t":"start","x":"Exercise 10 window opens","g":"Ex10","id":"14-642-66"},{"d":"2026-10-20","t":"due","x":"Exercise 10: Timer-Driven ADC Sampling due — 25 pts","g":"Ex10","id":"14-642-67"},{"d":"2026-10-20","t":"start","x":"Exercise 11 window opens","g":"Ex11","id":"14-642-68"},{"d":"2026-10-23","t":"due","x":"Exercise 11: ADC-Driven Visualizer due — 25 pts","g":"Ex11","id":"14-642-69"},{"d":"2026-10-20","t":"start","x":"Exercise 12 window opens","g":"Ex12","id":"14-642-70"},{"d":"2026-10-23","t":"due","x":"Exercise 12: Implement and Test Locking due — 20 pts","g":"Ex12","id":"14-642-71"},{"d":"2026-10-23","t":"start","x":"Exercise 13 window opens","g":"Ex13","id":"14-642-72"},{"d":"2026-10-30","t":"due","x":"Exercise 13: Launch a User Application due — 35 pts","g":"Ex13","id":"14-642-73"},{"d":"2026-10-23","t":"start","x":"Exercise 14 window opens","g":"Ex14","id":"14-642-74"},{"d":"2026-10-30","t":"due","x":"Exercise 14: Minimal System Call Support due — 35 pts","g":"Ex14","id":"14-642-75"},{"d":"2026-10-23","t":"start","x":"Exercise 15 window opens","g":"Ex15","id":"14-642-76"},{"d":"2026-10-30","t":"due","x":"Exercise 15: Creating Custom System Calls due — 60 pts","g":"Ex15","id":"14-642-77"},{"d":"2026-10-30","t":"start","x":"Exercise 16 window opens","g":"Ex16","id":"14-642-78"},{"d":"2026-11-13","t":"due","x":"Exercise 16: Implement Multitasking due — 60 pts","g":"Ex16","id":"14-642-79"},{"d":"2026-10-30","t":"start","x":"Exercise 17 window opens","g":"Ex17","id":"14-642-80"},{"d":"2026-11-13","t":"due","x":"Exercise 17: Implement Periodic Tasks and Rate Monotonic Scheduling due — 60 pts","g":"Ex17","id":"14-642-81"},{"d":"2026-11-13","t":"start","x":"Exercise 18 window opens","g":"Ex18","id":"14-642-82"},{"d":"2026-11-20","t":"due","x":"Exercise 18: Protect Kernel and Thread Memory using the MPU due — 45 pts","g":"Ex18","id":"14-642-83"},{"d":"2026-11-20","t":"start","x":"Exercise 19 window opens","g":"Ex19","id":"14-642-84"},{"d":"2026-11-24","t":"due","x":"Exercise 19: User-Space Locking due — 40 pts","g":"Ex19","id":"14-642-85"},{"d":"2026-11-20","t":"start","x":"Exercise 20 window opens","g":"Ex20","id":"14-642-86"},{"d":"2026-11-24","t":"due","x":"Exercise 20: Implement PCP due — 65 pts","g":"Ex20","id":"14-642-87"},{"d":"2026-08-28","t":"start","x":"Lab Setup Tests window opens","g":"LabSetup","id":"14-642-88"}],"folder":"~/Documents/CMU/14-642"},{"code":"14-757","name":"ML with Adversaries in Mind","items":[{"d":"2026-08-25","t":"class","x":"Intro and Review of Statistics and Visualization","id":"14-757-0"},{"d":"2026-08-27","t":"class","x":"Probability Review","id":"14-757-1"},{"d":"2026-09-01","t":"class","x":"Classification and Naïve Bayes — Ch. 1","id":"14-757-2"},{"d":"2026-09-03","t":"class","x":"Adversarial Spam Filtering","id":"14-757-3"},{"d":"2026-09-03","t":"due","x":"HW0 due","id":"14-757-4","g":"HW0"},{"d":"2026-09-08","t":"class","x":"Support Vector Machines — Ch. 2.1","id":"14-757-5"},{"d":"2026-09-10","t":"class","x":"Adversarial Linear Classification","id":"14-757-6"},{"d":"2026-09-15","t":"class","x":"Random Forests — Ch. 2.2","id":"14-757-7"},{"d":"2026-09-17","t":"class","x":"Neural Networks — Ch. 16","id":"14-757-8"},{"d":"2026-09-17","t":"due","x":"HW1 due","id":"14-757-9","g":"HW1"},{"d":"2026-09-22","t":"class","x":"Convolutional Neural Networks — Ch. 17","id":"14-757-10"},{"d":"2026-09-24","t":"class","x":"Evasion Attacks on Neural Network Classifiers","id":"14-757-11"},{"d":"2026-09-29","t":"class","x":"Image and Malware Classification — Ch. 18.1","id":"14-757-12"},{"d":"2026-10-01","t":"class","x":"Regression — Ch. 10.1–2","id":"14-757-13"},{"d":"2026-10-01","t":"due","x":"HW2 due","id":"14-757-14","g":"HW2"},{"d":"2026-10-06","t":"class","x":"Robust Regression — Ch. 10.3–4","id":"14-757-15"},{"d":"2026-10-08","t":"class","x":"Visual Linear Algebra Review","id":"14-757-16"},{"d":"2026-10-20","t":"class","x":"Principal Components Analysis — Ch. 4, 5","id":"14-757-17"},{"d":"2026-10-22","t":"class","x":"PCA and Multidimensional Scaling — Ch. 5, 6.2","id":"14-757-18"},{"d":"2026-10-22","t":"due","x":"HW3 due","id":"14-757-19","g":"HW3"},{"d":"2026-10-27","t":"class","x":"Adversarial Network Anomaly Detection","id":"14-757-20"},{"d":"2026-10-29","t":"class","x":"Clustering and k-Means — Ch. 4.2, 8.1–2","id":"14-757-21"},{"d":"2026-11-05","t":"class","x":"Vector Quantization — Ch. 8.3","id":"14-757-22"},{"d":"2026-11-05","t":"due","x":"HW4 due","id":"14-757-23","g":"HW4"},{"d":"2026-11-10","t":"class","x":"Maximum Likelihood Estimation","id":"14-757-24"},{"d":"2026-11-12","t":"class","x":"Expectation-Maximization — Ch. 9","id":"14-757-25"},{"d":"2026-11-17","t":"class","x":"Markov Chains and Hidden Markov Models — Ch. 13.1–2","id":"14-757-26"},{"d":"2026-11-19","t":"class","x":"PageRank and Search Engine Optimization","id":"14-757-27"},{"d":"2026-11-19","t":"due","x":"HW5 due","id":"14-757-28","g":"HW5"},{"d":"2026-12-01","t":"class","x":"Towards Generative Adversarial Networks — Ch. 19","id":"14-757-29"},{"d":"2026-12-03","t":"class","x":"GANs and Diffusion Models","id":"14-757-30"},{"d":"2026-12-03","t":"due","x":"HW6 due","id":"14-757-31","g":"HW6"},{"d":"2026-08-25","t":"out","x":"Quiz 1 released (opens after class)","g":"Quiz 1","id":"14-757-32"},{"d":"2026-08-26","t":"due","x":"Quiz 1 due — 7:00 PM (24hr window)","g":"Quiz 1","id":"14-757-33"},{"d":"2026-08-27","t":"out","x":"Quiz 2 released (opens after class)","g":"Quiz 2","id":"14-757-34"},{"d":"2026-08-28","t":"due","x":"Quiz 2 due — 7:00 PM (24hr window)","g":"Quiz 2","id":"14-757-35"},{"d":"2026-09-01","t":"out","x":"Quiz 3 released (opens after class)","g":"Quiz 3","id":"14-757-36"},{"d":"2026-09-02","t":"due","x":"Quiz 3 due — 7:00 PM (24hr window)","g":"Quiz 3","id":"14-757-37"},{"d":"2026-09-03","t":"out","x":"Quiz 4 released (opens after class)","g":"Quiz 4","id":"14-757-38"},{"d":"2026-09-04","t":"due","x":"Quiz 4 due — 7:00 PM (24hr window)","g":"Quiz 4","id":"14-757-39"},{"d":"2026-09-08","t":"out","x":"Quiz 5 released (opens after class)","g":"Quiz 5","id":"14-757-40"},{"d":"2026-09-09","t":"due","x":"Quiz 5 due — 7:00 PM (24hr window)","g":"Quiz 5","id":"14-757-41"},{"d":"2026-09-10","t":"out","x":"Quiz 6 released (opens after class)","g":"Quiz 6","id":"14-757-42"},{"d":"2026-09-11","t":"due","x":"Quiz 6 due — 7:00 PM (24hr window)","g":"Quiz 6","id":"14-757-43"},{"d":"2026-09-15","t":"out","x":"Quiz 7 released (opens after class)","g":"Quiz 7","id":"14-757-44"},{"d":"2026-09-16","t":"due","x":"Quiz 7 due — 7:00 PM (24hr window)","g":"Quiz 7","id":"14-757-45"},{"d":"2026-09-17","t":"out","x":"Quiz 8 released (opens after class)","g":"Quiz 8","id":"14-757-46"},{"d":"2026-09-18","t":"due","x":"Quiz 8 due — 7:00 PM (24hr window)","g":"Quiz 8","id":"14-757-47"},{"d":"2026-09-22","t":"out","x":"Quiz 9 released (opens after class)","g":"Quiz 9","id":"14-757-48"},{"d":"2026-09-23","t":"due","x":"Quiz 9 due — 7:00 PM (24hr window)","g":"Quiz 9","id":"14-757-49"},{"d":"2026-09-24","t":"out","x":"Quiz 10 released (opens after class)","g":"Quiz 10","id":"14-757-50"},{"d":"2026-09-25","t":"due","x":"Quiz 10 due — 7:00 PM (24hr window)","g":"Quiz 10","id":"14-757-51"},{"d":"2026-09-29","t":"out","x":"Quiz 11 released (opens after class)","g":"Quiz 11","id":"14-757-52"},{"d":"2026-09-30","t":"due","x":"Quiz 11 due — 7:00 PM (24hr window)","g":"Quiz 11","id":"14-757-53"},{"d":"2026-10-01","t":"out","x":"Quiz 12 released (opens after class)","g":"Quiz 12","id":"14-757-54"},{"d":"2026-10-02","t":"due","x":"Quiz 12 due — 7:00 PM (24hr window)","g":"Quiz 12","id":"14-757-55"},{"d":"2026-10-06","t":"out","x":"Quiz 13 released (opens after class)","g":"Quiz 13","id":"14-757-56"},{"d":"2026-10-07","t":"due","x":"Quiz 13 due — 7:00 PM (24hr window)","g":"Quiz 13","id":"14-757-57"},{"d":"2026-10-08","t":"out","x":"Quiz 14 released (opens after class)","g":"Quiz 14","id":"14-757-58"},{"d":"2026-10-09","t":"due","x":"Quiz 14 due — 7:00 PM (24hr window)","g":"Quiz 14","id":"14-757-59"},{"d":"2026-10-20","t":"out","x":"Quiz 15 released (opens after class)","g":"Quiz 15","id":"14-757-60"},{"d":"2026-10-21","t":"due","x":"Quiz 15 due — 7:00 PM (24hr window)","g":"Quiz 15","id":"14-757-61"},{"d":"2026-10-22","t":"out","x":"Quiz 16 released (opens after class)","g":"Quiz 16","id":"14-757-62"},{"d":"2026-10-23","t":"due","x":"Quiz 16 due — 7:00 PM (24hr window)","g":"Quiz 16","id":"14-757-63"},{"d":"2026-10-27","t":"out","x":"Quiz 17 released (opens after class)","g":"Quiz 17","id":"14-757-64"},{"d":"2026-10-28","t":"due","x":"Quiz 17 due — 7:00 PM (24hr window)","g":"Quiz 17","id":"14-757-65"},{"d":"2026-10-29","t":"out","x":"Quiz 18 released (opens after class)","g":"Quiz 18","id":"14-757-66"},{"d":"2026-10-30","t":"due","x":"Quiz 18 due — 7:00 PM (24hr window)","g":"Quiz 18","id":"14-757-67"},{"d":"2026-11-05","t":"out","x":"Quiz 19 released (opens after class)","g":"Quiz 19","id":"14-757-68"},{"d":"2026-11-06","t":"due","x":"Quiz 19 due — 7:00 PM (24hr window)","g":"Quiz 19","id":"14-757-69"},{"d":"2026-11-10","t":"out","x":"Quiz 20 released (opens after class)","g":"Quiz 20","id":"14-757-70"},{"d":"2026-11-11","t":"due","x":"Quiz 20 due — 7:00 PM (24hr window)","g":"Quiz 20","id":"14-757-71"},{"d":"2026-11-12","t":"out","x":"Quiz 21 released (opens after class)","g":"Quiz 21","id":"14-757-72"},{"d":"2026-11-13","t":"due","x":"Quiz 21 due — 7:00 PM (24hr window)","g":"Quiz 21","id":"14-757-73"},{"d":"2026-11-17","t":"out","x":"Quiz 22 released (opens after class)","g":"Quiz 22","id":"14-757-74"},{"d":"2026-11-18","t":"due","x":"Quiz 22 due — 7:00 PM (24hr window)","g":"Quiz 22","id":"14-757-75"},{"d":"2026-11-19","t":"out","x":"Quiz 23 released (opens after class)","g":"Quiz 23","id":"14-757-76"},{"d":"2026-11-20","t":"due","x":"Quiz 23 due — 7:00 PM (24hr window)","g":"Quiz 23","id":"14-757-77"},{"d":"2026-12-01","t":"out","x":"Quiz 24 released (opens after class)","g":"Quiz 24","id":"14-757-78"},{"d":"2026-12-02","t":"due","x":"Quiz 24 due — 7:00 PM (24hr window)","g":"Quiz 24","id":"14-757-79"},{"d":"2026-12-03","t":"out","x":"Quiz 25 released (opens after class)","g":"Quiz 25","id":"14-757-80"},{"d":"2026-12-04","t":"due","x":"Quiz 25 due — 7:00 PM (24hr window)","g":"Quiz 25","id":"14-757-81"},{"d":"2026-08-25","t":"start","x":"HW0 window opens","g":"HW0","id":"14-757-82"},{"d":"2026-09-03","t":"start","x":"HW1 window opens","g":"HW1","id":"14-757-83"},{"d":"2026-09-17","t":"start","x":"HW2 window opens","g":"HW2","id":"14-757-84"},{"d":"2026-10-01","t":"start","x":"HW3 window opens","g":"HW3","id":"14-757-85"},{"d":"2026-10-22","t":"start","x":"HW4 window opens","g":"HW4","id":"14-757-86"},{"d":"2026-11-05","t":"start","x":"HW5 window opens","g":"HW5","id":"14-757-87"},{"d":"2026-11-19","t":"start","x":"HW6 window opens","g":"HW6","id":"14-757-88"}],"folder":"~/Documents/CMU/14-757"}]}</script>
 
 <script>
+window.POLICIES = [
+ {
+  "code": "15-440",
+  "name": "Distributed Systems",
+  "rows": [
+   {
+    "label": "Late days",
+    "text": "10 late days total for the semester, shared across all projects and homework. Up to 3 per single deadline with no grade penalty. Nothing is accepted more than 72 hours (3 days) after a due date, and TA help stops at the official deadline. On partnered projects, late days are drawn from both partners' balances. The one exception is a serious, advisor-verified medical emergency — contact the instructors directly.",
+    "src": ""
+   },
+   {
+    "label": "Grading",
+    "text": "Projects 36% (P0 5, P1 8, P2 5, P3 18) · Written HW 5% · Quizzes 15% · Midterm 20% · Final 20% · Participation 4%. You must independently pass all three components — homework, quizzes/exams, and projects — to pass the course.",
+    "src": ""
+   },
+   {
+    "label": "AI policy",
+    "text": "Projects: AI tools (including agents) are allowed, but you must understand every line and be able to produce a similar solution on paper without AI. Homework: strongly recommended by hand, AI only as a high-level resource. Quizzes, exams, and presentations: no AI or outside resources at all. Any AI use on a project or homework must be disclosed — the tool/model, how it was used, and what for — and course material can't be fed into a platform whose retention or training policy could leak it.",
+    "src": "course website syllabus"
+   }
+  ]
+ },
+ {
+  "code": "14-642",
+  "name": "Embedded Systems",
+  "rows": [
+   {
+    "label": "Late days",
+    "text": "No fixed late-day bank — it's negotiable. Contact Patrick Tague as soon as you know you'll be late, ideally before the deadline. The syllabus itself says late submissions are still accepted through the last day of class, with any grade penalty left to the instructor's discretion, and that TA help isn't guaranteed once a deadline has passed.",
+    "src": ""
+   },
+   {
+    "label": "Grading",
+    "text": "Lab exercises 75% · Quizzes 25%. Labs may be done with a partner over a private GitHub repo in the cmu14642 org; quizzes are online/asynchronous and must be completed entirely solo.",
+    "src": ""
+   },
+   {
+    "label": "AI policy",
+    "text": "Generative AI is allowed only for basic supporting tasks on labs (e.g. syntax lookups), and every use must be cited — the tool, your exact prompt, and the response you got. AI is prohibited on quizzes outright, and any other use counts as cheating. Course materials (slides, assignments, quiz questions) may not be shared with AI tools at all — that's a copyright violation on top of an integrity one.",
+    "src": "PDF syllabus, uploaded Aug 25, 2026"
+   }
+  ]
+ },
+ {
+  "code": "14-757",
+  "name": "ML with Adversaries in Mind",
+  "rows": [
+   {
+    "label": "Late days",
+    "text": "Each assignment can go up to 2 days (48 hours) late, drawn from a 7-late-day pool for the whole semester that's applied automatically. Once the pool is used up, late submissions lose 20 points/day. A genuine life-changing event is grounds for extra consideration — talk to Prof. Varodayan ahead of time if you can.",
+    "src": ""
+   },
+   {
+    "label": "Grading",
+    "text": "1050 points total: HW0 = 100, HW1–HW6 = 150 each, code discussions = 50 combined. Letter cutoffs: A 980 · A- 945 · B+ 910 · B 875 · B- 840 · C+ 805 · C 770 · C- 735 · D+ 700 · D 630. Regrade requests are due on Gradescope within 1 week of grades being returned.",
+    "src": ""
+   },
+   {
+    "label": "AI policy",
+    "text": "Generative AI is welcome, but every contribution needs a citation — quote AI text verbatim with a citation, cite paraphrased AI content, and cite non-text AI output (images, code, etc.) only where the assignment prompt expressly allows it. You still do your own research and build your own bibliographies, and passing off AI content as your own work is treated as plagiarism. You're responsible for anything inaccurate or biased that makes it into your submission.",
+    "src": "PDF syllabus, uploaded Aug 25, 2026"
+   }
+  ]
+ }
+];
+</script>
+
+<script>
+
 (function(){
   "use strict";
   var DATA = JSON.parse(document.getElementById("viz-data").textContent);
@@ -516,7 +1192,6 @@
   var COLORS = {
     "15-440": {var:"--c-ds"},
     "14-642": {var:"--c-es"},
-    "15-618": {var:"--c-pa"},
     "14-757": {var:"--c-ml"}
   };
   var TYPE_LABEL = { class:"Class meets", start:"Window opens (inferred)", out:"Released", due:"Due", exam:"Exam", event:"Event / milestone" };
@@ -538,10 +1213,10 @@
   var todayMsRaw = (function(){ var n=new Date(); return Date.UTC(n.getFullYear(), n.getMonth(), n.getDate()); })();
   var todayISO = isoOf(todayMsRaw);
 
-  var MARGIN = {left:6, right:32, top:64, bottom:40};
-  var DAY_W = 68;
+  var MARGIN = {left:6, right:28, top:58, bottom:34};
+  var DAY_W = 58;
   var plotW = totalDays*DAY_W;
-  var LANE_H = 116;
+  var LANE_H = 94;
   var plotH, svgH; // depend on how many courses are active — (re)computed in renderTimeline()
   var svgW = MARGIN.left+plotW+MARGIN.right;
 
@@ -967,18 +1642,18 @@
       var band = el("g", {class:"week-band", tabindex:"0", role:"button"});
       weekBandsByNum[wk.n] = band;
       band.setAttribute("aria-label","Week "+wk.n+", "+fmtRange(wk.s,wk.e)+" — show tasks below");
-      var hit = el("rect", {class:"wk-hit", x:x1, y:16, width:x2-x1, height:32, rx:6, fill: isCurrent? "var(--this-week)":"transparent"});
+      var hit = el("rect", {class:"wk-hit", x:x1, y:12, width:x2-x1, height:30, rx:3, fill: isCurrent? "var(--this-week)":"transparent"});
       band.appendChild(hit);
-      var lbl = el("text", {x:x1+8, y:30, class:"week-label"});
+      var lbl = el("text", {x:x1+7, y:26, class:"week-label"});
       lbl.textContent = "Week "+wk.n;
       band.appendChild(lbl);
-      var rng = el("text", {x:x1+8, y:42, class:"week-range"});
+      var rng = el("text", {x:x1+7, y:38, class:"week-range"});
       rng.textContent = fmtRange(wk.s, wk.e);
       band.appendChild(rng);
       if(isCurrent){
-        var pill = el("rect",{x:x2-58,y:19,width:50,height:14,rx:7,fill:"var(--ink)"});
+        var pill = el("rect",{x:x2-56,y:15,width:48,height:14,rx:3,fill:"var(--ink)"});
         band.appendChild(pill);
-        var pillT = el("text",{x:x2-33,y:29,"text-anchor":"middle",class:"today-label"});
+        var pillT = el("text",{x:x2-32,y:25,"text-anchor":"middle",class:"today-label"});
         pillT.textContent = "THIS WEEK";
         pillT.style.fontSize="7.5px";
         band.appendChild(pillT);
@@ -996,38 +1671,32 @@
       axisLayer.appendChild(colHit);
 
       // week divider
-      axisLayer.appendChild(el("line",{x1:x1,y1:16,x2:x1,y2:MARGIN.top+plotH,stroke:"var(--line-strong)","stroke-width":1}));
+      axisLayer.appendChild(el("line",{x1:x1,y1:12,x2:x1,y2:MARGIN.top+plotH,stroke:"var(--line-strong)","stroke-width":1}));
 
       // day-of-week + date-number columns
       for(var i=0;i<7;i++){
         var dms = parseISO(wk.s)+i*DAY_MS;
         var dx = xOfMs(dms);
         var cx = dx+DAY_W/2;
-        var dLbl = el("text",{x:cx,y:53,class:"dow-label"});
+        var dLbl = el("text",{x:cx,y:48,class:"dow-label"});
         dLbl.textContent = DOW[i];
         axisLayer.appendChild(dLbl);
         var dt = new Date(dms);
         var dnum = dt.getUTCDate();
         var numText = (dnum===1) ? (MONTH3[dt.getUTCMonth()]+" 1") : String(dnum);
         var isToday = isoOf(dms)===todayISO;
-        var nLbl = el("text",{x:cx,y:64.5,class:"day-num"+(isToday?" is-today":"")});
+        var nLbl = el("text",{x:cx,y:58,class:"day-num"+(isToday?" is-today":"")});
         nLbl.textContent = numText;
         axisLayer.appendChild(nLbl);
-        if(i>0) axisLayer.appendChild(el("line",{x1:dx,y1:46,x2:dx,y2:MARGIN.top+plotH,stroke:"var(--line)","stroke-width":0.6,"stroke-opacity":0.6}));
+        if(i>0) axisLayer.appendChild(el("line",{x1:dx,y1:42,x2:dx,y2:MARGIN.top+plotH,stroke:"var(--line)","stroke-width":0.6,"stroke-opacity":0.6}));
       }
     });
     // trailing edge of last week
     var lastWk = DATA.weeks[DATA.weeks.length-1];
-    axisLayer.appendChild(el("line",{x1:xOf(lastWk.e)+DAY_W,y1:16,x2:xOf(lastWk.e)+DAY_W,y2:MARGIN.top+plotH,stroke:"var(--line-strong)","stroke-width":1}));
+    axisLayer.appendChild(el("line",{x1:xOf(lastWk.e)+DAY_W,y1:12,x2:xOf(lastWk.e)+DAY_W,y2:MARGIN.top+plotH,stroke:"var(--line-strong)","stroke-width":1}));
 
     /* lanes */
     viz = el("g", {class:"viz"});
-    // re-apply any active type filters (Class meets / Due / Exam / …) — this is a
-    // fresh <g> each rebuild, so it doesn't carry over the hide-<type> classes the
-    // type-toggle chips had set on the previous one.
-    document.querySelectorAll('#type-toggles .type-chip.is-off').forEach(function(c){
-      viz.classList.add("hide-"+c.dataset.type);
-    });
     svg.appendChild(viz);
     pairLayer = el("g", {class:"pair-layer"});
     // pairLayer appended after marks so dotted lines draw above them, but before today-line/tooltip DOM
@@ -1038,7 +1707,7 @@
 
     activeCourses.forEach(function(course, idx){
       var laneY0 = MARGIN.top + idx*LANE_H;
-      var baseline = laneY0 + LANE_H - 24;
+      var baseline = laneY0 + LANE_H - 20;
       var colorVar = "var("+COLORS[course.code].var+")";
 
       var laneG = el("g", {class:"lane-group", "data-course":course.code});
@@ -1051,6 +1720,7 @@
       row.className = "lane-row"; row.dataset.course = course.code;
       row.style.height = LANE_H+"px";
       row.style.setProperty("--course", "var("+COLORS[course.code].var+")");
+      row.style.setProperty("--course-ink", "var("+COLORS[course.code].var+"-ink)");
 
       var headEl = document.createElement("div"); headEl.className = "lr-head";
       var idEl = document.createElement("div"); idEl.className = "lr-id";
@@ -1106,7 +1776,7 @@
         var gid = item.g || item.id;
         var dateSiblings = byDate[item.d];
         var stackIdx = dateSiblings.indexOf(item);
-        var pinY = baseline - 26 - stackIdx*17;
+        var pinY = baseline - 22 - stackIdx*15;
 
         var g = el("g", {class:"mark mk-"+item.t, "data-group":gid});
         g.appendChild(el("line", {x1:x,y1:baseline-7,x2:x,y2:pinY+7, stroke:colorVar, "stroke-width":1.3, "stroke-opacity":0.5}));
@@ -1179,7 +1849,7 @@
   window.addEventListener("resize", scrollToToday);
 
   /* =================== course + type toggles =================== */
-  var HIDDEN_BY_DEFAULT = {"15-618":true};
+  var HIDDEN_BY_DEFAULT = {};
   var ACTIVE = {};
   DATA.courses.forEach(function(c){ ACTIVE[c.code] = !HIDDEN_BY_DEFAULT[c.code]; });
 
@@ -1204,25 +1874,6 @@
     if(typeof selectedWeek !== "undefined" && selectedWeek) renderWeekPanel(selectedWeek);
   }
 
-  var courseToggleWrap = document.getElementById("course-toggles");
-  DATA.courses.forEach(function(course){
-    var chip = document.createElement("button");
-    chip.className = "chip"; chip.type = "button";
-    chip.style.setProperty("--course", "var("+COLORS[course.code].var+")");
-    var dot = document.createElement("span"); dot.className="dot";
-    var label = document.createElement("span"); label.textContent = course.code;
-    chip.appendChild(dot); chip.appendChild(label);
-    chip.classList.toggle("is-off", !ACTIVE[course.code]);
-    chip.setAttribute("aria-pressed", ACTIVE[course.code] ? "true" : "false");
-    chip.addEventListener("click", function(){
-      ACTIVE[course.code] = !ACTIVE[course.code];
-      chip.classList.toggle("is-off", !ACTIVE[course.code]);
-      chip.setAttribute("aria-pressed", ACTIVE[course.code] ? "true" : "false");
-      applyCourseFilter();
-    });
-    courseToggleWrap.appendChild(chip);
-  });
-
   // initial paint of the timeline: safe to call now (viz/laneLabelsEl/svg are ready).
   // renderWorkloadChart()/renderWeekPanel() are NOT safe to call yet — they read
   // vars (workloadBandsByNum, selectedWeek) that are still a few lines from being
@@ -1234,31 +1885,6 @@
     if(ACTIVE[course.code]) return;
     var policyCard = document.querySelector('.policy-card[data-course="'+course.code+'"]');
     if(policyCard) policyCard.style.display = "none";
-  });
-
-  var typeToggleWrap = document.getElementById("type-toggles");
-  var shapeSvgFor = {
-    class: '<svg width="14" height="14"><line x1="7" y1="2" x2="7" y2="12" stroke="currentColor" stroke-width="2"/></svg>',
-    start: '<svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2,1.6"/></svg>',
-    out: '<svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
-    due: '<svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="var(--status-due)"/></svg>',
-    exam: '<svg width="14" height="14"><polygon points="7,1 13,7 7,13 1,7" fill="var(--status-exam)"/></svg>',
-    event: '<svg width="14" height="14"><rect x="2" y="2" width="10" height="10" rx="2" fill="var(--ink-soft)"/></svg>'
-  };
-  TYPE_ORDER.forEach(function(type){
-    var chip = document.createElement("button");
-    chip.className = "type-chip"; chip.type = "button";
-    chip.dataset.type = type;
-    chip.innerHTML = shapeSvgFor[type];
-    var label = document.createElement("span"); label.textContent = TYPE_LABEL[type];
-    chip.appendChild(label);
-    chip.setAttribute("aria-pressed","true");
-    chip.addEventListener("click", function(){
-      var on = chip.classList.toggle("is-off");
-      chip.setAttribute("aria-pressed", on?"false":"true");
-      viz.classList.toggle("hide-"+type, on);
-    });
-    typeToggleWrap.appendChild(chip);
   });
 
   /* =================== list view fallback =================== */
@@ -1544,7 +2170,7 @@
       var parts = DATA.courses.filter(function(c){ return r.byCourse[c.code]>0; })
         .map(function(c){ return c.code+" "+r.byCourse[c.code]; }).join(", ");
       hit.setAttribute("aria-label","Week "+r.wk.n+": "+r.total+" due"+(r.hasExam?" (exam week)":"")+(parts?" — "+parts:""));
-      var selFn = function(wk){ return function(){ selectWeek(wk); document.getElementById("week-panel").scrollIntoView({block:"nearest"}); }; }(r.wk);
+      var selFn = function(wk){ return function(){ selectWeek(wk); }; }(r.wk);
       hit.addEventListener("click", selFn);
       hit.addEventListener("keydown", function(fn){ return function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); fn(); } }; }(selFn));
       hit.addEventListener("pointerenter", function(row){ return function(){ showWorkloadTip(hit, row); }; }(r));
@@ -1648,6 +2274,7 @@
 
       var sec = document.createElement("div"); sec.className="drawer-course";
       sec.style.setProperty("--course","var("+COLORS[code].var+")");
+      sec.style.setProperty("--course-ink", "var("+COLORS[code].var+"-ink)");
       var head = document.createElement("div"); head.className="drawer-course-head";
       var dot = document.createElement("span"); dot.className="dot";
       var htext = document.createElement("span"); htext.textContent = code+" — "+course.name;
@@ -1856,16 +2483,16 @@
     if(workloadBandsByNum[wk.n]) workloadBandsByNum[wk.n].classList.add("is-selected");
     renderWeekPanel(wk);
     updateURL(wk);
-    weekPrevBtn.disabled = (wk.n<=DATA.weeks[0].n);
-    weekNextBtn.disabled = (wk.n>=DATA.weeks[DATA.weeks.length-1].n);
+    if(weekPrevBtn) weekPrevBtn.disabled = (wk.n<=DATA.weeks[0].n);
+    if(weekNextBtn) weekNextBtn.disabled = (wk.n>=DATA.weeks[DATA.weeks.length-1].n);
   }
-  weekPrevBtn.addEventListener("click", function(){
+  if(weekPrevBtn) weekPrevBtn.addEventListener("click", function(){
     var wk = weekByNum(selectedWeek.n-1);
-    if(wk){ selectWeek(wk); weekPanelTitle.scrollIntoView({block:"nearest"}); }
+    if(wk){ selectWeek(wk); }
   });
-  weekNextBtn.addEventListener("click", function(){
+  if(weekNextBtn) weekNextBtn.addEventListener("click", function(){
     var wk = weekByNum(selectedWeek.n+1);
-    if(wk){ selectWeek(wk); weekPanelTitle.scrollIntoView({block:"nearest"}); }
+    if(wk){ selectWeek(wk); }
   });
 
   (function(){
@@ -1884,9 +2511,225 @@
     if(!currentWeek) return;
     selectWeek(currentWeek);
     scrollToToday();
-    weekPanelTitle.scrollIntoView({block:"nearest"});
   });
 
+
+  /* ============ redesign additions ============ */
+
+  /* course policies rendered from policies.js, one card at a time behind tabs */
+  function renderPolicies(){
+    var grid = document.getElementById("policy-grid");
+    var tabsEl = document.getElementById("policy-tabs");
+    if(!grid || !window.POLICIES) return;
+    grid.innerHTML = ""; if(tabsEl) tabsEl.innerHTML = "";
+    window.POLICIES.forEach(function(p){
+      var card = document.createElement("div");
+      card.className = "policy-card"; card.dataset.course = p.code;
+      card.style.setProperty("--course","var("+(COLORS[p.code]||{var:"--color-accent"}).var+")");
+      card.style.setProperty("--course-ink", "var("+(COLORS[p.code]||{var:"--color-accent"}).var+"-ink)");
+      var head = document.createElement("div"); head.className = "policy-head";
+      head.innerHTML = '<span class="code">'+p.code+'</span><span class="name">'+p.name+'</span>';
+      card.appendChild(head);
+      var cols = document.createElement("div"); cols.className = "policy-cols";
+      p.rows.forEach(function(r){
+        var row = document.createElement("div"); row.className = "policy-row";
+        var lab = document.createElement("span"); lab.className = "label"; lab.textContent = r.label;
+        row.appendChild(lab);
+        r.text.split("\n").forEach(function(t){
+          var pEl = document.createElement("p"); pEl.textContent = t; row.appendChild(pEl);
+        });
+        if(r.src){ var s = document.createElement("p"); s.className="src"; s.textContent = r.src; row.appendChild(s); }
+        cols.appendChild(row);
+      });
+      card.appendChild(cols);
+      grid.appendChild(card);
+
+      if(tabsEl){
+        var tab = document.createElement("button");
+        tab.type = "button"; tab.className = "pol-tab"; tab.dataset.course = p.code;
+        tab.style.setProperty("--course","var("+(COLORS[p.code]||{var:"--color-accent"}).var+")");
+        tab.style.setProperty("--course-ink", "var("+(COLORS[p.code]||{var:"--color-accent"}).var+"-ink)");
+        tab.textContent = p.code;
+        tab.addEventListener("click", function(){ showPolicy(p.code); });
+        tabsEl.appendChild(tab);
+      }
+    });
+    var firstActive = window.POLICIES.filter(function(p){ return ACTIVE[p.code]; })[0];
+    if(firstActive) showPolicy(firstActive.code);
+  }
+  function showPolicy(code){
+    document.querySelectorAll(".policy-card").forEach(function(c){ c.classList.toggle("is-shown", c.dataset.course===code); });
+    document.querySelectorAll(".pol-tab").forEach(function(t){ t.classList.toggle("is-active", t.dataset.course===code); });
+  }
+  function syncPolicyVisibility(){
+    var shownStillActive = false;
+    document.querySelectorAll(".pol-tab").forEach(function(t){
+      var on = ACTIVE[t.dataset.course];
+      t.hidden = !on;
+      if(on && t.classList.contains("is-active")) shownStillActive = true;
+    });
+    if(!shownStillActive){
+      var first = (window.POLICIES||[]).filter(function(p){ return ACTIVE[p.code]; })[0];
+      if(first) showPolicy(first.code);
+    }
+  }
+
+  /* sidebar week index: 16 rows, each with a load bar + done/total */
+  var weekListEl = document.getElementById("week-list");
+  var weekRowsByNum = {};
+  function buildWeekList(){
+    if(!weekListEl) return;
+    weekListEl.innerHTML = "";
+    weekRowsByNum = {};
+    var rows = DATA.weeks.map(computeWeekWorkload);
+    var maxW = Math.max.apply(null, rows.map(function(r){ return r.weightTotal; }).concat([1]));
+    rows.forEach(function(r){
+      var wk = r.wk;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "wk-row";
+      if(todayISO>=wk.s && todayISO<=wk.e) b.classList.add("is-current");
+      b.setAttribute("aria-label","Week "+wk.n+", "+fmtRange(wk.s,wk.e));
+      var num = document.createElement("span"); num.className="wk-row-num"; num.textContent = String(wk.n).padStart(2,"0");
+      var mid = document.createElement("span"); mid.className="wk-row-mid";
+      var rng = document.createElement("span"); rng.className="wk-row-range"; rng.textContent = fmtRange(wk.s, wk.e);
+      var bar = document.createElement("span"); bar.className="wk-row-bar";
+      DATA.courses.forEach(function(c){
+        var w = r.weightByCourse[c.code];
+        if(!w || !ACTIVE[c.code]) return;
+        var seg = document.createElement("span"); seg.className="wk-row-seg";
+        seg.style.flexGrow = String(w);
+        seg.style.background = "var("+COLORS[c.code].var+")";
+        bar.appendChild(seg);
+      });
+      var pad = document.createElement("span"); pad.className="wk-row-pad";
+      pad.style.flexGrow = String(Math.max(maxW - r.weightTotal, 0.0001));
+      bar.appendChild(pad);
+      mid.appendChild(rng); mid.appendChild(bar);
+      var cnt = document.createElement("span"); cnt.className="wk-row-count";
+      b.appendChild(num); b.appendChild(mid); b.appendChild(cnt);
+      b.addEventListener("click", function(){ selectWeek(wk); });
+      weekRowsByNum[wk.n] = b;
+      weekListEl.appendChild(b);
+    });
+    refreshWeekListCounts();
+    if(selectedWeek) markWeekRow(selectedWeek);
+  }
+  function refreshWeekListCounts(){
+    DATA.weeks.forEach(function(wk){
+      var row = weekRowsByNum[wk.n]; if(!row) return;
+      var st = weekTaskStats(wk);
+      var cnt = row.querySelector(".wk-row-count");
+      if(!st.total){ cnt.textContent = "·"; cnt.classList.remove("is-complete"); return; }
+      var done = st.completed===st.total;
+      cnt.innerHTML = done ? CHECK_ICON : (st.completed+"/"+st.total);
+      cnt.classList.toggle("is-complete", done);
+    });
+  }
+  function markWeekRow(wk){
+    Object.keys(weekRowsByNum).forEach(function(n){
+      weekRowsByNum[n].classList.toggle("is-selected", Number(n)===wk.n);
+    });
+  }
+
+  /* wrap the originals so the new views stay in sync without touching their bodies */
+  var __selectWeek = selectWeek;
+  selectWeek = function(wk){ __selectWeek(wk); markWeekRow(wk); refreshWeekListCounts(); };
+  var __updateWeekFoot = updateWeekFoot;
+  updateWeekFoot = function(){ __updateWeekFoot(); refreshWeekListCounts(); };
+  var __applyCourseFilter = applyCourseFilter;
+  applyCourseFilter = function(){ __applyCourseFilter(); buildWeekList(); syncPolicyVisibility(); };
+
+  renderPolicies();
+  buildWeekList();
+  syncPolicyVisibility();
+  if(selectedWeek) markWeekRow(selectedWeek);
+
+})();
+</script>
+
+<script>
+(function(){
+  var btn = document.getElementById("theme-btn");
+  if(!btn) return;
+  btn.addEventListener("click", function(){
+    window.__setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+})();
+</script>
+
+<script>
+/* Debug swatches — Catppuccin Mocha, straight from catppuccin/palette. */
+(function(){
+  /* The page's ground ramp, darkest first — Mocha's neutral rungs rotated to
+     hue 150 (the names still denote the rung). The accent hues (mauve, teal,
+     peach…) are pastels meant to sit ON a ground, so they aren't offered. */
+  var MOCHA = [
+    ["crust",   "#0c150d"],
+    ["mantle",  "#111d13"],
+    ["base",    "#152418"],
+    ["surface0","#28392b"],
+    ["surface1","#3d4e40"],
+    ["surface2","#4f6253"],
+    ["overlay0","#647767"],
+    ["overlay1","#768c7a"],
+    ["overlay2","#8ba18e"]
+  ];
+  /* which custom property a swatch click assigns */
+  var TARGETS = [
+    ["page","--color-bg"], ["surface","--surface"],
+    ["surface-2","--surface-2"], ["line","--line"]
+  ];
+  var KEY = "fall2026-bgdbg";
+  var root = document.documentElement;
+  var grid = document.getElementById("bgdbg-grid");
+  var tabs = document.getElementById("bgdbg-targets");
+  var now  = document.getElementById("bgdbg-now");
+  if(!grid) return;
+  var target = TARGETS[0][1];
+
+  var saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(KEY) || "{}"); }catch(e){}
+  Object.keys(saved).forEach(function(p){ root.style.setProperty(p, saved[p]); });
+
+  function persist(){
+    try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(e){}
+  }
+  function label(){
+    var v = saved[target];
+    var hit = v && MOCHA.filter(function(m){ return m[1] === v; })[0];
+    now.textContent = target.replace("--","") + " " + (v ? (hit ? hit[0] + " " + v : v) : "default");
+  }
+  TARGETS.forEach(function(t, i){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "bgdbg-target" + (i ? "" : " is-active");
+    b.textContent = t[0];
+    b.addEventListener("click", function(){
+      target = t[1];
+      Array.prototype.forEach.call(tabs.children, function(c){ c.classList.toggle("is-active", c === b); });
+      label();
+    });
+    tabs.appendChild(b);
+  });
+  MOCHA.forEach(function(m){
+    var s = document.createElement("button");
+    s.type = "button"; s.className = "bgdbg-sw";
+    s.setAttribute("aria-label", m[0] + " " + m[1]);
+    var chip = document.createElement("span");
+    chip.className = "sw-chip"; chip.style.background = m[1];
+    var name = document.createElement("span"); name.textContent = m[0];
+    var hex = document.createElement("span"); hex.className = "hex"; hex.textContent = m[1];
+    s.appendChild(chip); s.appendChild(name); s.appendChild(hex);
+    s.addEventListener("click", function(){
+      root.style.setProperty(target, m[1]);
+      saved[target] = m[1]; persist(); label();
+    });
+    grid.appendChild(s);
+  });
+  document.getElementById("bgdbg-reset").addEventListener("click", function(){
+    Object.keys(saved).forEach(function(p){ root.style.removeProperty(p); });
+    saved = {}; persist(); label();
+  });
+  label();
 })();
 </script>
 </body>
